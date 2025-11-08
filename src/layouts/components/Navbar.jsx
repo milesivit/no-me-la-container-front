@@ -77,10 +77,19 @@ const Navbar = () => {
   ) : null;
 
   return (
-    <div className="card">
-      <Menubar model={items} start={start} end={end}/>
+    <div
+      className="navbar-container"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1000,
+      }}
+    >
+      <Menubar model={items} start={start} end={end} />
     </div>
-  );
+  );  
 };
 
 export default Navbar;

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "primereact/toast";
+import background from "../../img/background.png";
 
 const HomeView = () => {
   const { justLoggedIn, setJustLoggedIn } = useContext(AuthContext);
@@ -20,16 +21,25 @@ const HomeView = () => {
       shownRef.current = true;
     }
   }, [justLoggedIn]);
-  
   return (
     <div>
       <Navbar />
       <Toast ref={toast} />
-      <div style={{ textAlign: "center", padding: "20px" }}>
-        <h1>Bienvenido al CRUD de productos y usuarios</h1>
-        <h4>
-          (Aplicación fullstack en JavaScript donde el frontend (React) consume los datos expuestos por el backend (Express), permitiendo realizar CRUDs completos)
-        </h4>
+      <div
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "600px", // mismo alto que la imagen
+          width: "1296px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "white",
+          textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
+        }}
+      >
       </div>
     </div>
   );

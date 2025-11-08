@@ -106,8 +106,8 @@ export const AuthProvider = ({children}) =>{
                 token,
                 contrasena
             }
-            await authService.reset(bodyResetPassword)
-            console.log("Reset backend response:", data)
+            const response = await authService.reset(bodyResetPassword);
+            console.log("Reset backend response:", response.data);
 
             alert('contraseña actualizada con exito')
             return true

@@ -49,7 +49,7 @@ const ResetPassword = () => {
                 const response = await ResetPassword({
                   id: params.id,
                   token: params.token,
-                  password: values.contrasena,
+                  contrasena: values.contrasena,
                 });
                 if (response) {
                   resetForm();
