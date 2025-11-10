@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 export const ProtectedButton = ({allowedRoles, ...props})=>{
     const {user} = useContext(AuthContext)
 
-    if (!user || !allowedRoles?.includes(user.role)){
+    if (!user || !allowedRoles?.includes(user.rol)){
         return null
     }
 

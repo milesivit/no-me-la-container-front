@@ -10,10 +10,10 @@ const Navbar = () => {
   const items = user
     ? [
         {
-          label: "Usuarios",
+          label: "Flota",
           icon: "pi pi-users",
           template: (item, options) => (
-            <Link to="#" className={options.className}>
+            <Link to="flota" className={options.className}>
               <i className={item.icon}></i>
               <span className="ml-2">{item.label}</span>
             </Link>

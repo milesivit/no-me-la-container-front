@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Home from './layouts/home/index';
-
 import { AuthProvider } from './context/AuthContext';
+import { BarcoProvider } from './context/BarcoContext';
 import { Toast } from 'primereact/toast';
 import { TOAST_REF } from './utils/ToastRef';
 
@@ -16,6 +15,8 @@ import LoginForm from './layouts/auth/LoginForm';
 import RegisterForm from './layouts/auth/RegisterForm';
 import ForgotPassword from './layouts/auth/ForgotPassword';
 import ResetPassword from './layouts/auth/ResetPassword';
+import Home from './layouts/home/index';
+import Barco from './layouts/barco/Barco'
 
 import PrivateRoute from './utils/PrivateRoute';
 import PublicRoute from './utils/PublicRoute'; 
@@ -47,6 +48,16 @@ function App() {
                 <PublicRoute>
                   <RegisterForm />
                 </PublicRoute>
+              }
+            />
+            <Route
+              path="/flota"
+              element={
+                <PrivateRoute>
+                  <BarcoProvider>
+                    <Barco />
+                  </BarcoProvider>
+                </PrivateRoute>
               }
             />
           </Routes>
