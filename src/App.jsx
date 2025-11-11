@@ -5,9 +5,11 @@ import { TOAST_REF } from './utils/ToastRef';
 
 import { AuthProvider } from './context/AuthContext';
 import { BarcoProvider } from './context/BarcoContext';
-import { PersonaProvider } from './context/PersonaContext';
 import { PaisProvider } from './context/PaisContext';
 import { SexoProvider } from './context/SexoContext';
+import { CargoProvider } from "./context/CargoContext";
+import { RazonSocialProvider } from "./context/RazonSocialContext";
+import { CondicionFiscalProvider } from "./context/CondicionFiscalContext";
 
 import './App.css';
 import 'primereact/resources/themes/lara-dark-indigo/theme.css';
@@ -16,7 +18,6 @@ import 'primeicons/primeicons.css';
 
 import LoginForm from './layouts/auth/LoginForm';
 import RegisterForm from './layouts/auth/RegisterForm';
-import PersonaForm from './layouts/persona/Persona';
 import ForgotPassword from './layouts/auth/ForgotPassword';
 import ResetPassword from './layouts/auth/ResetPassword';
 import Home from './layouts/home/index';
@@ -63,20 +64,6 @@ function App() {
                       <Barco />
                     </BarcoProvider>
                   </PrivateRoute>
-              }
-            />
-            <Route
-              path="/persona/:usuarioId"
-              element={
-                <PublicRoute>
-                  <SexoProvider>
-                    <PaisProvider>
-                      <PersonaProvider>
-                        <PersonaForm />
-                      </PersonaProvider>
-                    </PaisProvider>
-                  </SexoProvider>
-                </PublicRoute>
               }
             />
           </Routes>
