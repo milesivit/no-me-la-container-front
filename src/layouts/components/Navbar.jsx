@@ -9,16 +9,22 @@ const Navbar = () => {
 
   const items = user
     ? [
-        {
-          label: "Flota",
-          icon: "pi pi-users",
-          template: (item, options) => (
-            <Link to="flota" className={options.className}>
-              <i className={item.icon}></i>
-              <span className="ml-2">{item.label}</span>
-            </Link>
-          ),
-        },
+        // 🔹 Solo visible si el usuario es admin
+        ...(user.rol === "admin"
+          ? [
+              {
+                label: "Flota",
+                icon: "pi pi-users",
+                template: (item, options) => (
+                  <Link to="flota" className={options.className}>
+                    <i className={item.icon}></i>
+                    <span className="ml-2">{item.label}</span>
+                  </Link>
+                ),
+              },
+            ]
+          : []),
+
         {
           label: "Productos",
           icon: "pi pi-box",
@@ -70,8 +76,8 @@ const Navbar = () => {
 
   const end = user ? (
     <div className="flex items-center gap-2">
-      <span className={`px-2 py-1 rounded-full text-white text-xs `}>
-        tu rol es: {user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}
+      <span className="px-2 py-1 rounded-full text-white text-xs">
+        Tu rol es: {user.rol.charAt(0).toUpperCase() + user.rol.slice(1)}
       </span>
     </div>
   ) : null;
@@ -89,7 +95,7 @@ const Navbar = () => {
     >
       <Menubar model={items} start={start} end={end} />
     </div>
-  );  
+  );
 };
 
 export default Navbar;

@@ -67,19 +67,20 @@ export const AuthProvider = ({children}) =>{
         }
     }
     
-    const register = async (userData) =>{
+    const register = async (userData) => {
         try {
-            const { status, message } = await authService.register(userData) 
-            if(status === 201){
-                alert("Usuario creado exitosamente")
-                navigate('/inicio-sesion')
-            }else{
-                throw new Error(message)
-            }
+          const { data, status } = await authService.register(userData);
+      
+          if (status === 201 || status === 200) {
+            return data;
+          } else {
+            throw new Error(data?.message || "Error al registrar el usuario");
+          }
         } catch (error) {
-            throw error
+          console.error("Error en register:", error);
+          throw error;
         }
-    }
+      };
 
     const logout = () =>{
         setUser(null)

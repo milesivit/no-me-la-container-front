@@ -1,9 +1,9 @@
 import { useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom"; 
 import { AuthContext } from "../../context/AuthContext";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { InputText } from "primereact/inputtext";
-import { InputNumber } from "primereact/inputnumber";
 import { Password } from "primereact/password";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
@@ -13,6 +13,7 @@ import Navbar from "../components/Navbar";
 const RegisterForm = () => {
   const { register } = useContext(AuthContext);
   const toast = useRef(null);
+  const navigate = useNavigate();
 
   const initialValues = {
     nombre: "",
@@ -36,17 +37,24 @@ const RegisterForm = () => {
       correo: values.correo,
       contrasena: values.contrasena,
       rol: values.rol,
-      activo: true
-    };    
+      activo: true,
+    };
+
     try {
-      await register(dataToSend);
+      const nuevoUsuario = await register(dataToSend);
       resetForm();
+
       toast.current.show({
         severity: "success",
         summary: "Éxito",
         detail: "Usuario registrado correctamente",
         life: 3000,
       });
+
+      // ✅ Esperar un segundo y redirigir con el ID del usuario creado
+      setTimeout(() => {
+        navigate(`/persona/${nuevoUsuario.id}`);
+      }, 1000);
     } catch (error) {
       toast.current.show({
         severity: "error",
@@ -60,14 +68,9 @@ const RegisterForm = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-
       <Toast ref={toast} />
-
       <div className="flex justify-center items-center flex-1 p-6">
-        <Card
-          title="Registrarse"
-          className="shadow-lg w-full max-w-md"
-        >
+        <Card title="Registrarse" className="shadow-lg w-full max-w-md">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -158,11 +161,7 @@ const RegisterForm = () => {
                 </div>
 
                 {/* Botón */}
-                <Button
-                  type="submit"
-                  label="Registrarse"
-                  className="w-full mt-4"
-                />
+                <Button type="submit" label="Registrarse" className="w-full mt-4" />
               </Form>
             )}
           </Formik>
