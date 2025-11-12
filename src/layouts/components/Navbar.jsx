@@ -9,11 +9,11 @@ const Navbar = () => {
 
   const items = user
     ? [
-        // 🔹 Solo visible si el usuario es admin
+        //solo visible si el usuario es admin
         ...(user.rol === "admin"
           ? [
               {
-                label: "Flota",
+                label: "Barco",
                 icon: "pi pi-users",
                 template: (item, options) => (
                   <Link to="flota" className={options.className}>

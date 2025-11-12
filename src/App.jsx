@@ -104,9 +104,11 @@ function App() {
               path="/flota"
               element={
                 <PrivateRoute>
-                  <BarcoProvider>
-                    <Barco />
-                  </BarcoProvider>
+                  <RequireRole role="admin">
+                    <BarcoProvider>
+                      <Barco />
+                    </BarcoProvider>
+                  </RequireRole>
                 </PrivateRoute>
               }
             />
