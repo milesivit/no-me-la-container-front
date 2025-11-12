@@ -67,19 +67,34 @@ export const AuthProvider = ({children}) =>{
         }
     }
     
-    const register = async (userData) =>{
+    const register = async (userData) => {
         try {
-            const { status, message } = await authService.register(userData) 
-            if(status === 201){
-                alert("Usuario creado exitosamente")
-                navigate('/inicio-sesion')
-            }else{
-                throw new Error(message)
-            }
+          const response = await authService.register(userData);
+      
+          const nuevoUsuario = response.data; //el usuario viene directo
+      
+          if (!nuevoUsuario || !nuevoUsuario.id) {
+            console.error("No se recibió el ID del usuario nuevo:", nuevoUsuario);
+            return;
+          }
+      
+          alert("Usuario creado exitosamente");
+      
+          //para que redirija a crear un cliente o empleado
+          if (nuevoUsuario.rol === "cliente") {
+            navigate(`/crear-cliente/${nuevoUsuario.id}`);
+          } else if (nuevoUsuario.rol === "admin" || nuevoUsuario.rol === "moderador") {
+            navigate(`/crear-empleado/${nuevoUsuario.id}`);
+          }
+      
+          return nuevoUsuario;
         } catch (error) {
-            throw error
+          console.error("Error en registro:", error);
+          throw error;
         }
-    }
+      };
+      
+      
 
     const logout = () =>{
         setUser(null)
