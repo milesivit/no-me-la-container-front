@@ -27,6 +27,7 @@ import Home from "./layouts/home";
 import Barco from "./layouts/barco/Barco";
 import ClienteForm from "./layouts/cliente/ClienteForm";
 import EmpleadoForm from "./layouts/empleado/EmpleadoForm";
+import CreateBarco from "./layouts/barco/CreateBarco";
 
 // Utils
 import PrivateRoute from "./utils/PrivateRoute";
@@ -107,6 +108,19 @@ function App() {
                   <RequireRole role="admin">
                     <BarcoProvider>
                       <Barco />
+                    </BarcoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+            
+            <Route
+              path="/flota/crear"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <BarcoProvider>
+                      <CreateBarco />
                     </BarcoProvider>
                   </RequireRole>
                 </PrivateRoute>

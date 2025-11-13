@@ -13,7 +13,7 @@ const Navbar = () => {
         ...(user.rol === "admin"
           ? [
               {
-                label: "Barco",
+                label: "Barcos",
                 icon: "pi pi-users",
                 template: (item, options) => (
                   <Link to="flota" className={options.className}>
