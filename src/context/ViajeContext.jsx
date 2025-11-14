@@ -1,21 +1,20 @@
-// src/context/viajeContext.jsx
 import { createContext, useState, useEffect } from "react";
 import viajeService from "../services/viajeService";
 import { notifyError, notifySuccess } from "../utils/Notifier";
 
-export const viajeContext = createContext();
+export const ViajeContext = createContext();
 
 export const ViajeProvider = ({ children }) => {
-  const [viajes, setviajes] = useState([]);
+  const [viajes, setViajes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedviaje, setselectedviaje] = useState(null);
+  const [selectedViaje, setSelectedViaje] = useState(null);
 
-  //obtener todos los viajes
-  const fetchviajes = async () => {
+  // Obtener todos los viajes
+  const fetchViajes = async () => {
     try {
       setLoading(true);
       const { data } = await viajeService.getAll();
-      setviajes(data.data || []);
+      setViajes(data.data || []);
     } catch (error) {
       notifyError("Error al cargar los viajes");
       console.error(error);
@@ -24,59 +23,63 @@ export const ViajeProvider = ({ children }) => {
     }
   };
 
-  //crear viaje
-  const createviaje = async (viajeData) => {
+  // Crear viaje
+  const createViaje = async (viajeData) => {
     try {
       const { data } = await viajeService.create(viajeData);
-      setviajes((prev) => [...prev, data.data]);
-      notifySuccess("viaje creado exitosamente");
+      setViajes((prev) => [...prev, data.data]);
+      notifySuccess("Viaje creado exitosamente");
     } catch (error) {
-      notifyError(error.response?.data?.message || "Error al crear viaje");
+      notifyError(
+        error.response?.data?.message || "Error al crear viaje"
+      );
     }
   };
 
   // Editar viaje
-  const updateviaje = async (id, viajeData) => {
+  const updateViaje = async (id, viajeData) => {
     try {
       const { data } = await viajeService.update(id, viajeData);
-      setviajes((prev) =>
-        prev.map((b) => (b.id === id ? data.data : b))
+      setViajes((prev) =>
+        prev.map((v) => (v.id === id ? data.data : v))
       );
-      notifySuccess("viaje actualizado exitosamente");
+      notifySuccess("Viaje actualizado exitosamente");
     } catch (error) {
-      notifyError(error.response?.data?.message || "Error al actualizar viaje");
+      notifyError(
+        error.response?.data?.message || "Error al actualizar viaje"
+      );
     }
   };
 
   // Eliminar viaje
-  const deleteviaje = async (id) => {
+  const deleteViaje = async (id) => {
     try {
       await viajeService.remove(id);
-      setviajes((prev) => prev.filter((b) => b.id !== id));
-      notifySuccess("viaje eliminado exitosamente");
+      setViajes((prev) => prev.filter((v) => v.id !== id));
+      notifySuccess("Viaje eliminado exitosamente");
     } catch (error) {
       notifyError("Error al eliminar viaje");
     }
   };
 
   useEffect(() => {
-    fetchviajes();
+    fetchViajes();
   }, []);
 
   return (
-    <viajeContext.Provider
+    <ViajeContext.Provider
       value={{
         viajes,
         loading,
-        selectedviaje,
-        setselectedviaje,
-        fetchviajes,
-        createviaje,
-        updateviaje,
-        deleteviaje,
+        selectedViaje,
+        setSelectedViaje,
+        fetchViajes,
+        createViaje,
+        updateViaje,
+        deleteViaje,
       }}
     >
       {children}
-    </viajeContext.Provider>
+    </ViajeContext.Provider>
   );
 };

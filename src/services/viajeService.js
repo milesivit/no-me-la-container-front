@@ -1,6 +1,6 @@
 import api from "../services/api";
 
-const ViajeService = {
+const viajeService = {
   getAll: () => api.get("/viaje"),
   getById: (id) => api.get(`/viaje/${id}`),
   create: (data) => api.post("/viaje", data),
@@ -8,4 +8,4 @@ const ViajeService = {
   remove: (id) => api.delete(`/viaje/${id}`),
 };
 
-export default ViajeService;
+export default viajeService;
