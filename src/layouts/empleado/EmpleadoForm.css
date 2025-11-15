@@ -1,0 +1,97 @@
+/* Variables globales */
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+
+  --radius: 10px;
+  --transition: 0.18s ease;
+}
+
+/* Página */
+.empleado-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-gray);
+  margin-top: -15px;
+}
+
+/* Contenedor del formulario */
+.empleado-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+}
+
+/* Card del formulario */
+.empleado-card {
+  background-color: var(--color-light);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: box-shadow var(--transition);
+}
+
+.empleado-card:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+.empleado-title {
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Campos del formulario */
+.empleado-form .field {
+  margin-bottom: 1rem;
+}
+
+.empleado-form .p-inputgroup {
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.empleado-form label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block;
+  color: var(--color-dark);
+}
+
+/* Mensajes de error */
+.p-error {
+  color: #f44336;
+  font-size: 0.875rem;
+}
+
+/* Botón */
+.empleado-form .p-button {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius);
+  transition: background-color var(--transition);
+}
+
+.empleado-form .p-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Checkbox labels */
+.field-checkbox label {
+  color: var(--color-dark);
+  font-weight: 500;
+}
+
+.btnGuardarEmpleado {
+    margin-top: 5%;
+}

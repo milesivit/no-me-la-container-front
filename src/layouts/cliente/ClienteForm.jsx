@@ -65,34 +65,49 @@ const ClienteForm = () => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    // ----------- FORMATEO DE DATOS -----------
+    // ----------- VALIDACIÓN Y FORMATEO DE FECHA -----------
+    let fechaFormateada = null;
+    if (values.fecha_nacimiento) {
+      const [dd, mm, yyyy] = values.fecha_nacimiento.split("/");
+      const dateObj = new Date(`${yyyy}-${mm}-${dd}`);
+
+      if (
+        !isNaN(dateObj.getTime()) &&
+        dateObj.getFullYear() === parseInt(yyyy) &&
+        dateObj.getMonth() + 1 === parseInt(mm) &&
+        dateObj.getDate() === parseInt(dd)
+      ) {
+        fechaFormateada = `${yyyy}-${mm}-${dd}`;
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Fecha inválida",
+          detail: "La fecha de nacimiento ingresada no es válida",
+          life: 3000,
+        });
+        return; // detenemos submit
+      }
+    } else {
+      toast.current.show({
+        severity: "error",
+        summary: "Fecha faltante",
+        detail: "Debe ingresar la fecha de nacimiento",
+        life: 3000,
+      });
+      return;
+    }
+
     const nuevoCliente = {
       ...values,
-
-      // Asegurarse que los IDs sean números
       usuarioId: parseInt(usuarioId),
       sexoId: parseInt(values.sexoId),
       paisId: parseInt(values.paisId),
       razonSocialId: parseInt(values.razonSocialId),
       condicionFiscalId: parseInt(values.condicionFiscalId),
-
-      // Teléfono: solo números (sin paréntesis ni guiones)
       telefono: values.telefono.replace(/\D/g, ""),
-
-      // DNI: solo números
       dni: values.dni.replace(/\D/g, ""),
-
-      // CUIL: mantener formato con guiones (ya viene correcto desde InputMask)
       cuil: values.cuil,
-
-      // Fecha de nacimiento: convertir "dd/mm/yyyy" -> "yyyy-mm-dd" para la DB
-      fecha_nacimiento: (() => {
-        if (!values.fecha_nacimiento) return null;
-        const [dd, mm, yyyy] = values.fecha_nacimiento.split("/");
-        return `${yyyy}-${mm}-${dd}`;
-      })(),
-
-      // Cliente activo por defecto
+      fecha_nacimiento: fechaFormateada,
       activo: true,
     };
 
@@ -236,7 +251,6 @@ const ClienteForm = () => {
                       value={values.fecha_nacimiento}
                       onChange={(e) => setFieldValue("fecha_nacimiento", e.value)}
                       onBlur={() => setFieldTouched("fecha_nacimiento", true)}
-                      dateFormat="dd/mm/yy"
                       className={`w-full ${errors.fecha_nacimiento && touched.fecha_nacimiento ? "p-invalid" : ""}`}
                     />
                   </div>
