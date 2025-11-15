@@ -5,8 +5,11 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
 import { ContainerContext } from "../../context/ContainerContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ContainerForm = () => {
   const { containers, fetchContainers, deleteContainer, updateContainer, loading } =
@@ -17,47 +20,60 @@ const ContainerForm = () => {
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedContainer, setSelectedContainer] = useState(null);
+  const [estados, setEstados] = useState([]);
 
   const [formValues, setFormValues] = useState({
     codigo: "",
-    tipo: "",
-    tamaño: "",
-    estado: "",
-    ubicacion: "",
+    capacidad_max: "",
+    container_estado_id: ""
   });
 
   useEffect(() => {
     fetchContainers();
+    fetchEstados();
   }, []);
+
+  const fetchEstados = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/containerestado");
+      setEstados(res.data.data || res.data);
+    } catch (error) {
+      console.error("Error cargando estados:", error);
+    }
+  };
 
   const openEditModal = (container) => {
     setSelectedContainer(container);
+
     setFormValues({
       codigo: container.codigo || "",
-      tipo: container.tipo || "",
-      tamaño: container.tamaño || "",
-      estado: container.estado || "",
-      ubicacion: container.ubicacion || "",
+      capacidad_max: container.capacidad_max || "",
+      container_estado_id: container.container_estado_id || ""
     });
+
     setEditModalVisible(true);
   };
 
-  const handleChange = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSave = async () => {
-    await updateContainer(selectedContainer.id, formValues);
-    toast.current.show({
-      severity: "success",
-      summary: "Actualizado",
-      detail: "Container actualizado con éxito",
-      life: 3000,
-    });
-    setEditModalVisible(false);
+    try {
+      await updateContainer(selectedContainer.id, formValues);
+
+      toast.current.show({
+        severity: "success",
+        summary: "Actualizado",
+        detail: "Container actualizado con éxito",
+        life: 3000,
+      });
+
+      setEditModalVisible(false);
+    } catch (error) {
+      console.error(error);
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "No se pudo actualizar",
+      });
+    }
   };
 
   const handleDelete = async (id) => {
@@ -66,7 +82,6 @@ const ContainerForm = () => {
       severity: "success",
       summary: "Eliminado",
       detail: "Container eliminado con éxito",
-      life: 3000,
     });
   };
 
@@ -99,7 +114,7 @@ const ContainerForm = () => {
         />
 
         <Button
-          label="Crear Container Estado"
+          label="Crear Estado"
           icon="pi pi-cog"
           className="p-button-info mb-3 ml-3"
           onClick={() => navigate("/container/estado/crear")}
@@ -112,11 +127,9 @@ const ContainerForm = () => {
         ) : (
           <DataTable value={containers} paginator rows={5} stripedRows>
             <Column field="codigo" header="Código" sortable />
-            <Column field="tipo" header="Tipo" />
-            <Column field="tamaño" header="Tamaño" />
-            <Column field="estado" header="Estado" />
-            <Column field="ubicacion" header="Ubicación" />
-            <Column body={actionBodyTemplate} header="Acciones" exportable={false} />
+            <Column field="capacidad_max" header="Capacidad Máx" />
+            <Column field="containersEstados.nombre" header="Estado" />
+            <Column body={actionBodyTemplate} header="Acciones" />
           </DataTable>
         )}
 
@@ -145,29 +158,52 @@ const ContainerForm = () => {
           }
         >
           <div className="flex flex-column gap-3 mt-3">
+
+            {/* Código */}
             <span className="p-float-label">
-              <InputText id="codigo" name="codigo" value={formValues.codigo} onChange={handleChange} />
+              <InputText
+                id="codigo"
+                name="codigo"
+                value={formValues.codigo}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, codigo: e.target.value })
+                }
+              />
               <label htmlFor="codigo">Código</label>
             </span>
 
+            {/* Capacidad Máxima */}
             <span className="p-float-label">
-              <InputText id="tipo" name="tipo" value={formValues.tipo} onChange={handleChange} />
-              <label htmlFor="tipo">Tipo</label>
+              <InputNumber
+                id="capacidad_max"
+                name="capacidad_max"
+                value={formValues.capacidad_max}
+                onValueChange={(e) =>
+                  setFormValues({ ...formValues, capacidad_max: e.value })
+                }
+              />
+              <label htmlFor="capacidad_max">Capacidad Máx</label>
             </span>
 
+            {/* Estado */}
             <span className="p-float-label">
-              <InputText id="tamaño" name="tamaño" value={formValues.tamaño} onChange={handleChange} />
-              <label htmlFor="tamaño">Tamaño</label>
-            </span>
-
-            <span className="p-float-label">
-              <InputText id="estado" name="estado" value={formValues.estado} onChange={handleChange} />
-              <label htmlFor="estado">Estado</label>
-            </span>
-
-            <span className="p-float-label">
-              <InputText id="ubicacion" name="ubicacion" value={formValues.ubicacion} onChange={handleChange} />
-              <label htmlFor="ubicacion">Ubicación</label>
+              <Dropdown
+                id="container_estado_id"
+                name="container_estado_id"
+                value={formValues.container_estado_id}
+                options={estados}
+                optionLabel="nombre"
+                optionValue="id"
+                placeholder="Seleccionar estado"
+                onChange={(e) =>
+                  setFormValues({
+                    ...formValues,
+                    container_estado_id: e.value,
+                  })
+                }
+                className="w-full"
+              />
+              <label htmlFor="container_estado_id">Estado</label>
             </span>
           </div>
         </Dialog>

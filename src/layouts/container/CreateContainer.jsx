@@ -6,11 +6,13 @@ import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CreateContainer = () => {
   const toast = useRef(null);
   const [estados, setEstados] = useState([]);
+  const navigate = useNavigate();
 
   // Cargar estados desde la API
   const fetchEstados = async () => {
@@ -46,13 +48,17 @@ const CreateContainer = () => {
   // Enviar formulario
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      await axios.post("http://localhost:3000/containers", values);
+      await axios.post("http://localhost:3000/container", values);
 
       toast.current.show({
         severity: "success",
         summary: "Creado",
         detail: "Container creado correctamente",
       });
+
+      setTimeout(() => {
+        navigate("/container");
+      }, 1000);
 
       resetForm();
     } catch (error) {
