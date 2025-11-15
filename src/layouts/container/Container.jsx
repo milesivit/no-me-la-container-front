@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar from "../components/Navbar";
 import { Toast } from "primereact/toast";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -88,7 +87,6 @@ const ContainerForm = () => {
 
   return (
     <div>
-      <Navbar />
       <Toast ref={toast} />
       <div className="p-4">
         <h1 className="mb-4 text-xl font-semibold">Lista de Containers</h1>
@@ -98,6 +96,13 @@ const ContainerForm = () => {
           icon="pi pi-plus"
           className="p-button-success mb-3"
           onClick={() => navigate("/container/crear")}
+        />
+
+        <Button
+          label="Crear Container Estado"
+          icon="pi pi-cog"
+          className="p-button-info mb-3 ml-3"
+          onClick={() => navigate("/container/estado/crear")}
         />
 
         {loading ? (

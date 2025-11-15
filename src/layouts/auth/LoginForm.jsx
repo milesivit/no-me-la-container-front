@@ -7,7 +7,6 @@ import { Password } from 'primereact/password';
 import { Card } from "primereact/card"
 import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
-import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom"
 import "./LoginForm.css"
 
@@ -43,9 +42,6 @@ const LoginForm = () => {
 
     return (
         <div className="login-page">
-
-            <Navbar />
-
             <Toast ref={toast} />
 
             <div className="login-container">

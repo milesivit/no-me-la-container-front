@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar from "../components/Navbar";
 import { Toast } from "primereact/toast";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -92,7 +91,6 @@ const BarcoForm = () => {
 
   return (
     <div>
-      <Navbar />
       <Toast ref={toast} />
       <div className="p-4">
         <h1 className="mb-4 text-xl font-semibold">Lista de Barcos</h1>

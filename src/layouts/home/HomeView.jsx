@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
-import Navbar from "../components/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "primereact/toast";
-import homeBanner from "../../img/homeBanner.png";
+import homeBanner from "../../img/background2.png";
 import "./HomeView.css";
 
 const HomeView = () => {
@@ -25,7 +24,6 @@ const HomeView = () => {
 
   return (
     <>
-      <Navbar />   {/* 🔥 FIJO, no debe estar dentro del home-container */}
       <div className="home-container">
         <Toast ref={toast} />
 

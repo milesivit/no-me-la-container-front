@@ -6,7 +6,6 @@ import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 const ResetPassword = () => {
   const resetSchema = Yup.object({
@@ -35,7 +34,6 @@ const ResetPassword = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
       <div className="flex justify-center items-center flex-1 p-6">
         <Card title="Nueva contraseña" className="w-full max-w-md shadow-lg">
           {invalidLink ? (

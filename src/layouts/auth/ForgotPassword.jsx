@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
-import Navbar from "../components/Navbar";
 
 const ForgotPassword = () => {
   const { forgotPassword } = useContext(AuthContext);
@@ -17,7 +16,6 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
       <div className="flex justify-center items-center flex-1 p-6">
         <Card title="Recuperar contraseña" className="w-full max-w-md shadow-lg">
           <p className="mb-4 text-gray-700">

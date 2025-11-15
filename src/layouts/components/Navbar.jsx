@@ -3,7 +3,7 @@ import { Menubar } from "primereact/menubar";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./Navbar.css";
-import logo from "../../img/logo.png"; // si tu repositorio ya tiene logo
+import logo from "../../img/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -54,7 +54,7 @@ const Navbar = () => {
   const start = (
     <Link to="/" className="navbar-logo">
       <img src={logo} alt="Logo" className="navbar-logo-img" />
-      <span className="navbar-logo-text">NO ME LA CONTAINER</span>
+      <span className="navbar-logo-text">NOMELA CONTAINER</span>
     </Link>
   );
 

@@ -7,7 +7,6 @@ import { Calendar } from "primereact/calendar";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import Navbar from "../components/Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { EmpleadoContext } from "../../context/EmpleadoContext";
@@ -82,7 +81,6 @@ const EmpleadoForm = () => {
 
   return (
     <div className="flex justify-content-center align-items-center h-screen bg-gray-100">
-      <Navbar />
       <Toast ref={toast} />
       <div className="surface-card p-4 shadow-2 border-round w-full md:w-6 lg:w-4">
         <h2 className="text-center text-primary mb-4">Registrar Empleado</h2>

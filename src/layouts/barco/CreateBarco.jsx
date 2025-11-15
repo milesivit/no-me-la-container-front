@@ -5,7 +5,6 @@ import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
-import Navbar from "../components/Navbar";
 import { BarcoContext } from "../../context/BarcoContext";
 import { useNavigate } from "react-router-dom";
 
@@ -62,7 +61,6 @@ const CreateBarco = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
       <Toast ref={toast} />
       <div className="flex justify-center items-center flex-1 p-6">
         <Card title="Registrar Barco" className="shadow-lg w-full max-w-lg">

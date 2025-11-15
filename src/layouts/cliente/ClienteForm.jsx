@@ -7,7 +7,6 @@ import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Card } from "primereact/card";
-import Navbar from "../components/Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { ClienteContext } from "../../context/ClienteContext";
@@ -92,7 +91,6 @@ const ClienteForm = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
       <Toast ref={toast} />
       <div className="flex justify-center items-start flex-1 p-6 mt-6">
         <Card title="Completar Datos del Cliente" className="shadow-lg w-full max-w-2xl">

@@ -15,8 +15,8 @@ const CreateContainer = () => {
   // Cargar estados desde la API
   const fetchEstados = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/container-estado");
-      setEstados(res.data);
+      const res = await axios.get("http://localhost:3000/containerestado");
+      setEstados(res.data.data || res.data); 
     } catch (error) {
       console.error(error);
       toast.current.show({
@@ -121,7 +121,7 @@ const CreateContainer = () => {
               <label>Estado</label>
               <Dropdown
                 value={values.container_estado_id}
-                options={estados}
+                options={estados || []} 
                 optionLabel="nombre"
                 optionValue="id"
                 placeholder="Seleccione un estado"

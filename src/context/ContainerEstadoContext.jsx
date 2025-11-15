@@ -1,11 +1,11 @@
-// src/context/containerEstadoContext.jsx
+// src/context/ContainerEstadoContext.jsx
 import { createContext, useState, useEffect } from "react";
 import containerEstadoService from "../services/containerEstadoService";
 import { notifyError, notifySuccess } from "../utils/Notifier";
 
-export const containerEstadoContext = createContext();
+export const ContainerEstadoContext = createContext();
 
-export const containerEstadoProvider = ({ children }) => {
+export const ContainerEstadoProvider = ({ children }) => {
   const [containerEstados, setcontainerEstados] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedcontainerEstado, setselectedcontainerEstado] = useState(null);
@@ -64,7 +64,7 @@ export const containerEstadoProvider = ({ children }) => {
   }, []);
 
   return (
-    <containerEstadoContext.Provider
+    <ContainerEstadoContext.Provider
       value={{
         containerEstados,
         loading,
@@ -77,6 +77,6 @@ export const containerEstadoProvider = ({ children }) => {
       }}
     >
       {children}
-    </containerEstadoContext.Provider>
+    </ContainerEstadoContext.Provider>
   );
 };
