@@ -3,10 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Card } from "primereact/card";
+import { InputMask } from 'primereact/inputmask';
 import { useParams, useNavigate } from "react-router-dom";
 
 import { ClienteContext } from "../../context/ClienteContext";
@@ -14,6 +14,9 @@ import { SexoContext } from "../../context/SexoContext";
 import { PaisContext } from "../../context/PaisContext";
 import { CondicionFiscalContext } from "../../context/CondicionFiscalContext";
 import { RazonSocialContext } from "../../context/RazonSocialContext";
+
+import "./ClienteForm.css"; 
+import 'primeicons/primeicons.css';
 
 const ClienteForm = () => {
   const toast = useRef(null);
@@ -43,7 +46,7 @@ const ClienteForm = () => {
     paisId: Yup.number().required("Seleccione un país"),
     razonSocialId: Yup.number().required("Seleccione una razón social"),
     condicionFiscalId: Yup.number().required("Seleccione una condición fiscal"),
-    fecha_nacimiento: Yup.date().required("La fecha de nacimiento es obligatoria"),
+    fecha_nacimiento: Yup.string().required("La fecha de nacimiento es obligatoria"),
   });
 
   const initialValues = {
@@ -57,16 +60,43 @@ const ClienteForm = () => {
     paisId: "",
     razonSocialId: "",
     condicionFiscalId: "",
-    fecha_nacimiento: null,
+    fecha_nacimiento: "",
     observacion: "",
   };
 
   const onSubmit = async (values, { resetForm }) => {
+    // ----------- FORMATEO DE DATOS -----------
     const nuevoCliente = {
       ...values,
+
+      // Asegurarse que los IDs sean números
       usuarioId: parseInt(usuarioId),
+      sexoId: parseInt(values.sexoId),
+      paisId: parseInt(values.paisId),
+      razonSocialId: parseInt(values.razonSocialId),
+      condicionFiscalId: parseInt(values.condicionFiscalId),
+
+      // Teléfono: solo números (sin paréntesis ni guiones)
+      telefono: values.telefono.replace(/\D/g, ""),
+
+      // DNI: solo números
+      dni: values.dni.replace(/\D/g, ""),
+
+      // CUIL: mantener formato con guiones (ya viene correcto desde InputMask)
+      cuil: values.cuil,
+
+      // Fecha de nacimiento: convertir "dd/mm/yyyy" -> "yyyy-mm-dd" para la DB
+      fecha_nacimiento: (() => {
+        if (!values.fecha_nacimiento) return null;
+        const [dd, mm, yyyy] = values.fecha_nacimiento.split("/");
+        return `${yyyy}-${mm}-${dd}`;
+      })(),
+
+      // Cliente activo por defecto
       activo: true,
     };
+
+    console.log("Cliente formateado a enviar:", nuevoCliente);
 
     try {
       await createCliente(nuevoCliente);
@@ -79,7 +109,6 @@ const ClienteForm = () => {
       resetForm();
       navigate("/");
     } catch (error) {
-      console.error("Error al crear cliente:", error);
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -90,149 +119,209 @@ const ClienteForm = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="cliente-page">
       <Toast ref={toast} />
-      <div className="flex justify-center items-start flex-1 p-6 mt-6">
-        <Card title="Completar Datos del Cliente" className="shadow-lg w-full max-w-2xl">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {({ errors, touched, setFieldValue, values }) => (
-              <Form className="flex flex-col gap-4">
-                {/* Nombre */}
-                <div>
-                  <label htmlFor="nombre" className="block mb-1 font-semibold">
-                    Nombre
-                  </label>
-                  <Field
-                    as={InputText}
-                    id="nombre"
-                    name="nombre"
-                    className={`w-full ${errors.nombre && touched.nombre ? "p-invalid" : ""}`}
-                  />
-                  <ErrorMessage name="nombre" component="small" className="p-error block" />
-                </div>
+      <div className="cliente-container">
+        <Card title="Completar Datos del Cliente" className="cliente-card">
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            {({ errors, touched, setFieldValue, setFieldTouched, values }) => (
+              <Form className="flex flex-col gap-4 cliente-form">
 
-                {/* Apellido */}
-                <div>
-                  <label htmlFor="apellido" className="block mb-1 font-semibold">
-                    Apellido
-                  </label>
-                  <Field
-                    as={InputText}
-                    id="apellido"
-                    name="apellido"
-                    className={`w-full ${errors.apellido && touched.apellido ? "p-invalid" : ""}`}
-                  />
-                  <ErrorMessage name="apellido" component="small" className="p-error block" />
+                {/* Nombre y Apellido */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="nombre">Nombre</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-user"></i></span>
+                      <Field
+                        as={InputText}
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ingrese el nombre"
+                        className={`w-full ${errors.nombre && touched.nombre ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="nombre" component="small" className="p-error" />
+                  </div>
+                  <div>
+                    <label htmlFor="apellido">Apellido</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-user"></i></span>
+                      <Field
+                        as={InputText}
+                        id="apellido"
+                        name="apellido"
+                        placeholder="Ingrese el apellido"
+                        className={`w-full ${errors.apellido && touched.apellido ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="apellido" component="small" className="p-error" />
+                  </div>
                 </div>
 
                 {/* DNI y CUIL */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="dni" className="block mb-1 font-semibold">DNI</label>
-                    <Field as={InputText} id="dni" name="dni" className="w-full" />
-                    <ErrorMessage name="dni" component="small" className="p-error block" />
+                    <label>DNI</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-id-card"></i></span>
+                      <InputMask
+                        mask="99999999"
+                        placeholder="Ingrese DNI"
+                        value={values.dni}
+                        onChange={(e) => setFieldValue("dni", e.value)}
+                        onBlur={() => setFieldTouched("dni", true)}
+                        className={`w-full ${errors.dni && touched.dni ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="dni" component="small" className="p-error" />
                   </div>
                   <div>
-                    <label htmlFor="cuil" className="block mb-1 font-semibold">CUIL</label>
-                    <Field as={InputText} id="cuil" name="cuil" className="w-full" />
-                    <ErrorMessage name="cuil" component="small" className="p-error block" />
+                    <label>CUIL</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-credit-card"></i></span>
+                      <InputMask
+                        mask="99-99999999-9"
+                        placeholder="Ingrese CUIL"
+                        value={values.cuil}
+                        onChange={(e) => setFieldValue("cuil", e.value)}
+                        onBlur={() => setFieldTouched("cuil", true)}
+                        className={`w-full ${errors.cuil && touched.cuil ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="cuil" component="small" className="p-error" />
                   </div>
                 </div>
 
                 {/* Teléfono y Dirección */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="telefono" className="block mb-1 font-semibold">Teléfono</label>
-                    <Field as={InputText} id="telefono" name="telefono" className="w-full" />
-                    <ErrorMessage name="telefono" component="small" className="p-error block" />
+                    <label>Teléfono</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-phone"></i></span>
+                      <InputMask
+                        mask="(999) 999-9999"
+                        placeholder="Ingrese teléfono"
+                        value={values.telefono}
+                        onChange={(e) => setFieldValue("telefono", e.value)}
+                        onBlur={() => setFieldTouched("telefono", true)}
+                        className={`w-full ${errors.telefono && touched.telefono ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="telefono" component="small" className="p-error" />
                   </div>
                   <div>
-                    <label htmlFor="direccion" className="block mb-1 font-semibold">Dirección</label>
-                    <Field as={InputText} id="direccion" name="direccion" className="w-full" />
-                    <ErrorMessage name="direccion" component="small" className="p-error block" />
+                    <label>Dirección</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-home"></i></span>
+                      <Field
+                        as={InputText}
+                        name="direccion"
+                        placeholder="Ingrese dirección"
+                        className={`w-full ${errors.direccion && touched.direccion ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="direccion" component="small" className="p-error" />
                   </div>
                 </div>
 
                 {/* Fecha de nacimiento */}
                 <div>
-                  <label htmlFor="fecha_nacimiento" className="block mb-1 font-semibold">
-                    Fecha de nacimiento
-                  </label>
-                  <Calendar
-                    id="fecha_nacimiento"
-                    value={values.fecha_nacimiento}
-                    onChange={(e) => setFieldValue("fecha_nacimiento", e.value)}
-                    dateFormat="dd/mm/yy"
-                    showIcon
-                    className={`w-full ${errors.fecha_nacimiento && touched.fecha_nacimiento ? "p-invalid" : ""}`}
-                  />
-                  <ErrorMessage name="fecha_nacimiento" component="small" className="p-error block" />
+                  <label>Fecha de nacimiento</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon"><i className="pi pi-calendar"></i></span>
+                    <InputMask
+                      mask="99/99/9999"
+                      placeholder="dd/mm/yyyy"
+                      value={values.fecha_nacimiento}
+                      onChange={(e) => setFieldValue("fecha_nacimiento", e.value)}
+                      onBlur={() => setFieldTouched("fecha_nacimiento", true)}
+                      dateFormat="dd/mm/yy"
+                      className={`w-full ${errors.fecha_nacimiento && touched.fecha_nacimiento ? "p-invalid" : ""}`}
+                    />
+                  </div>
+                  <ErrorMessage name="fecha_nacimiento" component="small" className="p-error" />
                 </div>
 
-                {/* Dropdowns */}
+                {/* Sexo y País */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block mb-1 font-semibold">Sexo</label>
-                    <Dropdown
-                      value={values.sexoId}
-                      options={sexos.map((s) => ({ label: s.nombre, value: s.id }))}
-                      onChange={(e) => setFieldValue("sexoId", e.value)}
-                      placeholder="Seleccione"
-                      className="w-full"
-                    />
-                    <ErrorMessage name="sexoId" component="small" className="p-error block" />
+                    <label>Sexo</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-users"></i></span>
+                      <Dropdown
+                        value={values.sexoId}
+                        options={sexos.map((s) => ({ label: s.nombre, value: s.id }))}
+                        onChange={(e) => setFieldValue("sexoId", e.value)}
+                        placeholder="Seleccione sexo"
+                        className={`w-full ${errors.sexoId && touched.sexoId ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="sexoId" component="small" className="p-error" />
                   </div>
                   <div>
-                    <label className="block mb-1 font-semibold">País</label>
-                    <Dropdown
-                      value={values.paisId}
-                      options={paises.map((p) => ({ label: p.nombre, value: p.id }))}
-                      onChange={(e) => setFieldValue("paisId", e.value)}
-                      placeholder="Seleccione"
-                      className="w-full"
-                    />
-                    <ErrorMessage name="paisId" component="small" className="p-error block" />
+                    <label>País</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-globe"></i></span>
+                      <Dropdown
+                        value={values.paisId}
+                        options={paises.map((p) => ({ label: p.nombre, value: p.id }))}
+                        onChange={(e) => setFieldValue("paisId", e.value)}
+                        placeholder="Seleccione país"
+                        className={`w-full ${errors.paisId && touched.paisId ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="paisId" component="small" className="p-error" />
                   </div>
                 </div>
 
+                {/* Razón Social y Condición Fiscal */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block mb-1 font-semibold">Razón Social</label>
-                    <Dropdown
-                      value={values.razonSocialId}
-                      options={razonesSociales.map((r) => ({ label: r.nombre, value: r.id }))}
-                      onChange={(e) => setFieldValue("razonSocialId", e.value)}
-                      placeholder="Seleccione"
-                      className="w-full"
-                    />
-                    <ErrorMessage name="razonSocialId" component="small" className="p-error block" />
+                    <label>Razón Social</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-briefcase"></i></span>
+                      <Dropdown
+                        value={values.razonSocialId}
+                        options={razonesSociales.map((r) => ({ label: r.nombre, value: r.id }))}
+                        onChange={(e) => setFieldValue("razonSocialId", e.value)}
+                        placeholder="Seleccione razón social"
+                        className={`w-full ${errors.razonSocialId && touched.razonSocialId ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="razonSocialId" component="small" className="p-error" />
                   </div>
                   <div>
-                    <label className="block mb-1 font-semibold">Condición Fiscal</label>
-                    <Dropdown
-                      value={values.condicionFiscalId}
-                      options={condicionesFiscales.map((c) => ({ label: c.nombre, value: c.id }))}
-                      onChange={(e) => setFieldValue("condicionFiscalId", e.value)}
-                      placeholder="Seleccione"
-                      className="w-full"
-                    />
-                    <ErrorMessage name="condicionFiscalId" component="small" className="p-error block" />
+                    <label>Condición Fiscal</label>
+                    <div className="p-inputgroup">
+                      <span className="p-inputgroup-addon"><i className="pi pi-file-edit"></i></span>
+                      <Dropdown
+                        value={values.condicionFiscalId}
+                        options={condicionesFiscales.map((c) => ({ label: c.nombre, value: c.id }))}
+                        onChange={(e) => setFieldValue("condicionFiscalId", e.value)}
+                        placeholder="Seleccione condición fiscal"
+                        className={`w-full ${errors.condicionFiscalId && touched.condicionFiscalId ? "p-invalid" : ""}`}
+                      />
+                    </div>
+                    <ErrorMessage name="condicionFiscalId" component="small" className="p-error" />
                   </div>
                 </div>
 
                 {/* Observaciones */}
                 <div>
-                  <label htmlFor="observacion" className="block mb-1 font-semibold">
-                    Observaciones
-                  </label>
-                  <Field as={InputText} id="observacion" name="observacion" className="w-full" />
+                  <label>Observaciones</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon"><i className="pi pi-comment"></i></span>
+                    <Field
+                      as={InputText}
+                      name="observacion"
+                      placeholder="Ingrese observaciones"
+                      className={`w-full ${errors.observacion && touched.observacion ? "p-invalid" : ""}`}
+                    />
+                  </div>
                 </div>
 
-                <Button type="submit" label="Guardar Cliente" className="w-full mt-2" />
+                <Button type="submit" label="Guardar Cliente" className="btnGuardarCliente mt-2" />
               </Form>
             )}
           </Formik>

@@ -1,0 +1,84 @@
+/* Variables */
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+
+  --radius: 10px;
+  --transition: 0.18s ease;
+}
+
+/* Página cliente */
+.cliente-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-gray);
+  margin-top: -40px;
+  padding: 2rem;
+}
+
+.cliente-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex: 1;
+}
+
+
+/* Card */
+.cliente-card .p-card-title {
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+/* Form container */
+.cliente-form label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* InputGroup styling */
+.p-inputgroup {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.p-inputgroup-addon {
+  background: var(--color-gray);
+  color: var(--color-muted);
+  border: 1px solid #d1d5db;
+}
+
+.p-inputtext,
+.p-dropdown,
+.p-calendar input {
+  border-radius: 0 !important;
+}
+
+/* Error messages */
+.p-error {
+  margin-top: 2px;
+  font-size: 0.8rem;
+}
+
+/* Button */
+button.p-button {
+  padding: 0.8rem;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  transition: var(--transition);
+}
+
+button.p-button:hover {
+  background: var(--color-primary-hover);
+}
+
+.btnGuardarCliente {
+    margin-top: 5%;
+}
