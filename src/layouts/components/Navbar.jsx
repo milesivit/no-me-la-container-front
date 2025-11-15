@@ -14,9 +14,20 @@ const Navbar = () => {
           ? [
               {
                 label: "Barcos",
-                icon: "pi pi-users",
+                icon: "pi pi-compass",
                 template: (item, options) => (
-                  <Link to="flota" className={options.className}>
+                  <Link to="/flota" className={options.className}>
+                    <i className={item.icon}></i>
+                    <span className="ml-2">{item.label}</span>
+                  </Link>
+                ),
+              },
+
+              {
+                label: "Containers",
+                icon: "pi pi-warehouse",
+                template: (item, options) => (
+                  <Link to="/container" className={options.className}>
                     <i className={item.icon}></i>
                     <span className="ml-2">{item.label}</span>
                   </Link>
@@ -24,17 +35,6 @@ const Navbar = () => {
               },
             ]
           : []),
-
-        {
-          label: "Productos",
-          icon: "pi pi-box",
-          template: (item, options) => (
-            <Link to="#" className={options.className}>
-              <i className={item.icon}></i>
-              <span className="ml-2">{item.label}</span>
-            </Link>
-          ),
-        },
         {
           label: "Cerrar sesión",
           icon: "pi pi-sign-out",

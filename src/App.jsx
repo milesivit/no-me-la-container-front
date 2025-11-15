@@ -12,6 +12,7 @@ import { RazonSocialProvider } from "./context/RazonSocialContext";
 import { CondicionFiscalProvider } from "./context/CondicionFiscalContext";
 import { ClienteProvider } from "./context/ClienteContext";
 import { EmpleadoProvider } from "./context/EmpleadoContext";
+import { ContainerProvider } from "./context/ContainerContext";
 
 import "./App.css";
 import "primereact/resources/themes/lara-dark-indigo/theme.css";
@@ -28,11 +29,14 @@ import Barco from "./layouts/barco/Barco";
 import ClienteForm from "./layouts/cliente/ClienteForm";
 import EmpleadoForm from "./layouts/empleado/EmpleadoForm";
 import CreateBarco from "./layouts/barco/CreateBarco";
+import ContainerForm from './layouts/container/Container'
+import CreateContainer from './layouts/container/CreateContainer'
 
 // Utils
 import PrivateRoute from "./utils/PrivateRoute";
 import PublicRoute from "./utils/PublicRoute";
 import { RequireRole } from "./utils/RequireRole";
+import Container from "quill/blots/container";
 
 function App() {
   return (
@@ -126,6 +130,33 @@ function App() {
                 </PrivateRoute>
               }
             />
+
+            <Route
+              path="/container"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <ContainerProvider>
+                      <ContainerForm/>
+                    </ContainerProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/container/crear"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <ContainerProvider>
+                      <CreateContainer/>
+                    </ContainerProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
           </Routes>
         </Fragment>
       </AuthProvider>
