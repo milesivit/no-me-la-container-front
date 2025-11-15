@@ -1,4 +1,4 @@
-/* PALETA DE COLORES Y VARIABLES                 */
+/* Variables */
 :root {
   --color-primary: #009fd4;
   --color-primary-hover: #007fad;
@@ -11,18 +11,17 @@
   --transition: 0.18s ease;
 }
 
-/* ESTRUCTURA GENERAL                             */
-.login-page {
+/* Página */
+.register-page {
   background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
   min-height: 100vh;
-  margin-top: -40px;
   padding: 0;
-  overflow-y: hidden;
+  margin-top: -40px;
   display: flex;
   flex-direction: column;
 }
 
-.login-container {
+.register-container {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -30,8 +29,8 @@
   padding: 1rem;
 }
 
-/* TARJETA LOGIN                                  */
-.login-card {
+/* Card */
+.register-card {
   width: 380px;
   padding: 1.8rem !important;
   border-radius: var(--radius);
@@ -41,24 +40,115 @@
   animation: fadeIn 0.35s ease-out;
 }
 
-.login-card:hover {
+.register-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* Centrar solo el título del Card */
-.login-card .p-card-title {
+/* Título del card */
+.register-card .p-card-title {
   text-align: center;
 }
 
-/* Botón "Olvidé mi contraseña" centrado */
-.login-card .forgot-password-btn {
-  display: block;
-  margin: 0 auto;
-  margin-top: 8%;
+/* Formulario */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.8rem;
 }
 
-/* ANIMACIONES                                    */
+.register-form label {
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+/* Inputs */
+.register-input {
+  width: 100% !important;
+}
+
+.p-inputtext,
+.p-password-input {
+  width: 100% !important;
+  border-radius: var(--radius) !important;
+  padding: 0.85rem !important;
+  font-size: 1rem !important;
+  border: 1px solid #d0d7de !important;
+  transition: var(--transition);
+  box-sizing: border-box !important;
+}
+.p-inputgroup .p-password {
+  width: 100% !important;
+}
+
+.p-inputgroup .p-password input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.p-inputtext:focus,
+.p-password-input:focus,
+select:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.25);
+}
+
+/* Select */
+.register-select {
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid #d0d7de;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.register-select:hover {
+  border-color: var(--color-primary);
+}
+
+/* Mensajes de error */
+.p-error {
+  color: #d62828 !important;
+  font-size: 0.85rem;
+  margin-top: -0.4rem;
+}
+
+/* Botón */
+.register-btn {
+  width: 100%;
+  padding: 0.9rem !important;
+  border-radius: var(--radius) !important;
+  border: none !important;
+  background: var(--color-primary) !important;
+  font-weight: 600 !important;
+  transition: var(--transition);
+}
+
+.register-btn:hover {
+  background: var(--color-primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+/* Toast: botón de cierre */
+.p-toast-icon-close {
+  background: transparent !important;
+  border: none !important;
+  color: #1a1a1a !important;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-toast-icon-close .pi {
+  font-size: 1.1rem;
+  color: inherit !important;
+}
+
+/* Animación */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -70,103 +160,9 @@
   }
 }
 
-/* FORMULARIO                                     */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 0.8rem;
-}
-
-/* Labels */
-.form-group label {
-  font-weight: 600;
-  color: var(--color-dark);
-}
-
-/* Inputs (email y contraseña mismo tamaño) */
-.login-input {
-  width: 100% !important;
-}
-
-.p-inputtext {
-  width: 100% !important;
-  border-radius: var(--radius) !important;
-  padding: 0.85rem !important;
-  font-size: 1rem !important;
-  border: 1px solid #d0d7de !important;
-  transition: var(--transition);
-  box-sizing: border-box !important;
-}
-
-.p-inputtext:focus,
-.p-password-input:focus {
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.25);
-}
-
-/* Mensajes de error */
-.error-text {
-  color: #d62828;
-  font-size: 0.85rem;
-  margin-top: -0.4rem;
-}
-
-/* BOTONES                                        */
-.login-btn {
-  width: 100%;
-  padding: 0.9rem !important;
-  border-radius: var(--radius) !important;
-  border: none !important;
-  background: var(--color-primary) !important;
-  font-weight: 600 !important;
-  transition: var(--transition);
-}
-
-.login-btn:hover {
-  background: var(--color-primary-hover) !important;
-  transform: translateY(-1px);
-}
-
-.forgot-password-btn {
-  margin-top: 1.2rem;
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--color-primary);
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-.forgot-password-btn:hover {
-  color: var(--color-primary-hover);
-  text-decoration: underline;
-}
-
-/* TOAST FIX (botón cerrar)                       */
-.p-toast-icon-close {
-  background: transparent !important;
-  border: none !important;
-  color: #1a1a1a !important; /* Ícono visible sobre fondo claro */
-  width: 1.8rem;
-  height: 1.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.p-toast-icon-close .pi {
-  font-size: 1.1rem;
-  color: inherit !important;
-  opacity: 1 !important;
-}
-
- 
-/* RESPONSIVE                                     */
+/* Responsive */
 @media (max-width: 480px) {
-  .login-card {
+  .register-card {
     width: 100%;
     padding: 1.4rem !important;
   }

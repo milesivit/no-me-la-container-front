@@ -7,6 +7,7 @@ import { Password } from "primereact/password";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
+import "./RegisterForm.css"
 
 const RegisterForm = () => {
   const { register } = useContext(AuthContext);
@@ -57,52 +58,104 @@ const RegisterForm = () => {
   
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="register-page">
       <Toast ref={toast} />
-      <div className="flex justify-center items-center flex-1 p-6">
-        <Card title="Registrarse" className="shadow-lg w-full max-w-md">
+      <div className="register-container">
+        <Card title="Registrarse" className="register-card">
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ handleChange, values }) => (
-              <Form className="flex flex-col gap-4">
+              <Form className="register-form">
+
                 {/* Nombre */}
                 <div>
-                  <label htmlFor="nombre" className="block mb-1 font-semibold">Nombre</label>
-                  <InputText id="nombre" name="nombre" className="w-full" value={values.nombre} onChange={handleChange} />
-                  <ErrorMessage name="nombre" component="small" className="p-error block" />
+                  <label htmlFor="nombre">Nombre</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-user"></i>
+                    </span>
+                    <InputText
+                      id="nombre"
+                      name="nombre"
+                      value={values.nombre}
+                      onChange={handleChange}
+                      placeholder="Nombre"
+                    />
+                  </div>
+                  <ErrorMessage name="nombre" component="small" className="p-error" />
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="correo" className="block mb-1 font-semibold">Email</label>
-                  <InputText id="correo" name="correo" className="w-full" value={values.correo} onChange={handleChange} />
-                  <ErrorMessage name="correo" component="small" className="p-error block" />
+                  <label htmlFor="correo">Email</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-envelope"></i>
+                    </span>
+                    <InputText
+                      id="correo"
+                      name="correo"
+                      value={values.correo}
+                      onChange={handleChange}
+                      placeholder="ejemplo@correo.com"
+                      keyfilter="email" //Keyfilter de PrimeReact
+                    />
+                  </div>
+                  <ErrorMessage name="correo" component="small" className="p-error" />
                 </div>
 
                 {/* Contraseña */}
                 <div>
-                  <label htmlFor="contrasena" className="block mb-1 font-semibold">Contraseña</label>
-                  <Password id="contrasena" name="contrasena" className="w-full" value={values.contrasena} onChange={handleChange} toggleMask feedback={false} />
-                  <ErrorMessage name="contrasena" component="small" className="p-error block" />
+                  <label htmlFor="contrasena">Contraseña</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-lock"></i>
+                    </span>
+                    <Password
+                      id="contrasena"
+                      name="contrasena"
+                      value={values.contrasena}
+                      onChange={handleChange}
+                      toggleMask
+                      feedback={false}
+                      placeholder="********"
+                      inputClassName="register-password-input"
+                    />
+                  </div>
+                  <ErrorMessage name="contrasena" component="small" className="p-error" />
                 </div>
 
                 {/* Rol */}
                 <div>
-                  <label htmlFor="rol" className="block mb-1 font-semibold">Rol</label>
-                  <select id="rol" name="rol" value={values.rol} onChange={handleChange} className="w-full p-2 border rounded-md">
-                    <option value="cliente">Cliente</option>
-                    <option value="moderador">Moderador</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                  <ErrorMessage name="rol" component="small" className="p-error block" />
+                  <label htmlFor="rol">Rol</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-users"></i>
+                    </span>
+                    <select
+                      id="rol"
+                      name="rol"
+                      value={values.rol}
+                      onChange={handleChange}
+                      className="register-select"
+                    >
+                      <option value="cliente">Cliente</option>
+                      <option value="moderador">Moderador</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                  <ErrorMessage name="rol" component="small" className="p-error" />
                 </div>
 
-                <Button type="submit" label="Registrarse" className="w-full mt-4" />
+                <Button type="submit" label="Registrarse" className="register-btn" />
+
               </Form>
+
             )}
           </Formik>
         </Card>
       </div>
     </div>
+
   );
 };
 

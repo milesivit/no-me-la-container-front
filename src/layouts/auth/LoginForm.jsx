@@ -9,6 +9,7 @@ import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
 import { useNavigate } from "react-router-dom"
 import "./LoginForm.css"
+import 'primeicons/primeicons.css';
 
 const LoginForm = () => {
 
@@ -55,26 +56,43 @@ const LoginForm = () => {
                         {({ handleChange, values }) => (
                             <Form className="login-form">
 
+                                {/* Email */}
                                 <div className="form-group">
                                     <label>Email</label>
-                                    <InputText
-                                        name="correo"
-                                        value={values.correo}
-                                        onChange={handleChange}
-                                        className="login-input"
-                                    />
+
+                                    <div className="p-inputgroup flex-1">
+                                        <span className="p-inputgroup-addon">
+                                            <i className="pi pi-envelope"></i>
+                                        </span>
+                                        <InputText
+                                            name="correo"
+                                            value={values.correo}
+                                            onChange={handleChange}
+                                            placeholder="Ingrese su correo"
+                                        />
+                                    </div>
+
                                     <ErrorMessage name="correo" component="span" className="error-text" />
                                 </div>
 
+                                {/* Contraseña */}
                                 <div className="form-group">
                                     <label>Contraseña</label>
-                                    <Password
-                                        name="contrasena"
-                                        value={values.contrasena}
-                                        onChange={handleChange}
-                                        toggleMask
-                                        className="login-input"
-                                    />
+
+                                    <div className="p-inputgroup flex-1">
+                                        <span className="p-inputgroup-addon">
+                                            <i className="pi pi-lock"></i>
+                                        </span>
+                                        <Password
+                                            name="contrasena"
+                                            value={values.contrasena}
+                                            onChange={handleChange}
+                                            toggleMask
+                                            placeholder="Ingrese su contraseña"
+                                            inputClassName="login-input"
+                                        />
+                                    </div>
+
                                     <ErrorMessage name="contrasena" component="span" className="error-text" />
                                 </div>
 
