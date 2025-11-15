@@ -1,0 +1,144 @@
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+  --radius: 8px;
+  --transition: 0.18s ease;
+}
+
+/* Evita que el contenido quede debajo del navbar */
+body {
+  padding-top: 70px; /* Ajustá según tu navbar */
+}
+
+/* NAVBAR CONTENEDOR */
+.navbar-container {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--color-primary);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* LOGO */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 10px;
+}
+
+.navbar-logo-img {
+  width: 40px;
+  height: 40px;
+  transition: transform var(--transition);
+}
+
+.navbar-logo:hover .navbar-logo-img {
+  transform: scale(1.06);
+}
+
+.navbar-logo-text {
+  font-weight: 700;
+  color: var(--color-light);
+  font-size: 1.15rem;
+  letter-spacing: 0.4px;
+}
+
+/* LINKS DEL MENÚ */
+.navbar-link {
+  color: var(--color-dark);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  font-weight: 500;
+  background: var(--color-light);
+}
+
+.navbar-link:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* MENUBAR */
+.p-menubar {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: static !important; /* evita conflictos con sticky */
+}
+
+.p-menubar-root-list {
+  margin-left: auto !important;
+  background: var(--color-light);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+}
+
+.p-menubar-root-list > .p-menuitem {
+  margin: 0 6px;
+}
+
+.p-menuitem-link {
+  background: var(--color-light) !important;
+  color: var(--color-dark) !important;
+  border-radius: var(--radius) !important;
+}
+
+.p-menuitem-link:hover {
+  background: rgba(0,0,0,0.05) !important;
+}
+
+/* Rol */
+.navbar-role-badge {
+  background: var(--color-light);
+  color: var(--color-primary);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.3);
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+}
+
+.navbar-btn-outline {
+  border: 2px solid var(--color-light);
+  padding: 6px 14px;
+  color: var(--color-light);
+  background: transparent;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.navbar-btn-outline:hover {
+  background: var(--color-light);
+  color: var(--color-primary);
+}
+
+.navbar-btn-primary {
+  background: var(--color-light);
+  color: var(--color-primary);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.4);
+  transition: var(--transition);
+}
+
+.navbar-btn-primary:hover {
+  background: var(--color-gray);
+}

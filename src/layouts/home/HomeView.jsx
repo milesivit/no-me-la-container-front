@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "primereact/toast";
-import background from "../../img/background.png";
+import homeBanner from "../../img/homeBanner.png";
+import "./HomeView.css";
 
 const HomeView = () => {
   const { justLoggedIn, setJustLoggedIn } = useContext(AuthContext);
@@ -20,28 +21,23 @@ const HomeView = () => {
       setJustLoggedIn(false);
       shownRef.current = true;
     }
-  }, [justLoggedIn]);
+  }, [justLoggedIn, setJustLoggedIn]);
+
   return (
-    <div>
-      <Navbar />
-      <Toast ref={toast} />
-      <div
-        style={{
-          backgroundImage: `url(${background})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "600px", // mismo alto que la imagen
-          width: "1296px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "white",
-          textShadow: "1px 1px 4px rgba(0,0,0,0.7)",
-        }}
-      >
+    <>
+      <Navbar />   {/* 🔥 FIJO, no debe estar dentro del home-container */}
+      <div className="home-container">
+        <Toast ref={toast} />
+
+        <div className="banner-wrapper">
+          <img
+            src={homeBanner}
+            alt="Home banner"
+            className="home-banner-img"
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,38 @@
+html, body {
+  overflow-x: hidden;
+}
+
+/* container */
+.home-container {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  margin-top: -40px;   /* 🔥 Ajustá al alto real del navbar */
+}
+
+/* banner 100% ancho */
+.banner-wrapper {
+  width: 100vw;
+  height: auto;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* imagen */
+.home-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+}

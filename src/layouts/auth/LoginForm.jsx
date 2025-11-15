@@ -1,6 +1,6 @@
 import { useContext, useRef } from "react"
 import { AuthContext } from "../../context/AuthContext"
-import {Formik, Form, Field, ErrorMessage} from 'formik'
+import { Formik, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { InputText } from "primereact/inputtext"
 import { Password } from 'primereact/password';
@@ -9,28 +9,28 @@ import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom"
+import "./LoginForm.css"
 
-const LoginForm = () =>{
+const LoginForm = () => {
 
     const { login } = useContext(AuthContext)
     const toast = useRef(null)
     const navigate = useNavigate();
 
-
     const initialValuesUser = {
-        correo:'',
-        contrasena:''
+        correo: '',
+        contrasena: ''
     }
 
     const validationSchemaUser = Yup.object({
-        correo: Yup.string().email('Email invalido').required('Campo requerido'),
+        correo: Yup.string().email('Email inválido').required('Campo requerido'),
         contrasena: Yup.string().required('Campo requerido')
-    }) 
+    })
 
-    const onSubmitLogin = async (values) =>{
+    const onSubmitLogin = async (values) => {
         try {
             await login(values)
-            
+
         } catch (error) {
             toast.current.show({
                 severity: 'error',
@@ -41,41 +41,68 @@ const LoginForm = () =>{
         }
     }
 
-    return(
-        <div>
-            <Navbar /> 
-            {/* Toast global */}
+    return (
+        <div className="login-page">
+
+            <Navbar />
+
             <Toast ref={toast} />
 
-            <Card title='Iniciar sesión'>
-                <Formik 
-                    initialValues={initialValuesUser} 
-                    validationSchema={validationSchemaUser} 
-                    onSubmit={onSubmitLogin}
-                >
-                {({handleChange, values})=>(
-                    <Form>
-                        <label>Email</label>
-                        <InputText name='correo' value={values.correo} onChange={handleChange}/>
-                        <span className="text-danger"> <ErrorMessage name='correo' /> </span>
-                        
-                        <label>Contraseña</label> 
-                        <Password name='contrasena' value={values.contrasena} onChange={handleChange} toggleMask />
-                        <span className="text-danger"> <ErrorMessage name='contrasena' /> </span>
-                        
-                        <Button label='Iniciar sesión' type='submit' className="mt-3"/>
-                    </Form>
-                )}
-                </Formik>
-                <button 
-                    type="button" 
-                    style={{ cursor: "pointer", border: "none", background: "none", padding: 0 }}
-                    onClick={() => navigate('/clave-olvidada')}
-                    >
-                    <h4>¿Olvidó su contraseña?</h4>
-                </button>
+            <div className="login-container">
+                <Card title="Iniciar sesión" className="login-card">
 
-            </Card>
+                    <Formik
+                        initialValues={initialValuesUser}
+                        validationSchema={validationSchemaUser}
+                        onSubmit={onSubmitLogin}
+                    >
+                        {({ handleChange, values }) => (
+                            <Form className="login-form">
+
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <InputText
+                                        name="correo"
+                                        value={values.correo}
+                                        onChange={handleChange}
+                                        className="login-input"
+                                    />
+                                    <ErrorMessage name="correo" component="span" className="error-text" />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Contraseña</label>
+                                    <Password
+                                        name="contrasena"
+                                        value={values.contrasena}
+                                        onChange={handleChange}
+                                        toggleMask
+                                        className="login-input"
+                                    />
+                                    <ErrorMessage name="contrasena" component="span" className="error-text" />
+                                </div>
+
+                                <Button
+                                    label="Iniciar sesión"
+                                    type="submit"
+                                    className="login-btn"
+                                />
+
+                            </Form>
+                        )}
+                    </Formik>
+
+                    <button
+                        type="button"
+                        className="forgot-password-btn"
+                        onClick={() => navigate('/clave-olvidada')}
+                    >
+                        ¿Olvidó su contraseña?
+                    </button>
+
+                </Card>
+            </div>
+
         </div>
     )
 }
