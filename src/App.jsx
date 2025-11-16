@@ -14,6 +14,7 @@ import { ClienteProvider } from "./context/ClienteContext";
 import { EmpleadoProvider } from "./context/EmpleadoContext";
 import { ContainerProvider } from "./context/ContainerContext";
 import { ContainerEstadoProvider } from "./context/ContainerEstadoContext";
+import { ServicioAgregadoProvider } from "./context/ServicioAgregadoContext";
 
 import "./App.css";
 import "primereact/resources/themes/lara-light-teal/theme.css";
@@ -33,6 +34,8 @@ import CreateBarco from "./layouts/barco/CreateBarco";
 import ContainerForm from './layouts/container/Container'
 import CreateContainer from './layouts/container/CreateContainer'
 import CreateContainerEstado from "./layouts/container/CreateContainerEstado";
+import ServicioAgregadoForm from "./layouts/servicios/ServicioForm";
+import CrearServicioAgregado from "./layouts/servicios/CrearServicioAgregado";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -174,6 +177,32 @@ function App() {
                       <ContainerEstadoProvider>
                         <CreateContainerEstado />
                       </ContainerEstadoProvider>
+                    </RequireRole>
+                  </PrivateRoute>
+                }
+              />
+
+            <Route
+                path="/servicio"
+                element={
+                  <PrivateRoute>
+                    <RequireRole role="admin">
+                      <ServicioAgregadoProvider>
+                        <ServicioAgregadoForm />
+                      </ServicioAgregadoProvider>
+                    </RequireRole>
+                  </PrivateRoute>
+                }
+              />
+
+            <Route
+                path="/servicio/crear"
+                element={
+                  <PrivateRoute>
+                    <RequireRole role="admin">
+                      <ServicioAgregadoProvider>
+                        <CrearServicioAgregado />
+                      </ServicioAgregadoProvider>
                     </RequireRole>
                   </PrivateRoute>
                 }

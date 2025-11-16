@@ -33,7 +33,17 @@ const Navbar = () => {
                     <span>{item.label}</span>
                   </Link>
                 ),
-              }
+              },
+              {
+                label: "Servicios",
+                icon: "pi pi-tags",
+                template: (item, options) => (
+                  <Link to="/servicio" className={`navbar-link ${options.className}`}>
+                    <i className={item.icon}></i>
+                    <span>{item.label}</span>
+                  </Link>
+                ),
+              },
             ]
           : []),
 
@@ -41,7 +51,7 @@ const Navbar = () => {
           label: "Productos",
           icon: "pi pi-box",
           template: (item, options) => (
-            <Link to="/productos" className={`navbar-link ${options.className}`}>
+            <Link to="#" className={`navbar-link ${options.className}`}>
               <i className={item.icon}></i>
               <span>{item.label}</span>
             </Link>
