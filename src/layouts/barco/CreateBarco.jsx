@@ -7,6 +7,7 @@ import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { BarcoContext } from "../../context/BarcoContext";
 import { useNavigate } from "react-router-dom";
+import "./CreateBarco.css";
 
 const CreateBarco = () => {
   const { createBarco } = useContext(BarcoContext);
@@ -35,6 +36,7 @@ const CreateBarco = () => {
   });
 
   const onSubmit = async (values, { resetForm }) => {
+    console.log("Formulario enviado con valores:", values);
     try {
       await createBarco(values);
       toast.current.show({
@@ -44,10 +46,7 @@ const CreateBarco = () => {
         life: 3000,
       });
       resetForm();
-
-      setTimeout(() => {
-        navigate("/flota"); 
-      }, 1000);
+      setTimeout(() => navigate("/flota"), 1000);
     } catch (error) {
       console.error("Error al crear barco:", error);
       toast.current.show({
@@ -60,144 +59,152 @@ const CreateBarco = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="create-barco-page">
       <Toast ref={toast} />
-      <div className="flex justify-center items-center flex-1 p-6">
-        <Card title="Registrar Barco" className="shadow-lg w-full max-w-lg">
+      <div className="create-barco-container">
+        <Card title="Registrar Barco" className="create-barco-card">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
             {({ handleChange, values }) => (
-              <Form className="flex flex-col gap-4">
+              <Form className="create-barco-form">
+                
                 {/* Nombre */}
-                <div>
-                  <label htmlFor="nombre" className="block mb-1 font-semibold">
-                    Nombre
-                  </label>
-                  <InputText
-                    id="nombre"
-                    name="nombre"
-                    value={values.nombre}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="nombre"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="nombre">Nombre</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-user"></i>
+                    </span>
+                    <InputText
+                      id="nombre"
+                      name="nombre"
+                      value={values.nombre}
+                      onChange={handleChange}
+                      placeholder="Ingrese el nombre"
+                      className="create-barco-input"
+                    />
+                  </div>
+                  <ErrorMessage name="nombre" component="span" className="error-text" />
                 </div>
 
                 {/* Matrícula */}
-                <div>
-                  <label htmlFor="nroMatricula" className="block mb-1 font-semibold">
-                    Matrícula
-                  </label>
-                  <InputText
-                    id="nroMatricula"
-                    name="nroMatricula"
-                    value={values.nroMatricula}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="nroMatricula"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="nroMatricula">Matrícula</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-id-card"></i>
+                    </span>
+                    <InputText
+                      id="nroMatricula"
+                      name="nroMatricula"
+                      value={values.nroMatricula}
+                      onChange={handleChange}
+                      placeholder="Ingrese la matrícula"
+                      className="create-barco-input"
+                    />
+                  </div>
+                  <ErrorMessage name="nroMatricula" component="span" className="error-text" />
                 </div>
 
                 {/* Registro */}
-                <div>
-                  <label htmlFor="nroRegistro" className="block mb-1 font-semibold">
-                    Registro
-                  </label>
-                  <InputText
-                    id="nroRegistro"
-                    name="nroRegistro"
-                    value={values.nroRegistro}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="nroRegistro"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="nroRegistro">Registro</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-file"></i>
+                    </span>
+                    <InputText
+                      id="nroRegistro"
+                      name="nroRegistro"
+                      value={values.nroRegistro}
+                      onChange={handleChange}
+                      placeholder="Ingrese el registro"
+                      className="create-barco-input"
+                    />
+                  </div>
+                  <ErrorMessage name="nroRegistro" component="span" className="error-text" />
                 </div>
 
                 {/* Modelo */}
-                <div>
-                  <label htmlFor="modelo" className="block mb-1 font-semibold">
-                    Modelo
-                  </label>
-                  <InputText
-                    id="modelo"
-                    name="modelo"
-                    value={values.modelo}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="modelo"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="modelo">Modelo</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-cog"></i>
+                    </span>
+                    <InputText
+                      id="modelo"
+                      name="modelo"
+                      value={values.modelo}
+                      onChange={handleChange}
+                      placeholder="Ingrese el modelo"
+                      className="create-barco-input"
+                    />
+                  </div>
+                  <ErrorMessage name="modelo" component="span" className="error-text" />
                 </div>
 
                 {/* Constructora */}
-                <div>
-                  <label htmlFor="constructura" className="block mb-1 font-semibold">
-                    Constructora
-                  </label>
-                  <InputText
-                    id="constructura"
-                    name="constructura"
-                    value={values.constructura}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="constructura"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="constructura">Constructora</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-building"></i>
+                    </span>
+                    <InputText
+                      id="constructura"
+                      name="constructura"
+                      value={values.constructura}
+                      onChange={handleChange}
+                      placeholder="Ingrese la constructora"
+                      className="create-barco-input"
+                    />
+                  </div>
+                  <ErrorMessage name="constructura" component="span" className="error-text" />
                 </div>
 
-                {/* Capacidad */}
-                <div>
-                  <label
-                    htmlFor="capacidadMaxContainer"
-                    className="block mb-1 font-semibold"
-                  >
-                    Capacidad Máxima (containers)
-                  </label>
-                  <InputText
-                    id="capacidadMaxContainer"
-                    name="capacidadMaxContainer"
-                    value={values.capacidadMaxContainer}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
+                {/* Capacidad Máxima */}
+                <div className="form-group">
+                  <label htmlFor="capacidadMaxContainer">Capacidad Máxima (containers)</label>
+                  <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-box"></i>
+                    </span>
+                    <InputText
+                      id="capacidadMaxContainer"
+                      name="capacidadMaxContainer"
+                      value={values.capacidadMaxContainer}
+                      onChange={handleChange}
+                      placeholder="Ingrese la capacidad"
+                      className="create-barco-input"
+                      keyfilter="int"
+                    />
+                  </div>
                   <ErrorMessage
                     name="capacidadMaxContainer"
-                    component="small"
-                    className="p-error block"
+                    component="span"
+                    className="error-text"
                   />
                 </div>
 
                 {/* Botones */}
-                <div className="flex justify-between mt-4">
+                <div className="form-buttons">
                   <Button
                     label="Volver"
                     icon="pi pi-arrow-left"
-                    className="p-button-text"
+                    className="p-button-secondary w-48"
                     type="button"
                     onClick={() => navigate("/flota")}
                   />
-                  <Button type="submit" label="Guardar" icon="pi pi-check" />
+                  <Button
+                    type="submit"
+                    label="Guardar"
+                    icon="pi pi-check"
+                    className="p-button-success w-48"
+                  />
                 </div>
               </Form>
             )}

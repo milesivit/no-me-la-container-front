@@ -186,7 +186,7 @@ const EmpleadoForm = () => {
                   </div>
                   <ErrorMessage name="dni" component="small" className="p-error" />
                 </div>
-
+              
                 {/* Dirección */}
                 <div className="field">
                   <label>Dirección</label>

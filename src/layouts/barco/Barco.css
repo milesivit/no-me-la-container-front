@@ -1,0 +1,160 @@
+/* Variables */
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+
+  --radius: 10px;
+  --transition: 0.18s ease;
+}
+
+/* Página */
+.barco-page {
+  background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
+  min-height: 100vh;
+  margin-top: -40px;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.barco-page-container {
+  padding: 2rem 3rem;
+}
+
+/* Header */
+.barco-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.barco-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.barco-header-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+/* Tabla */
+.barco-table-wrapper {
+  background: var(--color-light);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.barco-table {
+  min-width: 55rem;
+}
+
+/* Botones de acciones */
+.barco-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Modal */
+.barco-modal {
+  width: 35rem !important;
+  padding: 2rem;
+  border-radius: var(--radius);
+}
+
+/* Formulario dentro del modal */
+.barco-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Cada grupo de campo */
+.barco-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.barco-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+/* Inputs del modal */
+.barco-input {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  transition: var(--transition);
+}
+
+.barco-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.2);
+}
+
+/* Botones modal */
+.p-button-secondary {
+  background-color: #6b7280 !important; /* gris */
+  color: #fff !important;
+  border: none;
+}
+
+.p-button-secondary:hover {
+  background-color: #4b5563 !important;
+}
+
+/* Ocultar la X de cerrar */
+.barco-modal .p-dialog-header-close,
+.p-confirm-dialog .p-dialog-header-close {
+  display: none;
+}
+
+/* Estilos botones del ConfirmDialog */
+.p-confirm-dialog .p-button {
+  min-width: 4rem;
+}
+
+/* Botón "No" (rechazar) gris con letras blancas */
+.p-confirm-dialog .p-button-secondary {
+  background-color: #6b7280 !important;
+  color: #fff !important;
+  border: none;
+}
+
+.p-confirm-dialog .p-button-secondary:hover {
+  background-color: #4b5563 !important;
+}
+
+/* Botón "Sí" (aceptar) azul con letras blancas */
+.p-confirm-dialog .p-button-success {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+  border: none;
+}
+
+.p-confirm-dialog .p-button-success:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.p-button.p-button-text {
+    background-color: #4b5563 !important;
+    color: #fdfdfd;
+    border-color: transparent;
+}
+
+.p-datatable .p-sortable-column.p-highlight {
+    background: #ffffff;
+    color: #2c746e;
+}
