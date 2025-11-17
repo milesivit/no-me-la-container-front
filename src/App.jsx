@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { TOAST_REF } from "./utils/ToastRef";
 
+import "./App.css";
+import "primereact/resources/themes/lara-light-teal/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+
+// Contexts
 import { AuthProvider } from "./context/AuthContext";
 import { BarcoProvider } from "./context/BarcoContext";
 import { PaisProvider } from "./context/PaisContext";
@@ -15,11 +21,11 @@ import { EmpleadoProvider } from "./context/EmpleadoContext";
 import { ContainerProvider } from "./context/ContainerContext";
 import { ContainerEstadoProvider } from "./context/ContainerEstadoContext";
 import { ServicioAgregadoProvider } from "./context/ServicioAgregadoContext";
+import { PuertoProvider } from "./context/PuertoContext";
+import { ViajeEstadoProvider } from "./context/ViajeEstadoContext";
+import { ViajeProvider } from "./context/ViajeContext";
 
-import "./App.css";
-import "primereact/resources/themes/lara-light-teal/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+
 
 // Layouts
 import LoginForm from "./layouts/auth/LoginForm";
@@ -36,6 +42,8 @@ import CreateContainer from './layouts/container/CreateContainer'
 import CreateContainerEstado from "./layouts/container/CreateContainerEstado";
 import ServicioAgregadoForm from "./layouts/servicios/ServicioForm";
 import CrearServicioAgregado from "./layouts/servicios/CrearServicioAgregado";
+import ViajeForm from "./layouts/viaje/ViajeForm";
+import CreateViaje from "./layouts/viaje/CreateViaje";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -207,6 +215,44 @@ function App() {
                   </PrivateRoute>
                 }
               />
+
+            <Route
+              path="/viaje"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <PuertoProvider>
+                      <ViajeEstadoProvider>
+                        <BarcoProvider>
+                          <ViajeProvider>
+                            <ViajeForm />
+                          </ViajeProvider>
+                        </BarcoProvider>
+                      </ViajeEstadoProvider>
+                    </PuertoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/viaje/crear"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <PuertoProvider>
+                      <ViajeEstadoProvider>
+                        <BarcoProvider>
+                          <ViajeProvider>
+                            <CreateViaje />
+                          </ViajeProvider>
+                        </BarcoProvider>
+                      </ViajeEstadoProvider>
+                    </PuertoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
 
             </Routes>
           </main>

@@ -1,9 +1,9 @@
-// src/context/puertoContext.jsx
+// src/context/PuertoContext.jsx
 import { createContext, useState, useEffect } from "react";
 import puertoService from "../services/puertoService";
 import { notifyError, notifySuccess } from "../utils/Notifier";
 
-export const puertoContext = createContext();
+export const PuertoContext = createContext();
 
 export const PuertoProvider = ({ children }) => {
   const [puertos, setpuertos] = useState([]);
@@ -64,7 +64,7 @@ export const PuertoProvider = ({ children }) => {
   }, []);
 
   return (
-    <puertoContext.Provider
+    <PuertoContext.Provider
       value={{
         puertos,
         loading,
@@ -77,6 +77,6 @@ export const PuertoProvider = ({ children }) => {
       }}
     >
       {children}
-    </puertoContext.Provider>
+    </PuertoContext.Provider>
   );
 };

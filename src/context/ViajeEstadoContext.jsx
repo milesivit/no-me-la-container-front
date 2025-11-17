@@ -5,7 +5,7 @@ import { notifyError, notifySuccess } from "../utils/Notifier";
 
 export const ViajeEstadoContext = createContext();
 
-export const viajeEstadoProvider = ({ children }) => {
+export const ViajeEstadoProvider = ({ children }) => {
   const [viajeEstados, setviajeEstados] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedViajeEstado, setselectedViajeEstado] = useState(null);

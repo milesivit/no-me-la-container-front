@@ -44,6 +44,16 @@ const Navbar = () => {
                   </Link>
                 ),
               },
+              {
+                label: "Viajes",
+                icon: "pi pi-gauge",
+                template: (item, options) => (
+                  <Link to="/viaje" className={`navbar-link ${options.className}`}>
+                    <i className={item.icon}></i>
+                    <span>{item.label}</span>
+                  </Link>
+                ),
+              },
             ]
           : []),
 
