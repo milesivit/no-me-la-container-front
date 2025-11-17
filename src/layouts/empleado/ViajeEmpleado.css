@@ -1,0 +1,160 @@
+/* Variables compartidas - similar a Empleado.css */
+:root{
+    --color-primary: #009fd4;
+    --color-primary-600: #007fad;
+    --color-bg: #f3f6f9;
+    --color-surface: #ffffff;
+    --color-muted: #6b7280;
+    --color-dark: #0f1724;
+    --accent: #22c55e;
+    --radius: 12px;
+    --shadow: 0 6px 22px rgba(12, 18, 30, 0.08);
+    --glass: rgba(255,255,255,0.6);
+    --transition: 180ms ease;
+  }
+  
+  /* Page layout */
+  .viajeempleado-page{
+    background: linear-gradient(135deg, var(--color-bg), #e8edf3);
+    min-height: 100vh;
+    padding: 2.2rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  /* Container */
+  .viajeempleado-container{
+    width: 100%;
+    max-width: 1200px;
+    padding: 1.6rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--color-surface));
+    border-radius: calc(var(--radius) + 2px);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(15,23,36,0.04);
+  }
+  
+  /* Header */
+  .viajeempleado-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+  }
+  
+  .viajeempleado-title{
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    letter-spacing: -0.2px;
+  }
+  
+  .viajeempleado-sub{
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+  
+  /* Header actions (export, filtros) */
+  .viajeempleado-actions{
+    display:flex;
+    gap: .6rem;
+    align-items:center;
+  }
+  
+  /* Table wrapper */
+  .viajeempleado-table-wrapper{
+    background: var(--color-surface);
+    padding: 1.1rem;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 30px rgba(12,18,30,0.04);
+    border: 1px solid rgba(15,23,36,0.03);
+  }
+  
+  /* DataTable base width */
+  .viajeempleado-table{
+    min-width: 48rem;
+  }
+  
+  /* Row styles - striped with soft lines */
+  .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+    background: linear-gradient(90deg, rgba(250,251,253,1), rgba(248,250,252,1));
+  }
+  
+  /* Column headers */
+  .p-datatable .p-datatable-thead > tr > th {
+    background: transparent;
+    color: var(--color-dark);
+    font-weight: 600;
+    border-bottom: 2px solid rgba(15,23,36,0.04);
+    padding: .9rem .75rem;
+  }
+  
+  /* Cells */
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: .85rem .75rem;
+    color: #111827;
+    font-size: 0.95rem;
+  }
+  
+  /* Badges for estado */
+  .viaje-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: white;
+    transition: background var(--transition);
+  }
+  
+  .viaje-badge.pendiente { background: #f59e0b; }   /* amber */
+  .viaje-badge.en-curso { background: #06b6d4; }    /* cyan */
+  .viaje-badge.finalizado { background: #10b981; }  /* green */
+  .viaje-badge.cancelado { background: #ef4444; }   /* red */
+  
+  /* Fecha small text */
+  .viaje-fecha {
+    display: block;
+    font-size: .9rem;
+    color: var(--color-muted);
+  }
+  
+  /* Action button style override */
+  .viaje-btn {
+    border-radius: 999px;
+    padding: .45rem .65rem;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  
+  .viaje-btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Empty / loading states */
+  .viaje-empty {
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-muted);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 980px) {
+    .viajeempleado-container { padding: 1rem; }
+    .viajeempleado-title { font-size: 1.25rem; }
+    .viajeempleado-table { min-width: 40rem; }
+  }
+  
+  @media (max-width: 640px) {
+    .viajeempleado-page { padding: 1rem; }
+    .viajeempleado-container { padding: .8rem; }
+    .viajeempleado-header { flex-direction: column; align-items: flex-start; gap: .6rem; }
+    .viajeempleado-table { min-width: 26rem; overflow-x: auto; }
+  }
+  

@@ -78,8 +78,6 @@ export const AuthProvider = ({children}) =>{
             return;
           }
       
-          alert("Usuario creado exitosamente");
-      
           //para que redirija a crear un cliente o empleado
           if (nuevoUsuario.rol === "cliente") {
             navigate(`/crear-cliente/${nuevoUsuario.id}`);

@@ -54,6 +54,18 @@ const Navbar = () => {
                   </Link>
                 ),
               },
+              
+              {
+                label: "Empleados",
+                icon: "pi pi-user",
+                template: (item, options) => (
+                  <Link to="/empleado" className={`navbar-link ${options.className}`}>
+                    <i className={item.icon}></i>
+                    <span>{item.label}</span>
+                  </Link>
+                ),
+              },
+
             ]
           : []),
 

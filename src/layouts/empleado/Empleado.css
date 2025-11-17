@@ -1,0 +1,62 @@
+/* Variables */
+:root {
+    --color-primary: #009fd4;
+    --color-primary-hover: #007fad;
+    --color-light: #ffffff;
+    --color-gray: #f0f2f5;
+    --color-dark: #1a1a1a;
+    --color-muted: #6b7280;
+    --radius: 10px;
+    --transition: 0.18s ease;
+  }
+  
+  /* Página */
+  .empleado-page {
+    background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
+    min-height: 100vh;
+    margin-top: -40px;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .empleado-page-container {
+    padding: 2rem 3rem;
+  }
+  
+  /* Header */
+  .empleado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empleado-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-dark);
+  }
+  
+  .empleado-header-actions {
+    display: flex;
+    gap: 0.8rem;
+  }
+  
+  /* Tabla */
+  .empleado-table-wrapper {
+    background: var(--color-light);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+  }
+  
+  .empleado-table {
+    min-width: 55rem;
+  }
+  
+  .p-datatable .p-sortable-column.p-highlight {
+    background: #ffffff;
+    color: #2c746e;
+  }

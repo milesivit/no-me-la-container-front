@@ -41,9 +41,10 @@ const EmpleadoForm = () => {
     cargoId: Yup.number().required("El cargo es obligatorio"),
     sexoId: Yup.number().required("El sexo es obligatorio"),
     paisId: Yup.number().required("El país es obligatorio"),
-    fecha_nacimiento: Yup.string()
-      .required("La fecha de nacimiento es obligatoria")
-      .matches(/^(\d{2})\/(\d{2})\/(\d{4})$/, "Formato de fecha inválido"),
+    fecha_nacimiento: Yup.date()
+    .required("La fecha de nacimiento es obligatoria")
+    .max(new Date(), "La fecha no puede ser futura"),
+
   });
 
   // Valores iniciales
@@ -64,27 +65,9 @@ const EmpleadoForm = () => {
   const onSubmit = async (values, { resetForm }) => {
     // Validar fecha
     let fechaFormateada = null;
-    if (values.fecha_nacimiento) {
-      const [dia, mes, anio] = values.fecha_nacimiento.split("/");
 
-      const dateObj = new Date(`${anio}-${mes}-${dia}`);
-      // Comprobamos que la fecha sea válida y coincida con los valores ingresados
-      if (
-        !isNaN(dateObj.getTime()) &&
-        dateObj.getFullYear() === parseInt(anio) &&
-        dateObj.getMonth() + 1 === parseInt(mes) &&
-        dateObj.getDate() === parseInt(dia)
-      ) {
-        fechaFormateada = `${anio}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
-      } else {
-        toast.current.show({
-          severity: "error",
-          summary: "Fecha inválida",
-          detail: "La fecha de nacimiento ingresada no es válida",
-          life: 3000,
-        });
-        return; // detenemos submit
-      }
+    if (values.fecha_nacimiento) {
+      fechaFormateada = values.fecha_nacimiento;
     } else {
       toast.current.show({
         severity: "error",
@@ -266,11 +249,12 @@ const EmpleadoForm = () => {
                   <label>Fecha de Nacimiento</label>
                   <div className="p-inputgroup">
                     <span className="p-inputgroup-addon"><i className="pi pi-calendar"></i></span>
-                    <InputMask
-                      mask="99/99/9999"
-                      placeholder="dd/mm/yyyy"
+                    <Field
+                      as={InputText}
+                      type="date"
+                      name="fecha_nacimiento"
                       value={values.fecha_nacimiento}
-                      onChange={(e) => setFieldValue("fecha_nacimiento", e.value)}
+                      onChange={(e) => setFieldValue("fecha_nacimiento", e.target.value)}
                       className={`w-full ${errors.fecha_nacimiento && touched.fecha_nacimiento ? "p-invalid" : ""}`}
                     />
                   </div>

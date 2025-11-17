@@ -24,8 +24,7 @@ import { ServicioAgregadoProvider } from "./context/ServicioAgregadoContext";
 import { PuertoProvider } from "./context/PuertoContext";
 import { ViajeEstadoProvider } from "./context/ViajeEstadoContext";
 import { ViajeProvider } from "./context/ViajeContext";
-
-
+import { ViajeEmpleadoProvider } from "./context/ViajeEmpleadoContext";
 
 // Layouts
 import LoginForm from "./layouts/auth/LoginForm";
@@ -44,6 +43,9 @@ import ServicioAgregadoForm from "./layouts/servicios/ServicioForm";
 import CrearServicioAgregado from "./layouts/servicios/CrearServicioAgregado";
 import ViajeForm from "./layouts/viaje/ViajeForm";
 import CreateViaje from "./layouts/viaje/CreateViaje";
+import EmpleadoTablaForm from "./layouts/empleado/Empleado";
+import EmpleadosConViajes from "./layouts/empleado/EmpleadosConViajes";
+import CrearViajeEmpleado from "./layouts/empleado/CrearViajeEmpleado";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -249,6 +251,46 @@ function App() {
                         </BarcoProvider>
                       </ViajeEstadoProvider>
                     </PuertoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/empleado"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <EmpleadoProvider>
+                      <EmpleadoTablaForm />
+                    </EmpleadoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/empleado/viajes/:id"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <ViajeEmpleadoProvider>
+                      <EmpleadosConViajes />
+                    </ViajeEmpleadoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/viajeempleado/crear/:id"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="admin">
+                    <ViajeEmpleadoProvider>
+                      <ViajeProvider>
+                        <CrearViajeEmpleado />
+                      </ViajeProvider>
+                    </ViajeEmpleadoProvider>
                   </RequireRole>
                 </PrivateRoute>
               }
