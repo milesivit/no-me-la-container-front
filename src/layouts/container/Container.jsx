@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
@@ -10,24 +11,27 @@ import { InputNumber } from "primereact/inputnumber";
 import { ContainerContext } from "../../context/ContainerContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Container.css";
+import "primeicons/primeicons.css";
 
 const ContainerForm = () => {
   const { containers, fetchContainers, deleteContainer, updateContainer, loading } =
     useContext(ContainerContext);
 
   const toast = useRef(null);
+  const dt = useRef(null);
   const navigate = useNavigate();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedContainer, setSelectedContainer] = useState(null);
   const [estados, setEstados] = useState([]);
-
   const [formValues, setFormValues] = useState({
     codigo: "",
     capacidad_max: "",
-    container_estado_id: ""
+    container_estado_id: "",
   });
 
+  // Cargar containers y estados al iniciar
   useEffect(() => {
     fetchContainers();
     fetchEstados();
@@ -42,38 +46,33 @@ const ContainerForm = () => {
     }
   };
 
+  // Abrir modal de edición y mantener valores actuales
   const openEditModal = (container) => {
     setSelectedContainer(container);
-
     setFormValues({
       codigo: container.codigo || "",
       capacidad_max: container.capacidad_max || "",
-      container_estado_id: container.container_estado_id || ""
+      container_estado_id: container.container_estado_id || "", // mantiene el estado seleccionado
     });
-
     setEditModalVisible(true);
   };
 
+  const handleChange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSave = async () => {
-    try {
-      await updateContainer(selectedContainer.id, formValues);
-
-      toast.current.show({
-        severity: "success",
-        summary: "Actualizado",
-        detail: "Container actualizado con éxito",
-        life: 3000,
-      });
-
-      setEditModalVisible(false);
-    } catch (error) {
-      console.error(error);
-      toast.current.show({
-        severity: "error",
-        summary: "Error",
-        detail: "No se pudo actualizar",
-      });
-    }
+    await updateContainer(selectedContainer.id, formValues);
+    toast.current.show({
+      severity: "success",
+      summary: "Actualizado",
+      detail: "Container actualizado con éxito",
+      life: 3000,
+    });
+    setEditModalVisible(false);
   };
 
   const handleDelete = async (id) => {
@@ -82,11 +81,25 @@ const ContainerForm = () => {
       severity: "success",
       summary: "Eliminado",
       detail: "Container eliminado con éxito",
+      life: 3000,
+    });
+  };
+
+  const confirmDelete = (container) => {
+    confirmDialog({
+      message: `¿Está seguro que desea eliminar el container "${container.codigo}"?`,
+      header: "Confirmar Eliminación",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      acceptClassName: "p-button-success",
+      rejectClassName: "p-button-secondary",
+      accept: () => handleDelete(container.id),
     });
   };
 
   const actionBodyTemplate = (rowData) => (
-    <div className="flex gap-2">
+    <div className="container-action-buttons">
       <Button
         icon="pi pi-pencil"
         className="p-button-rounded p-button-info p-button-sm"
@@ -95,57 +108,91 @@ const ContainerForm = () => {
       <Button
         icon="pi pi-trash"
         className="p-button-rounded p-button-danger p-button-sm"
-        onClick={() => handleDelete(rowData.id)}
+        onClick={() => confirmDelete(rowData)}
       />
     </div>
   );
 
-  return (
-    <div>
-      <Toast ref={toast} />
-      <div className="p-4">
-        <h1 className="mb-4 text-xl font-semibold">Lista de Containers</h1>
+  const headerTemplate = (
+    <div className="container-header">
+      <h1 className="container-title">Lista de Containers</h1>
 
+      <div className="container-header-actions">
         <Button
           label="Crear Container"
           icon="pi pi-plus"
-          className="p-button-success mb-3"
+          className="p-button-success"
           onClick={() => navigate("/container/crear")}
         />
 
         <Button
           label="Crear Estado"
           icon="pi pi-cog"
-          className="p-button-info mb-3 ml-3"
+          className="p-button-info"
           onClick={() => navigate("/container/estado/crear")}
         />
+
+        <Button
+          type="button"
+          icon="pi pi-file"
+          rounded
+          tooltip="Exportar"
+          tooltipOptions={{ position: "top" }}
+          onClick={() => dt.current.exportCSV()}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="container-page">
+      <div className="container-page-container">
+        <Toast ref={toast} />
+        <ConfirmDialog />
 
         {loading ? (
           <p>Cargando containers...</p>
         ) : containers.length === 0 ? (
           <p>No hay containers registrados.</p>
         ) : (
-          <DataTable value={containers} paginator rows={5} stripedRows>
-            <Column field="codigo" header="Código" sortable />
-            <Column field="capacidad_max" header="Capacidad Máx" />
-            <Column field="containersEstados.nombre" header="Estado" />
-            <Column body={actionBodyTemplate} header="Acciones" />
-          </DataTable>
+          <div className="container-table-wrapper">
+            <DataTable
+              ref={dt}
+              value={containers}
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              stripedRows
+              responsiveLayout="scroll"
+              emptyMessage="No hay containers registrados."
+              className="container-table"
+              header={headerTemplate}
+            >
+              <Column field="codigo" header="Código" sortable />
+              <Column field="capacidad_max" header="Cap. Máx." sortable />
+              <Column
+                field="containersEstados.nombre"
+                header="Estado"
+                sortable
+              />
+              <Column body={actionBodyTemplate} header="Acciones" exportable={false} />
+            </DataTable>
+          </div>
         )}
 
-        {/* MODAL DE EDICIÓN */}
+        {/* MODAL */}
         <Dialog
           header="Editar Container"
           visible={editModalVisible}
-          style={{ width: "30rem" }}
           modal
+          className="container-modal"
           onHide={() => setEditModalVisible(false)}
           footer={
             <div className="flex justify-end gap-2 mt-4">
               <Button
                 label="Cancelar"
                 icon="pi pi-times"
-                className="p-button-text"
+                className="p-button-secondary"
                 onClick={() => setEditModalVisible(false)}
               />
               <Button
@@ -157,23 +204,21 @@ const ContainerForm = () => {
             </div>
           }
         >
-          <div className="flex flex-column gap-3 mt-3">
-
-            {/* Código */}
-            <span className="p-float-label">
+          <div className="container-modal-form">
+            {/* Todos los campos unificados visualmente */}
+            <div className="container-form-group">
+              <label htmlFor="codigo">Código</label>
               <InputText
                 id="codigo"
                 name="codigo"
                 value={formValues.codigo}
-                onChange={(e) =>
-                  setFormValues({ ...formValues, codigo: e.target.value })
-                }
+                onChange={handleChange}
+                className="container-input"
               />
-              <label htmlFor="codigo">Código</label>
-            </span>
+            </div>
 
-            {/* Capacidad Máxima */}
-            <span className="p-float-label">
+            <div className="container-form-group">
+              <label htmlFor="capacidad_max">Capacidad Máxima</label>
               <InputNumber
                 id="capacidad_max"
                 name="capacidad_max"
@@ -181,30 +226,26 @@ const ContainerForm = () => {
                 onValueChange={(e) =>
                   setFormValues({ ...formValues, capacidad_max: e.value })
                 }
+                className="container-input"
               />
-              <label htmlFor="capacidad_max">Capacidad Máx</label>
-            </span>
+            </div>
 
-            {/* Estado */}
-            <span className="p-float-label">
+            <div className="container-form-group">
+              <label htmlFor="container_estado_id">Estado</label>
               <Dropdown
                 id="container_estado_id"
                 name="container_estado_id"
-                value={formValues.container_estado_id}
+                value={formValues.container_estado_id} // mantiene valor
                 options={estados}
                 optionLabel="nombre"
                 optionValue="id"
                 placeholder="Seleccionar estado"
                 onChange={(e) =>
-                  setFormValues({
-                    ...formValues,
-                    container_estado_id: e.value,
-                  })
+                  setFormValues({ ...formValues, container_estado_id: e.value })
                 }
-                className="w-full"
+                className="container-input w-full" // unifica estilo como los demás inputs
               />
-              <label htmlFor="container_estado_id">Estado</label>
-            </span>
+            </div>
           </div>
         </Dialog>
       </div>

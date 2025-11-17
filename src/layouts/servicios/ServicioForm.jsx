@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
@@ -7,6 +8,8 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { ServicioAgregadoContext } from "../../context/ServicioAgregadoContext";
 import { useNavigate } from "react-router-dom";
+import "./ServicioForm.css";
+import "primeicons/primeicons.css";
 
 const ServicioAgregadoForm = () => {
   const {
@@ -18,6 +21,7 @@ const ServicioAgregadoForm = () => {
   } = useContext(ServicioAgregadoContext);
 
   const toast = useRef(null);
+  const dt = useRef(null);
   const navigate = useNavigate();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -32,7 +36,6 @@ const ServicioAgregadoForm = () => {
     fetchServiciosAgregados();
   }, []);
 
-  // Abre el modal y carga los valores
   const openEditModal = (servicio) => {
     setSelectedServicio(servicio);
     setFormValues({
@@ -50,34 +53,42 @@ const ServicioAgregadoForm = () => {
     });
   };
 
-  // Guarda cambios del modal
   const handleSave = async () => {
     await updateServicioAgregado(selectedServicio.id, formValues);
-
     toast.current.show({
       severity: "success",
       summary: "Actualizado",
-      detail: "Servicio agregado actualizado con éxito",
+      detail: "Servicio actualizado con éxito",
       life: 3000,
     });
-
     setEditModalVisible(false);
   };
 
   const handleDelete = async (id) => {
     await deleteServicioAgregado(id);
-
     toast.current.show({
       severity: "success",
       summary: "Eliminado",
-      detail: "Servicio agregado eliminado con éxito",
+      detail: "Servicio eliminado con éxito",
       life: 3000,
     });
   };
 
-  // Botones Editar / Eliminar
+  const confirmDelete = (servicio) => {
+    confirmDialog({
+      message: `¿Está seguro que desea eliminar el servicio "${servicio.nombre}"?`,
+      header: "Confirmar Eliminación",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Sí",
+      rejectLabel: "No",
+      acceptClassName: "p-button-success",
+      rejectClassName: "p-button-secondary",
+      accept: () => handleDelete(servicio.id),
+    });
+  };
+
   const actionBodyTemplate = (rowData) => (
-    <div className="flex gap-2">
+    <div className="servicio-action-buttons">
       <Button
         icon="pi pi-pencil"
         className="p-button-rounded p-button-info p-button-sm"
@@ -86,57 +97,77 @@ const ServicioAgregadoForm = () => {
       <Button
         icon="pi pi-trash"
         className="p-button-rounded p-button-danger p-button-sm"
-        onClick={() => handleDelete(rowData.id)}
+        onClick={() => confirmDelete(rowData)}
       />
     </div>
   );
 
-  return (
-    <div>
-      <Toast ref={toast} />
-      <div className="p-4">
-        <h1 className="mb-4 text-xl font-semibold">Servicios Agregados</h1>
-
+  const headerTemplate = (
+    <div className="servicio-header">
+      <h1 className="servicio-title">Servicios Agregados</h1>
+      <div className="servicio-header-actions">
         <Button
           label="Crear Servicio"
           icon="pi pi-plus"
-          className="p-button-success mb-3"
+          className="p-button-success"
           onClick={() => navigate("/servicio/crear")}
         />
+        <Button
+          type="button"
+          icon="pi pi-file"
+          rounded
+          tooltip="Exportar"
+          tooltipOptions={{ position: "top" }}
+          onClick={() => dt.current.exportCSV()}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="servicio-page">
+      <div className="servicio-page-container">
+        <Toast ref={toast} />
+        <ConfirmDialog />
 
         {loading ? (
-          <p>Cargando...</p>
+          <p>Cargando servicios...</p>
         ) : serviciosAgregados.length === 0 ? (
-          <p>No hay servicios agregados registrados.</p>
+          <p>No hay servicios registrados.</p>
         ) : (
-          <DataTable
-            value={serviciosAgregados}
-            paginator
-            rows={5}
-            responsiveLayout="scroll"
-            stripedRows
-            emptyMessage="No hay servicios registrados."
-          >
-            <Column field="nombre" header="Nombre" sortable />
-            <Column field="codServicio" header="Código" sortable />
-            <Column field="coste" header="Costo" sortable />
-            <Column body={actionBodyTemplate} header="Acciones" exportable={false} />
-          </DataTable>
+          <div className="servicio-table-wrapper">
+            <DataTable
+              ref={dt}
+              value={serviciosAgregados}
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              stripedRows
+              responsiveLayout="scroll"
+              emptyMessage="No hay servicios registrados."
+              className="servicio-table"
+              header={headerTemplate}
+            >
+              <Column field="nombre" header="Nombre" sortable />
+              <Column field="codServicio" header="Código" sortable />
+              <Column field="coste" header="Costo" sortable />
+              <Column body={actionBodyTemplate} header="Acciones" exportable={false} />
+            </DataTable>
+          </div>
         )}
 
-        {/* Modal de edición */}
         <Dialog
-          header="Editar Servicio Agregado"
+          header="Editar Servicio"
           visible={editModalVisible}
-          style={{ width: "30rem" }}
           modal
+          className="servicio-modal"
           onHide={() => setEditModalVisible(false)}
           footer={
             <div className="flex justify-end gap-2 mt-4">
               <Button
                 label="Cancelar"
                 icon="pi pi-times"
-                className="p-button-text"
+                className="p-button-secondary"
                 onClick={() => setEditModalVisible(false)}
               />
               <Button
@@ -148,36 +179,37 @@ const ServicioAgregadoForm = () => {
             </div>
           }
         >
-          <div className="flex flex-column gap-3 mt-3">
-            <span className="p-float-label">
+          <div className="servicio-modal-form">
+            <div className="servicio-form-group">
+              <label htmlFor="nombre">Nombre</label>
               <InputText
                 id="nombre"
                 name="nombre"
                 value={formValues.nombre}
                 onChange={handleChange}
+                className="servicio-input"
               />
-              <label htmlFor="nombre">Nombre</label>
-            </span>
-
-            <span className="p-float-label">
+            </div>
+            <div className="servicio-form-group">
+              <label htmlFor="codServicio">Código</label>
               <InputText
                 id="codServicio"
                 name="codServicio"
                 value={formValues.codServicio}
                 onChange={handleChange}
+                className="servicio-input"
               />
-              <label htmlFor="codServicio">Código</label>
-            </span>
-
-            <span className="p-float-label">
+            </div>
+            <div className="servicio-form-group">
+              <label htmlFor="coste">Coste</label>
               <InputText
                 id="coste"
                 name="coste"
                 value={formValues.coste}
                 onChange={handleChange}
+                className="servicio-input"
               />
-              <label htmlFor="coste">Coste</label>
-            </span>
+            </div>
           </div>
         </Dialog>
       </div>

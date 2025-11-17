@@ -2,11 +2,12 @@ import { useContext, useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { InputText } from "primereact/inputtext";
-import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { ServicioAgregadoContext } from "../../context/ServicioAgregadoContext";
 import { useNavigate } from "react-router-dom";
+
+import "./CrearServicioAgregado.css"; // 👉 Asegúrate de usar tu archivo CSS
 
 const CrearServicioAgregado = () => {
   const { createServicioAgregado } = useContext(ServicioAgregadoContext);
@@ -40,109 +41,110 @@ const CrearServicioAgregado = () => {
       });
 
       resetForm();
-
-      setTimeout(() => {
-        navigate("/servicio");
-      }, 1000);
+      setTimeout(() => navigate("/servicio"), 1000);
     } catch (error) {
-      console.error("Error al crear servicio:", error);
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: "No se pudo crear el servicio agregado",
+        detail: "No se pudo crear el servicio",
         life: 3000,
       });
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="create-container-page">
       <Toast ref={toast} />
 
-      <div className="flex justify-center items-center flex-1 p-6">
-        <Card title="Registrar Servicio Agregado" className="shadow-lg w-full max-w-lg">
+      <div className="create-container-container">
+        <div className="create-container-card">
+          <h2 className="card-title">Crear Servicio Agregado</h2>
+
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
-            {({ handleChange, values }) => (
-              <Form className="flex flex-col gap-4">
-
+            {({ setFieldValue, values }) => (
+              <Form className="create-container-form">
+                
                 {/* Nombre */}
-                <div>
-                  <label htmlFor="nombre" className="block mb-1 font-semibold">
-                    Nombre
-                  </label>
-                  <InputText
-                    id="nombre"
-                    name="nombre"
-                    value={values.nombre}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="nombre"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="nombre">Nombre</label>
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-tag"></i>
+                    </span>
+                    <InputText
+                      id="nombre"
+                      name="nombre"
+                      className="create-container-input"
+                      value={values.nombre}
+                      onChange={(e) => setFieldValue("nombre", e.target.value)}
+                      placeholder="Ingrese nombre"
+                    />
+                  </div>
+                  <ErrorMessage name="nombre" component="span" className="error-text" />
                 </div>
 
                 {/* Código */}
-                <div>
-                  <label htmlFor="codServicio" className="block mb-1 font-semibold">
-                    Código
-                  </label>
-                  <InputText
-                    id="codServicio"
-                    name="codServicio"
-                    value={values.codServicio}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="codServicio"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="codServicio">Código</label>
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-key"></i>
+                    </span>
+                    <InputText
+                      id="codServicio"
+                      name="codServicio"
+                      className="create-container-input"
+                      value={values.codServicio}
+                      onChange={(e) => setFieldValue("codServicio", e.target.value)}
+                      placeholder="Ingrese código"
+                    />
+                  </div>
+                  <ErrorMessage name="codServicio" component="span" className="error-text" />
                 </div>
 
                 {/* Coste */}
-                <div>
-                  <label htmlFor="coste" className="block mb-1 font-semibold">
-                    Coste
-                  </label>
-                  <InputText
-                    id="coste"
-                    name="coste"
-                    value={values.coste}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
-                  <ErrorMessage
-                    name="coste"
-                    component="small"
-                    className="p-error block"
-                  />
+                <div className="form-group">
+                  <label htmlFor="coste">Coste</label>
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">$</span>
+                    <InputText
+                      id="coste"
+                      name="coste"
+                      className="create-container-input"
+                      value={values.coste}
+                      onChange={(e) => setFieldValue("coste", e.target.value)}
+                      placeholder="Ingrese coste"
+                      keyfilter="num"
+                    />
+                  </div>
+                  <ErrorMessage name="coste" component="span" className="error-text" />
                 </div>
 
-                {/* Botones */}
-                <div className="flex justify-between mt-4">
+                {/* BOTONES */}
+                <div className="form-buttons flex gap-2 mt-4">
                   <Button
                     label="Volver"
                     icon="pi pi-arrow-left"
-                    className="p-button-text"
+                    className="p-button-secondary w-48"
                     type="button"
                     onClick={() => navigate("/servicio")}
                   />
-
-                  <Button type="submit" label="Guardar" icon="pi pi-check" />
+                  <Button
+                    type="submit"
+                    label="Crear Servicio"
+                    icon="pi pi-check"
+                    className="p-button-success w-48"
+                  />
                 </div>
 
               </Form>
             )}
           </Formik>
-        </Card>
+        </div>
       </div>
     </div>
   );
