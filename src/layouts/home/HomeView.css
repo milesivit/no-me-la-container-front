@@ -1,38 +1,680 @@
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
-/* container */
+/* Paleta global reutilizada */
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+  --radius: 16px;
+  --transition: 0.2s ease;
+}
+
+/* Container general */
 .home-container {
   width: 100%;
-  height: auto;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  background: var(--color-gray);
   display: flex;
   flex-direction: column;
-
-  margin-top: -40px;   /* 🔥 Ajustá al alto real del navbar */
+  /* antes: margin-top: -40px; => pisaba el banner bajo el navbar */
+  margin-top: 0;
 }
 
-/* banner 100% ancho */
-.banner-wrapper {
+/* ===========================
+   HERO
+   =========================== */
+
+.home-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.home-hero-media {
+  position: relative;
   width: 100vw;
-  height: auto;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 0;
-  overflow-x: hidden;
 }
 
-/* imagen */
-.home-banner-img {
+.home-hero-media img {
   width: 100%;
-  height: auto;
+  height: 420px;
+  object-fit: cover;
   display: block;
-  object-fit: contain;
-  object-position: center;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.9),
+      rgba(15, 23, 42, 0.6),
+      rgba(15, 23, 42, 0.1)
+    ),
+    linear-gradient(to top, rgba(15, 23, 42, 0.7), transparent 40%);
+}
+
+/* Contenido del hero */
+.home-hero-content {
+  position: absolute;
+  inset: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2.4rem; /* un poco menos padding vertical */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #f9fafb;
   pointer-events: none;
+}
+
+.home-hero-tag {
+  background: rgba(15, 118, 110, 0.2);
+  border: 1px solid rgba(45, 212, 191, 0.6);
+  color: #e0f2fe;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  width: fit-content;
+  pointer-events: all;
+}
+
+.home-hero-title {
+  margin-top: 1.3rem;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  max-width: 32rem;
+  font-weight: 800;
+}
+
+.home-hero-title-highlight {
+  color: var(--color-primary);
+  display: block;
+}
+
+.home-hero-subtitle {
+  margin-top: 0.9rem;
+  max-width: 34rem;
+  color: #e5e7eb;
+  font-size: 0.98rem;
+}
+
+.home-hero-actions {
+  margin-top: 1.6rem;
+  display: flex;
+  gap: 0.75rem;
+  pointer-events: all;
+}
+
+.home-hero-btn {
+  background: var(--color-primary);
+  border: none;
+  padding-inline: 1.6rem;
+}
+
+.home-hero-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.home-hero-btn-secondary {
+  border-color: #e5e7eb !important;
+  color: #e5e7eb !important;
+}
+
+.home-hero-btn-secondary:hover {
+  background: rgba(248, 250, 252, 0.08) !important;
+}
+
+/* Tarjeta de stats en hero */
+.home-hero-stats-card {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 260px;
+  background: linear-gradient(145deg, #020617, #111827);
+  padding: 1.3rem 1.5rem;
+  border-radius: 20px;
+  color: #f9fafb;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.75);
+}
+
+.home-hero-stats-card h4 {
+  margin: 0 0 0.8rem 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.home-hero-stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.home-hero-stat-number {
+  display: block;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.home-hero-stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* ===========================
+   SECCIONES GENERALES
+   =========================== */
+
+.home-section {
+  padding: 2.6rem 1.7rem 0 1.7rem; /* menos padding vertical y un poco más horizontal */
+}
+
+.home-section-inner {
+  max-width: 1220px; /* un poquito más ancho hacia los costados */
+  margin: 0 auto 2.6rem auto; /* menos espacio entre secciones */
+  background: var(--color-light);
+  border-radius: 24px;
+  padding: 2.1rem 2.4rem 2.3rem 2.4rem; /* bajamos un toque el padding */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+}
+
+.home-section-title {
+  text-align: center;
+  font-size: 1.55rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-dark);
+  font-weight: 700;
+}
+
+.home-section-subtitle {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.96rem;
+  margin-bottom: 1.4rem; /* menos espacio */
+}
+
+/* ===========================
+   MISIÓN & VISIÓN
+   =========================== */
+
+.home-mission-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 159, 212, 0.07),
+    rgba(59, 130, 246, 0.02)
+  );
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  margin-bottom: 2rem;
+}
+
+.home-mission-banner-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(56, 189, 248, 0.9),
+    rgba(59, 130, 246, 0.1)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+}
+
+.home-mission-banner-text h4 {
   margin: 0;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.home-mission-banner-text p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.home-mission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.home-mission-card {
+  border-radius: 20px !important;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.home-mission-card p {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 1.1rem;
+}
+
+.home-mission-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.home-mission-chip.mission {
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+}
+
+.home-mission-chip.vision {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
+/* ===========================
+   ESTADÍSTICAS
+   =========================== */
+
+.home-stats-grid-top {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.home-chart-card,
+.home-chart-card-wide {
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.home-chart-card-wide {
+  margin-top: 0.3rem;
+}
+
+.home-chart-title {
+  margin: 0 0 0.7rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.home-chart-container {
+  height: 240px; /* un poco menos para que no se vea tan "sobrado" */
+}
+
+.home-chart-container-wide {
+  height: 260px; /* idem, menos altura */
+}
+
+/* ===========================
+   INDICADORES PERFORMANCE
+   =========================== */
+
+.home-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.home-kpi-card {
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.home-kpi-description {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+/* MeterGroup ajustado */
+.p-metergroup {
+  margin-top: 0.4rem;
+}
+
+.home-kpi-progress-block {
+  margin-top: 0.9rem;
+}
+
+.home-kpi-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.home-kpi-progress-secondary .p-progressbar-value {
+  background: #14b8a6 !important;
+}
+
+/* ===========================
+   MAPA
+   =========================== */
+
+.home-map-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.5rem;
+}
+
+.home-map-card {
+  padding: 1.1rem;
+  border-radius: 22px;
+  background: radial-gradient(circle at 20% 0, #e0f2fe, #f9fafb);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.home-map-gradient {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  border-radius: 26px;
+  background: radial-gradient(circle at 15% 20%, #e0f2fe, #bae6fd 40%, #f1f5f9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  overflow: hidden;
+}
+
+.home-map-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: none;
+  background: #0ea5e9;
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.35);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.home-map-dot-active {
+  transform: translate(-50%, -50%) scale(1.2);
+  background: #0284c7;
+  box-shadow: 0 0 0 9px rgba(56, 189, 248, 0.5);
+}
+
+.home-map-list-card {
+  border-radius: 22px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  background: #f8fafc;
+}
+
+.home-map-fieldset {
+  border-radius: 22px !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.home-map-list {
+  list-style: none;
   padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.home-map-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.home-map-list-item.active,
+.home-map-list-item:hover {
+  background: #e0f2fe;
+  transform: translateX(2px);
+}
+
+.home-map-list-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #0ea5e9;
+  color: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.home-map-list-name {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.home-map-list-meta {
+  display: block;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* ===========================
+   GALERÍA
+   =========================== */
+
+.home-gallery-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.home-gallery-card,
+.home-gallery-info-card {
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.home-galleria {
+  width: 100%;
+}
+
+/* Ocultar flechas sobre la imagen grande,
+   dejar solo las flechas de los thumbnails */
+.home-galleria .p-galleria-item-prev,
+.home-galleria .p-galleria-item-next {
+  display: none;
+}
+
+.home-galleria-image {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.home-galleria-thumb {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Info a la derecha */
+.home-gallery-info-title {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.home-gallery-info-text {
+  font-size: 0.94rem;
+  color: #4b5563;
+  margin-top: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.home-gallery-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.home-gallery-info-list li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.home-gallery-info-list i {
+  color: var(--color-primary);
+  margin-top: 0.2rem;
+}
+
+/* ===========================
+   EQUIPO
+   =========================== */
+
+.home-team-section .home-section-inner {
+  padding-bottom: 2.3rem;
+}
+
+.home-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.1rem;
+}
+
+.home-team-card {
+  border-radius: 22px !important;
+  background: radial-gradient(circle at 10% 0, #e0f2fe, #f9fafb);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  text-align: center;
+}
+
+.home-team-card-header {
+  padding-top: 1.4rem;
+}
+
+.home-team-avatar-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.home-team-avatar {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  border: 3px solid #f9fafb;
+}
+
+.home-team-card-body {
+  padding: 1.2rem 1.4rem 1.5rem 1.4rem;
+}
+
+.home-team-name {
+  margin: 0;
+  font-weight: 700;
+  color: #111827;
+}
+
+.home-team-role {
+  margin: 0.3rem 0 0.6rem 0;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+}
+
+.home-team-description {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #4b5563;
+}
+
+/* ===========================
+   ScrollTop
+   =========================== */
+
+.home-scrolltop {
+  background: var(--color-primary) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.45) !important;
+}
+
+.home-scrolltop .pi {
+  color: #f9fafb !important;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 1024px) {
+  .home-hero-content {
+    padding-inline: 1.5rem;
+  }
+
+  .home-section-inner {
+    padding-inline: 1.6rem;
+  }
+
+  .home-stats-grid-top,
+  .home-kpi-grid,
+  .home-map-grid,
+  .home-gallery-grid,
+  .home-mission-grid,
+  .home-team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-stats-card {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero-media img {
+    height: 360px;
+  }
+
+  .home-hero-title {
+    font-size: 2.1rem;
+  }
+
+  .home-section {
+    padding-inline: 0.9rem;
+  }
+
+  .home-section-inner {
+    padding: 1.7rem 1.3rem 1.9rem 1.3rem;
+  }
+
+  .home-gallery-info-card {
+    margin-top: 0.4rem;
+  }
 }
