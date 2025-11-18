@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
+import { InputMask } from "primereact/inputmask";
 
 import { ViajeContext } from "../../context/ViajeContext";
 import { BarcoContext } from "../../context/BarcoContext";
@@ -14,13 +15,12 @@ import { PuertoContext } from "../../context/PuertoContext";
 import { ViajeEstadoContext } from "../../context/ViajeEstadoContext";
 
 import { useNavigate } from "react-router-dom";
-import "./Viaje.css";
+import "./ViajeForm.css";
 import "primeicons/primeicons.css";
 
 const ViajeForm = () => {
   const { viajes, fetchViajes, deleteViaje, updateViaje, loading } =
     useContext(ViajeContext);
-
   const { puertos } = useContext(PuertoContext);
   const { viajeEstados } = useContext(ViajeEstadoContext);
   const { barcos } = useContext(BarcoContext);
@@ -41,36 +41,65 @@ const ViajeForm = () => {
     barco: "",
   });
 
+  // YYYY-MM-DD → DD/MM/YYYY (para InputMask)
+  const formatearParaMask = (iso) => {
+    if (!iso) return "";
+    const [y, m, d] = iso.split("T")[0].split("-");
+    return `${d}/${m}/${y}`;
+  };
+
+  // DD/MM/YYYY → YYYY-MM-DD (para enviarlo al backend)
+  const normalizarFecha = (valor) => {
+    if (!valor) return "";
+    const partes = valor.split("/");
+    if (partes.length === 3) {
+      const [day, month, year] = partes;
+      return `${year}-${month}-${day}`;
+    }
+    return valor;
+  };
+
   useEffect(() => {
     fetchViajes();
   }, []);
 
   const openEditModal = (viaje) => {
     setSelectedViaje(viaje);
+
     setFormValues({
       puertoOrigenId: viaje.puertoOrigenId || "",
       puertoDestinoId: viaje.puertoDestinoId || "",
-      fechaSalida: viaje.fechaSalida?.split("T")[0] || "",
-      promesaDeEntrega: viaje.promesaDeEntrega?.split("T")[0] || "",
+      fechaSalida: formatearParaMask(viaje.fechaSalida),
+      promesaDeEntrega: formatearParaMask(viaje.promesaDeEntrega),
       viajeEstadoID: viaje.viajeEstadoID || "",
       barco: viaje.barco || "",
     });
+
     setEditModalVisible(true);
   };
 
   const handleSave = async () => {
-    await updateViaje(selectedViaje.id, formValues);
+    const dataAEnviar = {
+      ...formValues,
+      fechaSalida: normalizarFecha(formValues.fechaSalida),
+      promesaDeEntrega: normalizarFecha(formValues.promesaDeEntrega),
+    };
+
+    await updateViaje(selectedViaje.id, dataAEnviar);
+
     toast.current.show({
       severity: "success",
       summary: "Actualizado",
       detail: "Viaje actualizado con éxito",
       life: 3000,
     });
+
     setEditModalVisible(false);
   };
 
   const handleDelete = async (id) => {
     await deleteViaje(id);
+
     toast.current.show({
       severity: "success",
       summary: "Eliminado",
@@ -174,24 +203,33 @@ const ViajeForm = () => {
           onHide={() => setEditModalVisible(false)}
           footer={
             <div className="flex justify-end gap-2 mt-4">
-              <Button label="Cancelar" icon="pi pi-times" className="p-button-secondary" onClick={() => setEditModalVisible(false)} />
-              <Button label="Guardar" icon="pi pi-check" className="p-button-success" onClick={handleSave} />
+              <Button
+                label="Cancelar"
+                icon="pi pi-times"
+                className="p-button-secondary"
+                onClick={() => setEditModalVisible(false)}
+              />
+              <Button
+                label="Guardar"
+                icon="pi pi-check"
+                className="p-button-success"
+                onClick={handleSave}
+              />
             </div>
           }
         >
           <div className="viaje-modal-form">
-
             {/* ORIGEN */}
             <div className="viaje-form-group">
               <label>Origen</label>
               <Dropdown
                 value={formValues.puertoOrigenId}
-                options={puertos.map(p => ({ label: p.nombre, value: p.id }))}
+                options={puertos.map((p) => ({ label: p.nombre, value: p.id }))}
                 onChange={(e) =>
                   setFormValues({ ...formValues, puertoOrigenId: e.value })
                 }
                 placeholder="Seleccione un puerto"
-                filter
+                className="custom-dropdown"
               />
             </div>
 
@@ -200,37 +238,40 @@ const ViajeForm = () => {
               <label>Destino</label>
               <Dropdown
                 value={formValues.puertoDestinoId}
-                options={puertos.map(p => ({ label: p.nombre, value: p.id }))}
+                options={puertos.map((p) => ({ label: p.nombre, value: p.id }))}
                 onChange={(e) =>
                   setFormValues({ ...formValues, puertoDestinoId: e.value })
                 }
                 placeholder="Seleccione un puerto"
-                filter
+                className="custom-dropdown"
               />
             </div>
 
-            {/* FECHAS */}
+            {/* FECHA SALIDA */}
             <div className="viaje-form-group">
               <label>Fecha salida</label>
-              <InputText
-                type="date"
-                name="fechaSalida"
+              <InputMask
+                mask="99/99/9999"
+                placeholder="dd/mm/aaaa"
                 value={formValues.fechaSalida}
                 onChange={(e) =>
-                  setFormValues({ ...formValues, fechaSalida: e.target.value })
+                  setFormValues({ ...formValues, fechaSalida: e.value })
                 }
+                className="w-full"
               />
             </div>
 
+            {/* FECHA LLEGADA */}
             <div className="viaje-form-group">
               <label>Fecha llegada</label>
-              <InputText
-                type="date"
-                name="promesaDeEntrega"
+              <InputMask
+                mask="99/99/9999"
+                placeholder="dd/mm/aaaa"
                 value={formValues.promesaDeEntrega}
                 onChange={(e) =>
-                  setFormValues({ ...formValues, promesaDeEntrega: e.target.value })
+                  setFormValues({ ...formValues, promesaDeEntrega: e.value })
                 }
+                className="w-full"
               />
             </div>
 
@@ -239,15 +280,15 @@ const ViajeForm = () => {
               <label>Estado del viaje</label>
               <Dropdown
                 value={formValues.viajeEstadoID}
-                options={viajeEstados.map(es => ({
+                options={viajeEstados.map((es) => ({
                   label: es.nombre,
-                  value: es.id
+                  value: es.id,
                 }))}
                 onChange={(e) =>
                   setFormValues({ ...formValues, viajeEstadoID: e.value })
                 }
                 placeholder="Seleccione estado"
-                filter
+                className="custom-dropdown"
               />
             </div>
 
@@ -256,21 +297,16 @@ const ViajeForm = () => {
               <label>Barco</label>
               <Dropdown
                 value={formValues.barco}
-                options={barcos.map(b => ({
-                  label: b.nombre,
-                  value: b.id
-                }))}
+                options={barcos.map((b) => ({ label: b.nombre, value: b.id }))}
                 onChange={(e) =>
                   setFormValues({ ...formValues, barco: e.value })
                 }
                 placeholder="Seleccione barco"
-                filter
+                className="custom-dropdown"
               />
             </div>
-
           </div>
         </Dialog>
-
       </div>
     </div>
   );

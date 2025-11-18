@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { Dropdown } from "primereact/dropdown";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
@@ -24,6 +24,15 @@ const CreateViaje = () => {
   const toast = useRef(null);
   const navigate = useNavigate();
 
+  // -----------------------------
+  // 🔧 Helpers Fecha
+  // -----------------------------
+  const normalizarFecha = (valor) => {
+    if (!valor) return "";
+    const [d, m, y] = valor.split("/");
+    return `${y}-${m}-${d}`;
+  };
+
   const initialValues = {
     puertoOrigenId: "",
     puertoDestinoId: "",
@@ -43,8 +52,14 @@ const CreateViaje = () => {
   });
 
   const onSubmit = async (values, { resetForm }) => {
+    const payload = {
+      ...values,
+      fechaSalida: normalizarFecha(values.fechaSalida),
+      promesaDeEntrega: normalizarFecha(values.promesaDeEntrega),
+    };
+
     try {
-      await createViaje(values);
+      await createViaje(payload);
 
       toast.current.show({
         severity: "success",
@@ -55,9 +70,8 @@ const CreateViaje = () => {
 
       resetForm();
       setTimeout(() => navigate("/viaje"), 1000);
-    } catch (error) {
-      console.error("Error al crear viaje:", error);
 
+    } catch (error) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -73,104 +87,131 @@ const CreateViaje = () => {
 
       <div className="create-viaje-container">
         <Card title="Registrar Viaje" className="create-viaje-card">
+
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
-            {({ values, handleChange, setFieldValue }) => (
+            {({ setFieldValue, values }) => (
               <Form className="create-viaje-form">
 
                 {/* ORIGEN */}
                 <div className="form-group">
                   <label>Puerto Origen</label>
-                  <Dropdown
-                    value={values.puertoOrigenId}
-                    options={puertos.map((p) => ({
-                      label: p.nombre,
-                      value: p.id,
-                    }))}
-                    onChange={(e) => setFieldValue("puertoOrigenId", e.value)}
-                    placeholder="Seleccione origen"
-                    filter
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-map-marker"></i>
+                    </span>
+
+                    <Dropdown
+                      value={values.puertoOrigenId}
+                      options={puertos.map((p) => ({ label: p.nombre, value: p.id }))}
+                      placeholder="Seleccione origen"
+                      onChange={(e) => setFieldValue("puertoOrigenId", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="puertoOrigenId" component="span" className="error-text" />
                 </div>
 
                 {/* DESTINO */}
                 <div className="form-group">
                   <label>Puerto Destino</label>
-                  <Dropdown
-                    value={values.puertoDestinoId}
-                    options={puertos.map((p) => ({
-                      label: p.nombre,
-                      value: p.id,
-                    }))}
-                    onChange={(e) => setFieldValue("puertoDestinoId", e.value)}
-                    placeholder="Seleccione destino"
-                    filter
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-map-marker"></i>
+                    </span>
+
+                    <Dropdown
+                      value={values.puertoDestinoId}
+                      options={puertos.map((p) => ({ label: p.nombre, value: p.id }))}
+                      placeholder="Seleccione destino"
+                      onChange={(e) => setFieldValue("puertoDestinoId", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="puertoDestinoId" component="span" className="error-text" />
                 </div>
 
                 {/* FECHA SALIDA */}
                 <div className="form-group">
                   <label>Fecha de Salida</label>
-                  <InputText
-                    type="date"
-                    name="fechaSalida"
-                    value={values.fechaSalida}
-                    onChange={handleChange}
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-calendar"></i>
+                    </span>
+
+                    <InputMask
+                      mask="99/99/9999"
+                      placeholder="dd/mm/aaaa"
+                      value={values.fechaSalida}
+                      onChange={(e) => setFieldValue("fechaSalida", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="fechaSalida" component="span" className="error-text" />
                 </div>
 
                 {/* FECHA LLEGADA */}
                 <div className="form-group">
                   <label>Promesa de Entrega</label>
-                  <InputText
-                    type="date"
-                    name="promesaDeEntrega"
-                    value={values.promesaDeEntrega}
-                    onChange={handleChange}
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-calendar"></i>
+                    </span>
+
+                    <InputMask
+                      mask="99/99/9999"
+                      placeholder="dd/mm/aaaa"
+                      value={values.promesaDeEntrega}
+                      onChange={(e) => setFieldValue("promesaDeEntrega", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="promesaDeEntrega" component="span" className="error-text" />
                 </div>
 
                 {/* ESTADO */}
                 <div className="form-group">
                   <label>Estado del Viaje</label>
-                  <Dropdown
-                    value={values.viajeEstadoID}
-                    options={viajeEstados.map((es) => ({
-                      label: es.nombre,
-                      value: es.id,
-                    }))}
-                    onChange={(e) => setFieldValue("viajeEstadoID", e.value)}
-                    placeholder="Seleccione estado"
-                    filter
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-flag"></i>
+                    </span>
+
+                    <Dropdown
+                      value={values.viajeEstadoID}
+                      options={viajeEstados.map((e) => ({ label: e.nombre, value: e.id }))}
+                      placeholder="Seleccione estado"
+                      onChange={(e) => setFieldValue("viajeEstadoID", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="viajeEstadoID" component="span" className="error-text" />
                 </div>
 
                 {/* BARCO */}
                 <div className="form-group">
                   <label>Barco</label>
-                  <Dropdown
-                    value={values.barco}
-                    options={barcos.map((b) => ({
-                      label: b.nombre,
-                      value: b.id,
-                    }))}
-                    onChange={(e) => setFieldValue("barco", e.value)}
-                    placeholder="Seleccione barco"
-                    filter
-                  />
+                  <div className="p-inputgroup flex-1">
+                    <span className="p-inputgroup-addon">
+                      <i className="pi pi-compass"></i>
+                    </span>
+
+                    <Dropdown
+                      value={values.barco}
+                      options={barcos.map((b) => ({ label: b.nombre, value: b.id }))}
+                      placeholder="Seleccione barco"
+                      onChange={(e) => setFieldValue("barco", e.value)}
+                    />
+                  </div>
+
                   <ErrorMessage name="barco" component="span" className="error-text" />
                 </div>
 
                 {/* BOTONES */}
-                <div className="form-buttons">
+                <div className="form-buttons flex gap-2 mt-4">
                   <Button
                     label="Volver"
                     icon="pi pi-arrow-left"
@@ -190,6 +231,7 @@ const CreateViaje = () => {
               </Form>
             )}
           </Formik>
+
         </Card>
       </div>
     </div>
