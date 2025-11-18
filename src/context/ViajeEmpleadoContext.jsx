@@ -64,8 +64,23 @@ export const ViajeEmpleadoProvider = ({ children }) => {
     }
   };
 
+  // Obtener viajes de un empleado 
+  const fetchViajesByEmpleado = async (empleadoId) => {
+    try {
+      setLoading(true);
+      const { data } = await viajeEmpleadoService.getByEmpleado(empleadoId);
+      console.log("🚀 DATA API VIAJE-EMPLEADO:", data); 
+      setViajeEmpleados(data.data || []);
+      notifySuccess("Viajes del empleado cargados");
+    } catch (error) {
+      notifyError("Error al cargar viajes del empleado");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchViajeEmpleados();
   }, []);
 
   return (
@@ -79,6 +94,7 @@ export const ViajeEmpleadoProvider = ({ children }) => {
         createViajeEmpleado,
         updateViajeEmpleado,
         deleteViajeEmpleado,
+        fetchViajesByEmpleado
       }}
     >
       {children}

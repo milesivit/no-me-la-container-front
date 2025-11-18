@@ -9,80 +9,98 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // 🎯 ITEMS DEL MENÚ (centro)
-  const items = user
-    ? [
-        ...(user.rol === "admin"
-          ? [
-              {
-                label: "Barcos",
-                icon: "pi pi-compass",
-                template: (item, options) => (
-                  <Link to="/flota" className={`navbar-link ${options.className}`}>
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </Link>
-                ),
-              },
-              {
-                label: "Containers",
-                icon: "pi pi-warehouse",
-                template: (item, options) => (
-                  <Link to="/container" className={`navbar-link ${options.className}`}>
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </Link>
-                ),
-              },
-              {
-                label: "Servicios",
-                icon: "pi pi-tags",
-                template: (item, options) => (
-                  <Link to="/servicio" className={`navbar-link ${options.className}`}>
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </Link>
-                ),
-              },
-              {
-                label: "Viajes",
-                icon: "pi pi-gauge",
-                template: (item, options) => (
-                  <Link to="/viaje" className={`navbar-link ${options.className}`}>
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </Link>
-                ),
-              },
-              
-              {
-                label: "Empleados",
-                icon: "pi pi-user",
-                template: (item, options) => (
-                  <Link to="/empleado" className={`navbar-link ${options.className}`}>
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </Link>
-                ),
-              },
+  const getMenuItems = (rol) => {
+    switch (rol) {
+      case "admin":
+        return [
+          {
+            label: "Barcos",
+            icon: "pi pi-compass",
+            template: (item, options) => (
+              <Link to="/flota" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+          {
+            label: "Containers",
+            icon: "pi pi-warehouse",
+            template: (item, options) => (
+              <Link to="/container" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+          {
+            label: "Servicios",
+            icon: "pi pi-tags",
+            template: (item, options) => (
+              <Link to="/servicio" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+          {
+            label: "Viajes",
+            icon: "pi pi-gauge",
+            template: (item, options) => (
+              <Link to="/viaje" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+          {
+            label: "Empleados",
+            icon: "pi pi-user",
+            template: (item, options) => (
+              <Link to="/empleado" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+        ];
 
-            ]
-          : []),
+      case "moderador":
+        return [
+          {
+            label: "Mis Viajes",
+            icon: "pi pi-gauge",
+            template: (item, options) => (
+              <Link to={`/moderador/viajes/asignados/${user.empleadoId}`} className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          }
+        ];
 
-        {
-          label: "Productos",
-          icon: "pi pi-box",
-          template: (item, options) => (
-            <Link to="#" className={`navbar-link ${options.className}`}>
-              <i className={item.icon}></i>
-              <span>{item.label}</span>
-            </Link>
-          ),
-        },
-      ]
-    : [];
+      case "cliente":
+        return [
+          {
+            label: "Productos",
+            icon: "pi pi-box",
+            template: (item, options) => (
+              <Link to="/productos" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+        ];
 
-  // 🎯 LOGO (izquierda)
+      default:
+        return [];
+    }
+  };
+
+  const items = user ? getMenuItems(user.rol) : [];
+
+  // LOGO (izquierda)
   const start = (
     <Link to="/" className="navbar-logo">
       <img src={logo} alt="Logo" className="navbar-logo-img" />
@@ -90,7 +108,7 @@ const Navbar = () => {
     </Link>
   );
 
-  // 🎯 ZONA DERECHA
+  // ZONA DERECHA
   const end = user ? (
     <div className="navbar-user-info" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
       <span className="navbar-role-badge">

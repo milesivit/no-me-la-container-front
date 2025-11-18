@@ -46,6 +46,7 @@ import CreateViaje from "./layouts/viaje/CreateViaje";
 import EmpleadoTablaForm from "./layouts/empleado/Empleado";
 import EmpleadosConViajes from "./layouts/empleado/EmpleadosConViajes";
 import CrearViajeEmpleado from "./layouts/empleado/CrearViajeEmpleado";
+import EmpleadoViajesModerador from "./layouts/viaje/EmpleadoViajesModerador";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -290,6 +291,19 @@ function App() {
                       <ViajeProvider>
                         <CrearViajeEmpleado />
                       </ViajeProvider>
+                    </ViajeEmpleadoProvider>
+                  </RequireRole>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/moderador/viajes/asignados/:id"
+              element={
+                <PrivateRoute>
+                  <RequireRole role="moderador">
+                    <ViajeEmpleadoProvider>
+                      <EmpleadoViajesModerador />
                     </ViajeEmpleadoProvider>
                   </RequireRole>
                 </PrivateRoute>
