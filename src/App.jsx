@@ -25,6 +25,8 @@ import { PuertoProvider } from "./context/PuertoContext";
 import { ViajeEstadoProvider } from "./context/ViajeEstadoContext";
 import { ViajeProvider } from "./context/ViajeContext";
 import { ViajeEmpleadoProvider } from "./context/ViajeEmpleadoContext";
+import { CargaContainerProvider } from "./context/CargaContainerContext";
+import { CategoriaCargaProvider } from "./context/CategoriaCargaContext"; 
 
 // Layouts
 import LoginForm from "./layouts/auth/LoginForm";
@@ -47,6 +49,8 @@ import EmpleadoTablaForm from "./layouts/empleado/Empleado";
 import EmpleadosConViajes from "./layouts/empleado/EmpleadosConViajes";
 import CrearViajeEmpleado from "./layouts/empleado/CrearViajeEmpleado";
 import EmpleadoViajesModerador from "./layouts/viaje/EmpleadoViajesModerador";
+import CreateCargaContainer from "./layouts/cargaContainer/CreateCargaContainer";
+import AsignarViaje from "./layouts/viaje/AsignarViaje";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -309,6 +313,36 @@ function App() {
                 </PrivateRoute>
               }
             />
+
+              <Route
+                path="/cargacontainer"
+                element={
+                  <PrivateRoute>
+                    <CategoriaCargaProvider>
+                      <CargaContainerProvider>
+                        <ContainerProvider>
+                          <CreateCargaContainer />
+                        </ContainerProvider>
+                      </CargaContainerProvider>
+                    </CategoriaCargaProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/asignar-viaje/:id"
+                element={
+                  <PrivateRoute>
+                      <ViajeProvider>
+                        <ContainerProvider>
+                          <CargaContainerProvider>
+                            <AsignarViaje />
+                          </CargaContainerProvider>
+                        </ContainerProvider>
+                      </ViajeProvider>
+                  </PrivateRoute>
+                }
+              />
 
             </Routes>
           </main>

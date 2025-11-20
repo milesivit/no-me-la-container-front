@@ -1,11 +1,11 @@
-// src/context/categoriaCargaContext.jsx
+// src/context/CategoriaCargaContext.jsx
 import { createContext, useState, useEffect } from "react";
 import categoriaCargaService from "../services/categoriaCargaService";
 import { notifyError, notifySuccess } from "../utils/Notifier";
 
-export const categoriaCargaContext = createContext();
+export const CategoriaCargaContext = createContext();
 
-export const categoriaCargaProvider = ({ children }) => {
+export const CategoriaCargaProvider = ({ children }) => {
   const [categoriacargas, setcategoriacargas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedcategoriacarga, setselectedcategoriacarga] = useState(null);
@@ -64,7 +64,7 @@ export const categoriaCargaProvider = ({ children }) => {
   }, []);
 
   return (
-    <categoriaCargaContext.Provider
+    <CategoriaCargaContext.Provider
       value={{
         categoriacargas,
         loading,
@@ -77,6 +77,6 @@ export const categoriaCargaProvider = ({ children }) => {
       }}
     >
       {children}
-    </categoriaCargaContext.Provider>
+    </CategoriaCargaContext.Provider>
   );
 };

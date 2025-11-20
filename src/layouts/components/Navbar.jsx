@@ -82,10 +82,20 @@ const Navbar = () => {
       case "cliente":
         return [
           {
-            label: "Productos",
-            icon: "pi pi-box",
+            label: "Realizar Reserva",
+            icon: "pi pi-plus",
             template: (item, options) => (
-              <Link to="/productos" className={`navbar-link ${options.className}`}>
+              <Link to="/cargacontainer" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
+          {
+            label: "Mis Reservas",
+            icon: "pi pi-bookmark",
+            template: (item, options) => (
+              <Link to="#" className={`navbar-link ${options.className}`}>
                 <i className={item.icon}></i>
                 <span>{item.label}</span>
               </Link>

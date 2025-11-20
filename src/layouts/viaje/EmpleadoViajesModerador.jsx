@@ -20,7 +20,6 @@ const EmpleadoViajesModerador = () => {
 
   useEffect(() => {
     fetchViajesByEmpleado(empleadoId);
-    console.log("Buscando viajes para empleado:", empleadoId);
   }, [empleadoId]);
 
   const headerTemplate = (

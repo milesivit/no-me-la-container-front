@@ -69,9 +69,7 @@ export const ViajeEmpleadoProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await viajeEmpleadoService.getByEmpleado(empleadoId);
-      console.log("🚀 DATA API VIAJE-EMPLEADO:", data); 
       setViajeEmpleados(data.data || []);
-      notifySuccess("Viajes del empleado cargados");
     } catch (error) {
       notifyError("Error al cargar viajes del empleado");
       console.error(error);
