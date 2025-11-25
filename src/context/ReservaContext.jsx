@@ -29,6 +29,7 @@ export const ReservaProvider = ({ children }) => {
       const { data } = await reservaService.create(reservaData);
       setReservas((prev) => [...prev, data.data]);
       notifySuccess("Reserva creada exitosamente");
+      return data.data;
     } catch (error) {
       notifyError(
         error.response?.data?.message || "Error al crear la reserva"

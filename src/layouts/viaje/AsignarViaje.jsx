@@ -27,12 +27,9 @@ const AsignarViaje = () => {
   }, []);
 
   useEffect(() => {
-    console.log("VIAJES DISPONIBLES:", viajes);
   }, [viajes]);
 
   const handleAsignar = async () => {
-    console.log("➡ VIAJE SELECCIONADO:", viajeId);
-  
     if (!viajeId) {
       toast.current.show({
         severity: "warn",
@@ -50,7 +47,10 @@ const AsignarViaje = () => {
     };
   
     try {
-      await viajeContainerService.create(payload);
+      const response = await viajeContainerService.create(payload);
+      const viajeContainerCreado = response.data.data;
+
+      navigate(`/reserva/crear/${viajeContainerCreado.id}`);   
   
       toast.current.show({
         severity: "success",
@@ -59,7 +59,7 @@ const AsignarViaje = () => {
         life: 2500,
       });
   
-      setTimeout(() => navigate("/"), 600);
+      // setTimeout(() => navigate("/"), 600);
   
     } catch (error) {
       console.error("ERROR BACK:", error.response?.data || error);
