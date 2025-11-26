@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
-import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 
@@ -13,6 +12,7 @@ import { ContainerContext } from "../../context/ContainerContext";
 import { CategoriaCargaContext } from "../../context/CategoriaCargaContext";
 
 import { useNavigate } from "react-router-dom";
+import "./CreateCargaContainer.css";
 
 const CreateCargaContainer = () => {
   const { createCargaContainer } = useContext(CargaContainerContext);
@@ -34,45 +34,34 @@ const CreateCargaContainer = () => {
   const validationSchema = Yup.object({
     container_id: Yup.number().required("Campo requerido"),
     descripcion: Yup.string().required("Campo requerido"),
-    cantidad: Yup.number()
-      .typeError("Debe ser número")
-      .min(1, "Debe ser mayor que 0")
-      .required("Campo requerido"),
-    peso: Yup.number()
-      .typeError("Debe ser número")
-      .min(0.1, "Debe ser mayor que 0")
-      .required("Campo requerido"),
+    cantidad: Yup.number().typeError("Debe ser número").min(1).required("Campo requerido"),
+    peso: Yup.number().typeError("Debe ser número").min(0.1).required("Campo requerido"),
     categoria_carga_id: Yup.number().required("Campo requerido"),
   });
 
   const onSubmit = async (values, { resetForm }) => {
     try {
       const newCarga = await createCargaContainer(values);
-  
-      console.log("CARGA RECIBIDA:", newCarga);
-  
+
       if (!newCarga || !newCarga.id) {
-        throw new Error("La respuesta no trae la carga creada");
+        throw new Error("Respuesta inválida");
       }
-  
+
       toast.current.show({
         severity: "success",
         summary: "Éxito",
         detail: "Carga registrada correctamente",
-        life: 1500,
+        life: 2000,
       });
-  
+
       resetForm();
-  
+
       setTimeout(() => {
         navigate(`/asignar-viaje/${newCarga.id}`, {
           state: { containerId: newCarga.container_id },
         });
-      }, 150);
-  
-    } catch (error) {
-      console.error("ERROR EN CREAR CARGA:", error);
-  
+      }, 200);
+    } catch {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -81,14 +70,15 @@ const CreateCargaContainer = () => {
       });
     }
   };
-  
-  
-  
+
   return (
     <div className="create-carga-page">
       <Toast ref={toast} />
+
       <div className="create-carga-container">
-        <Card title="Registrar Carga para Container" className="create-carga-card">
+        <h1 className="carga-title">Registrar Carga para Container</h1>
+
+        <div className="create-carga-card">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -96,54 +86,35 @@ const CreateCargaContainer = () => {
           >
             {({ handleChange, setFieldValue, values }) => (
               <Form className="create-carga-form">
-
-                {/* Container */}
+                
                 <div className="form-group">
                   <label htmlFor="container_id">Container</label>
                   <Dropdown
                     id="container_id"
                     name="container_id"
                     value={values.container_id}
-                    options={containers.map((c) => ({
-                      label: c.codigo,
-                      value: c.id,
-                    }))}
+                    options={containers.map((c) => ({ label: c.codigo, value: c.id }))}
                     onChange={(e) => setFieldValue("container_id", e.value)}
                     placeholder="Seleccione un container"
-                    className="w-full"
+                    className="w-full container-input"
                   />
-                  <ErrorMessage
-                    name="container_id"
-                    component="span"
-                    className="error-text"
-                  />
+                  <ErrorMessage name="container_id" component="span" className="error-text" />
                 </div>
 
-                {/* Categoría de Carga */}
                 <div className="form-group">
                   <label htmlFor="categoria_carga_id">Categoría de Carga</label>
                   <Dropdown
                     id="categoria_carga_id"
                     name="categoria_carga_id"
                     value={values.categoria_carga_id}
-                    options={categoriacargas.map((cat) => ({
-                      label: cat.nombre,
-                      value: cat.id,
-                    }))}
-                    onChange={(e) =>
-                      setFieldValue("categoria_carga_id", e.value)
-                    }
+                    options={categoriacargas.map((cat) => ({ label: cat.nombre, value: cat.id }))}
+                    onChange={(e) => setFieldValue("categoria_carga_id", e.value)}
                     placeholder="Seleccione categoría"
-                    className="w-full"
+                    className="w-full container-input"
                   />
-                  <ErrorMessage
-                    name="categoria_carga_id"
-                    component="span"
-                    className="error-text"
-                  />
+                  <ErrorMessage name="categoria_carga_id" component="span" className="error-text" />
                 </div>
 
-                {/* Descripción */}
                 <div className="form-group">
                   <label htmlFor="descripcion">Descripción</label>
                   <InputText
@@ -152,38 +123,30 @@ const CreateCargaContainer = () => {
                     value={values.descripcion}
                     onChange={handleChange}
                     placeholder="Descripción de la carga"
-                    className="w-full"
+                    className="w-full container-input"
                   />
-                  <ErrorMessage
-                    name="descripcion"
-                    component="span"
-                    className="error-text"
-                  />
+                  <ErrorMessage name="descripcion" component="span" className="error-text" />
                 </div>
 
-                {/* Cantidad */}
-                <div className="form-group">
+                <div className="form-group inputnumber-stacked">
                   <label htmlFor="cantidad">Cantidad</label>
                   <InputNumber
                     id="cantidad"
                     name="cantidad"
                     value={values.cantidad}
-                    onValueChange={(e) =>
-                      setFieldValue("cantidad", e.value)
-                    }
+                    onValueChange={(e) => setFieldValue("cantidad", e.value)}
                     placeholder="Ingrese cantidad"
-                    className="w-full"
+                    className="w-full container-input"
+                    keyfilter="int"
+                    min={1}
                     showButtons
+                    incrementButtonIcon="pi pi-chevron-up"
+                    decrementButtonIcon="pi pi-chevron-down"
                   />
-                  <ErrorMessage
-                    name="cantidad"
-                    component="span"
-                    className="error-text"
-                  />
+                  <ErrorMessage name="cantidad" component="span" className="error-text" />
                 </div>
 
-                {/* Peso */}
-                <div className="form-group">
+                <div className="form-group inputnumber-stacked">
                   <label htmlFor="peso">Peso (kg)</label>
                   <InputNumber
                     id="peso"
@@ -191,14 +154,17 @@ const CreateCargaContainer = () => {
                     value={values.peso}
                     onValueChange={(e) => setFieldValue("peso", e.value)}
                     placeholder="Peso total"
-                    className="w-full"
+                    className="w-full container-input"
+                    keyfilter="int"
+                    min={1}
                     showButtons
+                    incrementButtonIcon="pi pi-chevron-up"
+                    decrementButtonIcon="pi pi-chevron-down"
                     minFractionDigits={2}
                   />
                   <ErrorMessage name="peso" component="span" className="error-text" />
                 </div>
 
-                {/* Observaciones */}
                 <div className="form-group">
                   <label htmlFor="observaciones">Observaciones</label>
                   <InputText
@@ -207,11 +173,10 @@ const CreateCargaContainer = () => {
                     value={values.observaciones}
                     onChange={handleChange}
                     placeholder="Notas adicionales"
-                    className="w-full"
+                    className="w-full container-input"
                   />
                 </div>
 
-                {/* Botones */}
                 <div className="form-buttons">
                   <Button
                     label="Volver"
@@ -228,10 +193,11 @@ const CreateCargaContainer = () => {
                     className="p-button-success w-48"
                   />
                 </div>
+
               </Form>
             )}
           </Formik>
-        </Card>
+        </div>
       </div>
     </div>
   );

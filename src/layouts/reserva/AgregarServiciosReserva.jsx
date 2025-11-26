@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { ServicioAgregadoContext } from "../../context/ServicioAgregadoContext";
@@ -8,6 +8,8 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Checkbox } from "primereact/checkbox";
+
+import "./AgregarServiciosReserva.css";
 
 const AgregarServiciosReserva = () => {
   const { reservaId } = useParams();
@@ -55,7 +57,7 @@ const AgregarServiciosReserva = () => {
 
       setTimeout(() => navigate("/"), 900);
 
-    } catch (e) {
+    } catch {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -69,42 +71,50 @@ const AgregarServiciosReserva = () => {
     <div className="agregar-servicios-page">
       <Toast ref={toast} />
 
-      <Card title={`Agregar servicios a la reserva #${reservaId}`} className="p-4 w-10 md:w-6 mx-auto">
+      <div className="agregar-servicios-container">
+        <div className="agregar-servicios-card">
 
-        {serviciosAgregados.length === 0 ? (
-          <p>No hay servicios disponibles.</p>
-        ) : (
-          serviciosAgregados.map((s) => (
-            <div key={s.id} className="flex align-items-center my-2">
-              <Checkbox
-                inputId={`serv-${s.id}`}
-                checked={seleccionados.includes(s.id)}
-                onChange={() => toggleServicio(s.id)}
-              />
-              <label htmlFor={`serv-${s.id}`} className="ml-2">
-                {s.nombre}
-              </label>
+          <h1 className="servicios-title">
+            Agregar Servicios a la Reserva #{reservaId}
+          </h1>
+
+          {serviciosAgregados.length === 0 ? (
+            <p className="texto-info">No hay servicios disponibles.</p>
+          ) : (
+            <div className="lista-servicios">
+              {serviciosAgregados.map((s) => (
+                <div key={s.id} className="servicio-item">
+                  <Checkbox
+                    inputId={`serv-${s.id}`}
+                    checked={seleccionados.includes(s.id)}
+                    onChange={() => toggleServicio(s.id)}
+                  />
+                  <label htmlFor={`serv-${s.id}`} className="servicio-label">
+                    {s.nombre}
+                  </label>
+                </div>
+              ))}
             </div>
-          ))
-        )}
+          )}
 
-        <div className="flex justify-content-between mt-4">
-          <Button
-            label="Volver"
-            icon="pi pi-arrow-left"
-            className="p-button-secondary"
-            onClick={() => navigate(-1)}
-          />
+          <div className="form-buttons mt-4">
+            <Button
+              label="Volver"
+              icon="pi pi-arrow-left"
+              className="p-button-secondary w-48"
+              onClick={() => navigate(-1)}
+            />
 
-          <Button
-            label="Guardar Servicios"
-            icon="pi pi-check"
-            className="p-button-success"
-            onClick={handleGuardar}
-          />
+            <Button
+              label="Guardar Servicios"
+              icon="pi pi-check"
+              className="p-button-success w-48"
+              onClick={handleGuardar}
+            />
+          </div>
+
         </div>
-
-      </Card>
+      </div>
     </div>
   );
 };

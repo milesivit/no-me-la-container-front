@@ -1,0 +1,90 @@
+/* Variables */
+:root {
+  --color-primary: #009fd4;
+  --color-primary-hover: #007fad;
+  --color-light: #ffffff;
+  --color-gray: #f0f2f5;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+  --radius: 10px;
+  --transition: 0.18s ease;
+}
+
+/* Página */
+.create-carga-page {
+  background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
+  min-height: 100vh;
+  margin-top: -40px;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+}
+
+/* Contenedor interno */
+.create-carga-container {
+  padding: 2rem 3rem;
+}
+
+.carga-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+}
+
+/* Card de formulario */
+.create-carga-card {
+  background: var(--color-light);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 45rem;
+}
+
+.create-carga-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+
+.container-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.2);
+}
+
+/* Error */
+.error-text {
+  color: red;
+  font-size: 0.8rem;
+}
+
+/* Botones */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+/* Botón secundario */
+.p-button-secondary {
+  background-color: #6b7280 !important;
+  color: #fff !important;
+  border: none;
+}
+
+.p-button-secondary:hover {
+  background-color: #4b5563 !important;
+}

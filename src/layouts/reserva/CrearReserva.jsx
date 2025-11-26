@@ -8,10 +8,12 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
+import "./CrearReserva.css";
+
 const CrearReserva = () => {
   const { createReserva } = useContext(ReservaContext);
   const { createFactura } = useContext(FacturaContext);
-  const { user } = useContext(AuthContext); //usuario logueado
+  const { user } = useContext(AuthContext);
 
   const { viajeContainerId } = useParams();
   const navigate = useNavigate();
@@ -29,17 +31,15 @@ const CrearReserva = () => {
     }
 
     const payload = {
-      clienteId: user.id, //AUTOMÁTICO
+      clienteId: user.id,
       viajeContainerId: Number(viajeContainerId),
       fechaReserva: new Date().toISOString().split("T")[0],
-      reservaEstadoId: 1, //SIEMPRE 1
+      reservaEstadoId: 1,
     };
 
     try {
-      //se crea reserva
       const resCreada = await createReserva(payload);
 
-      //se crea factura
       const numeroRandom = Math.floor(100000 + Math.random() * 900000);
       const hoy = new Date();
       const vencimiento = new Date();
@@ -47,7 +47,7 @@ const CrearReserva = () => {
 
       await createFactura({
         numeroFactura: numeroRandom.toString(),
-        reservaId: resCreada.id,      //SE USA LA RESERVA CREADA
+        reservaId: resCreada.id,
         fechaEmision: hoy.toISOString(),
         fechaVencimiento: vencimiento.toISOString(),
         observacion: "Reserva generada automáticamente",
@@ -63,7 +63,7 @@ const CrearReserva = () => {
 
       setTimeout(() => navigate(`/reserva/servicios/${resCreada.id}`), 900);
 
-    } catch (e) {
+    } catch {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -77,28 +77,32 @@ const CrearReserva = () => {
     <div className="crear-reserva-page">
       <Toast ref={toast} />
 
-      <Card title="Crear Reserva" className="p-4 w-10 md:w-6 mx-auto">
+      <div className="crear-reserva-container">
+        <div className="crear-reserva-card">
 
-        <p><b>ViajeContainer ID:</b> {viajeContainerId}</p>
-        <p><b>Cliente:</b> {user?.nombre} {user?.apellido}</p>
+          <h1 className="crear-reserva-title">Crear Reserva</h1>
 
-        <div className="flex justify-content-between mt-5">
-          <Button
-            label="Volver"
-            icon="pi pi-arrow-left"
-            className="p-button-secondary"
-            onClick={() => navigate(-1)}
-          />
+          <p className="info-text"><b>ViajeContainer ID:</b> {viajeContainerId}</p>
+          <p className="info-text"><b>Cliente:</b> {user?.nombre} {user?.apellido}</p>
 
-          <Button
-            label="Crear Reserva"
-            icon="pi pi-check"
-            className="p-button-success"
-            onClick={handleCrearReserva}
-          />
+          <div className="form-buttons mt-4">
+            <Button
+              label="Volver"
+              icon="pi pi-arrow-left"
+              className="p-button-secondary w-48"
+              onClick={() => navigate(-1)}
+            />
+
+            <Button
+              label="Crear Reserva"
+              icon="pi pi-check"
+              className="p-button-success w-48"
+              onClick={handleCrearReserva}
+            />
+          </div>
+
         </div>
-
-      </Card>
+      </div>
     </div>
   );
 };

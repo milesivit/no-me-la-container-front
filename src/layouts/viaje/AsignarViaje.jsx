@@ -8,6 +8,8 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
+import "./AsignarViaje.css";
+
 const AsignarViaje = () => {
   const { viajes, fetchViajes } = useContext(ViajeContext);
 
@@ -18,16 +20,11 @@ const AsignarViaje = () => {
   const toast = useRef(null);
 
   const containerId = location.state?.containerId;
-
   const [viajeId, setViajeId] = useState(null);
 
-  // cargar viajes
   useEffect(() => {
     fetchViajes();
   }, []);
-
-  useEffect(() => {
-  }, [viajes]);
 
   const handleAsignar = async () => {
     if (!viajeId) {
@@ -39,31 +36,27 @@ const AsignarViaje = () => {
       });
       return;
     }
-  
+
     const payload = {
-      viajeId: viajeId,
-      containerId: containerId,
+      viajeId,
+      containerId,
       cargaContainerId: Number(cargaContainerId),
     };
-  
+
     try {
       const response = await viajeContainerService.create(payload);
       const viajeContainerCreado = response.data.data;
 
-      navigate(`/reserva/crear/${viajeContainerCreado.id}`);   
-  
+      navigate(`/reserva/crear/${viajeContainerCreado.id}`);
+
       toast.current.show({
         severity: "success",
         summary: "Asignado",
         detail: "El viaje fue asignado correctamente",
         life: 2500,
       });
-  
-      // setTimeout(() => navigate("/"), 600);
-  
+
     } catch (error) {
-      console.error("ERROR BACK:", error.response?.data || error);
-  
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -72,52 +65,54 @@ const AsignarViaje = () => {
       });
     }
   };
-  
 
   return (
     <div className="asignar-viaje-page">
       <Toast ref={toast} />
 
-      <Card title="Asignar Viaje a la Carga" className="p-4 w-10 md:w-6 mx-auto">
+      <div className="asignar-viaje-container">
+        <div className="asignar-viaje-card">
 
-        <p><b>Carga Container ID:</b> {cargaContainerId}</p>
-        <p><b>Container ID:</b> {containerId}</p>
+          <h1 className="asignar-title">Asignar Viaje a la Carga</h1>
 
-        <div className="mt-4">
-          <label className="font-semibold">Seleccionar Viaje</label>
+          <p className="info-text"><b>Carga Container ID:</b> {cargaContainerId}</p>
+          <p className="info-text"><b>Container ID:</b> {containerId}</p>
 
-          <Dropdown
-            value={viajeId}
-            onChange={(e) => {
-              console.log("🟦 VIAJE SELECCIONADO EN DROPDOWN:", e.value);
-              setViajeId(e.value);
-            }}
-            placeholder="Selecciona un viaje"
-            className="w-full mt-2"
-            options={viajes.map((v) => ({
-              label: `${v.puertoOrigen?.nombre} → ${v.puertoDestino?.nombre} (Salida: ${new Date(v.fechaSalida).toLocaleDateString()})`,
-              value: v.id,
-            }))}
-          />
+          <div className="form-group mt-3">
+            <label className="font-semibold">Seleccionar Viaje</label>
+
+            <Dropdown
+              value={viajeId}
+              onChange={(e) => setViajeId(e.value)}
+              placeholder="Selecciona un viaje"
+              className="w-full container-input mt-1"
+              options={viajes.map((v) => ({
+                label: `${v.puertoOrigen?.nombre} → ${v.puertoDestino?.nombre} (Salida: ${new Date(
+                  v.fechaSalida
+                ).toLocaleDateString()})`,
+                value: v.id,
+              }))}
+            />
+          </div>
+
+          <div className="form-buttons mt-5">
+            <Button
+              label="Volver"
+              icon="pi pi-arrow-left"
+              className="p-button-secondary w-48"
+              onClick={() => navigate(-1)}
+            />
+
+            <Button
+              label="Asignar"
+              icon="pi pi-check"
+              className="p-button-success w-48"
+              onClick={handleAsignar}
+            />
+          </div>
+
         </div>
-
-        <div className="flex justify-content-between mt-5">
-          <Button
-            label="Volver"
-            icon="pi pi-arrow-left"
-            className="p-button-secondary"
-            onClick={() => navigate(-1)}
-          />
-
-          <Button
-            label="Asignar"
-            icon="pi pi-check"
-            className="p-button-success"
-            onClick={handleAsignar}
-          />
-        </div>
-
-      </Card>
+      </div>
     </div>
   );
 };
