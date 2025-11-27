@@ -30,6 +30,7 @@ export const FacturaProvider = ({ children }) => {
       const { data } = await facturaService.create(facturaData);
       setFacturas((prev) => [...prev, data.data]);
       notifySuccess("Factura creada exitosamente");
+      return data.data;
     } catch (error) {
       notifyError(
         error.response?.data?.message || "Error al crear la factura"

@@ -63,6 +63,16 @@ export const ReservaProvider = ({ children }) => {
     }
   };
 
+  // obtener factura mediante reserva
+  const getFacturaByReserva = async (id) => {
+    try {
+      const { data } = await reservaService.getFacturaByReserva(id);
+      return data.data;
+    } catch (error) {
+      notifyError("No se pudo obtener la factura de la reserva");
+    }
+  };
+  
   useEffect(() => {
     fetchReservas();
   }, []);
@@ -78,6 +88,7 @@ export const ReservaProvider = ({ children }) => {
         createReserva,
         updateReserva,
         deleteReserva,
+        getFacturaByReserva
       }}
     >
       {children}

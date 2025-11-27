@@ -58,6 +58,7 @@ import CreateCargaContainer from "./layouts/cargaContainer/CreateCargaContainer"
 import AsignarViaje from "./layouts/viaje/AsignarViaje";
 import CrearReserva from "./layouts/reserva/CrearReserva";
 import AgregarServiciosReserva from "./layouts/reserva/AgregarServiciosReserva";
+import CrearPago from "./layouts/pago/CrearPago";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -376,7 +377,22 @@ function App() {
                   </PrivateRoute>
                 }
               />
-
+              
+              <Route
+                path="/pago/crear/:reservaId"
+                element={
+                  <PrivateRoute>
+                    <ReservaProvider>
+                      <PagoProvider>
+                        <MedioPagoProvider>
+                          <CrearPago />
+                        </MedioPagoProvider>
+                      </PagoProvider>
+                    </ReservaProvider>
+                  </PrivateRoute>
+                }
+              />
+              
             </Routes>
           </main>
         </AuthProvider>

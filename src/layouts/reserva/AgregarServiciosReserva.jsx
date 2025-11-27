@@ -55,7 +55,7 @@ const AgregarServiciosReserva = () => {
         life: 2000,
       });
 
-      setTimeout(() => navigate("/"), 900);
+      setTimeout(() => navigate(`/pago/crear/${reservaId}`), 900);
 
     } catch {
       toast.current.show({
