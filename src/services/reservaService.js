@@ -7,6 +7,7 @@ const reservaService = {
   update: (id, data) => api.put(`/reserva/${id}`, data),
   remove: (id) => api.delete(`/reserva/${id}`),
   getFacturaByReserva: (id) => api.get(`/reserva/${id}/factura`),
+  getByCliente: (clienteId) => api.get(`/reserva/cliente/${clienteId}`)
 
 };
 

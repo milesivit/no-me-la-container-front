@@ -95,7 +95,7 @@ const Navbar = () => {
             label: "Mis Reservas",
             icon: "pi pi-bookmark",
             template: (item, options) => (
-              <Link to="#" className={`navbar-link ${options.className}`}>
+              <Link to="/mis-reservas" className={`navbar-link ${options.className}`}>
                 <i className={item.icon}></i>
                 <span>{item.label}</span>
               </Link>

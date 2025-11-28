@@ -31,7 +31,7 @@ const CrearReserva = () => {
     }
 
     const payload = {
-      clienteId: user.id,
+      clienteId: user.clienteId,
       viajeContainerId: Number(viajeContainerId),
       fechaReserva: new Date().toISOString().split("T")[0],
       reservaEstadoId: 1,

@@ -58,6 +58,7 @@ import CreateCargaContainer from "./layouts/cargaContainer/CreateCargaContainer"
 import AsignarViaje from "./layouts/viaje/AsignarViaje";
 import CrearReserva from "./layouts/reserva/CrearReserva";
 import AgregarServiciosReserva from "./layouts/reserva/AgregarServiciosReserva";
+import MisReservas from "./layouts/reserva/MisReservas";
 import CrearPago from "./layouts/pago/CrearPago";
 
 import Footer from "./layouts/components/Footer"; 
@@ -389,6 +390,19 @@ function App() {
                         </MedioPagoProvider>
                       </PagoProvider>
                     </ReservaProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/mis-reservas"
+                element={
+                  <PrivateRoute>
+                    <RequireRole role="cliente">
+                      <ReservaProvider>
+                        <MisReservas />
+                      </ReservaProvider>
+                    </RequireRole>
                   </PrivateRoute>
                 }
               />
