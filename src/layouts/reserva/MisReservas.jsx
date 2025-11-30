@@ -2,100 +2,102 @@ import React, { useContext, useEffect, useRef } from "react";
 import { ReservaContext } from "../../context/ReservaContext";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "primereact/toast";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import { Tooltip } from "primereact/tooltip";
 import { useNavigate } from "react-router-dom";
+import exportFacturaToPDF from "../../utils/ExportFacturaToPdf";
 import "./MisReservas.css";
 
 const MisReservas = () => {
   const { reservas, fetchReservasCliente, loading } = useContext(ReservaContext);
   const { user } = useContext(AuthContext);
   const toast = useRef(null);
-  const dt = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user?.clienteId) fetchReservasCliente(user.clienteId);
   }, [user]);
 
-  const headerTemplate = (
-    <div className="reserva-header">
-      <h1 className="reserva-title">Mis Reservas</h1>
-
-      <Button
-        type="button"
-        icon="pi pi-file"
-        rounded
-        tooltip="Exportar"
-        tooltipOptions={{ position: "top" }}
-        onClick={() => dt.current.exportCSV()}
-      />
-    </div>
-  );
-
-  const pagarButtonTemplate = (rowData) => (
-    <Button
-      label="Pagar"
-      icon="pi pi-credit-card"
-      className="p-button-success p-button-sm"
-      onClick={() => navigate(`/pagos/crear/${rowData.id}`)}
-    />
-  );
+  // 👉 USEEFFECT PARA VER LA RESERVA COMPLETA
+  useEffect(() => {
+    if (reservas.length > 0) {
+      console.log(
+        "%c🔍 RESERVA COMPLETA:",
+        "color: #009fd4; font-weight: bold;"
+      );
+      console.log(JSON.stringify(reservas[0], null, 2));
+    }
+  }, [reservas]);
 
   return (
-    <div className="reserva-page">
-      <div className="reserva-page-container">
+    <div className="misreservas-page">
+      <div className="misreservas-container">
         <Toast ref={toast} />
+        <Tooltip placeholder="Descargar Remito" target=".remito-btn" />
+        <Tooltip placeholder="Descargar Factura" target=".factura-btn" />
+
+        <h1 className="misreservas-title">Mis Reservas</h1>
 
         {loading ? (
           <p>Cargando reservas...</p>
         ) : reservas.length === 0 ? (
           <p>No tienes reservas realizadas.</p>
         ) : (
-          <div className="reserva-table-wrapper">
-            <DataTable
-              ref={dt}
-              value={reservas}
-              paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25]}
-              stripedRows
-              responsiveLayout="scroll"
-              header={headerTemplate}
-              className="reserva-table"
-            >
-              <Column field="fechaReserva" header="Fecha" body={(row) => row.fechaReserva?.slice(0,10)} />
-              <Column
-                header="Container"
-                body={(row) => row.viajesContainer?.containers?.codigo}
-              />
+          <div className="misreservas-card-container">
+            {reservas.map((r) => {
+              const viaje = r?.viajesContainer?.viajes;
+              const container = r?.viajesContainer?.containers;
 
-              <Column
-                header="Puerto Origen"
-                body={(row) => row.viajesContainer?.viajes?.puertoOrigen?.nombre}
-              />
+              const fechaEntrega = viaje?.promesaDeEntrega
+                ? new Date(viaje.promesaDeEntrega).toLocaleDateString()
+                : "—";
 
-              <Column
-                header="Puerto Destino"
-                body={(row) => row.viajesContainer?.viajes?.puertoDestino?.nombre}
-              />
+              return (
+                <div key={r.id} className="reserva-card">
+                  
+                  <div className="reserva-card-header">
+                    <i className="pi pi-calendar"></i>
+                    <span>{r.fechaReserva?.slice(0, 10)}</span>
+                    <div className="reserva-id-badge">#{r.id}</div>
+                  </div>
 
-              <Column
-                header="Barco"
-                body={(row) => row.viajesContainer?.viajes?.barcos?.nombre}
-              />
+                  <div className="reserva-info">
+                    <p><b>Container:</b> {container?.codigo}</p>
+                    <p><b>Barco:</b> {viaje?.barcos?.nombre}</p>
 
-              <Column
-                header="Promesa de entrega"
-                body={(row) =>
-                  row.viajesContainer?.viajes?.promesaDeEntrega
-                    ? new Date(row.viajesContainer.viajes.promesaDeEntrega).toLocaleDateString()
-                    : "—"
-                }
-              />
+                    <div className="reserva-ruta">
+                      <i className="pi pi-map-marker" />
+                      <span>{viaje?.puertoOrigen?.nombre}</span>
+                      <i className="pi pi-arrow-right arrow" />
+                      <i className="pi pi-map-marker" />
+                      <span>{viaje?.puertoDestino?.nombre}</span>
+                    </div>
 
-            </DataTable>
+                    <p><b>Entrega estimada:</b> {fechaEntrega}</p>
+                  </div>
+
+                  <div className="reserva-export-buttons">
+                    <button 
+                      className="export-btn remito-btn"
+                      data-pr-tooltip="Descargar Remito"
+                      data-pr-position="top"
+                    >
+                      <i className="pi pi-file" />
+                    </button>
+
+                    <button 
+                      className="export-btn factura-btn"
+                      data-pr-tooltip="Descargar Factura"
+                      data-pr-position="top"
+                      onClick={() => exportFacturaToPDF(r)}
+                    >
+                      <i className="pi pi-file-pdf" />
+                    </button>
+                  </div>
+
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
