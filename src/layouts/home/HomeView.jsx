@@ -446,7 +446,7 @@ const HomeView = () => {
             <Button
               label="Ver viajes activos"
               icon="pi pi-compass"
-              className="p-button-rounded p-button-primary home-hero-btn"
+              className="p-button-rounded p-button-outlined home-hero-btn-secondary"
             />
             <Button
               label="Contactar comercial"

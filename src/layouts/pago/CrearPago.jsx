@@ -10,6 +10,8 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
+import "./CrearPago.css";
+
 const CrearPago = () => {
   const { reservaId } = useParams();
   const navigate = useNavigate();
@@ -21,10 +23,9 @@ const CrearPago = () => {
 
   const [factura, setFactura] = useState(null);
   const [medioPagoId, setMedioPagoId] = useState(null);
-  
+
   const montoFijo = 634598;
 
-  //cargar factura automaticamente
   useEffect(() => {
     const fetchFactura = async () => {
       const data = await getFacturaByReserva(reservaId);
@@ -50,8 +51,8 @@ const CrearPago = () => {
         medioPagoId,
         monto: montoFijo,
         fecha: new Date().toISOString(),
-        estado: "Pagado"
-      });      
+        estado: "Pagado",
+      });
 
       toast.current.show({
         severity: "success",
@@ -81,16 +82,15 @@ const CrearPago = () => {
       <Toast ref={toast} />
 
       <div className="crear-pago-container">
-        <Card className="crear-pago-card">
-          <h1 className="pago-title">
-            Registrar Pago – Reserva #{reservaId}
-          </h1>
+        <div className="crear-pago-card">
 
-          <p><b>N° Factura:</b> {factura.numeroFactura}</p>
-          <p><b>Fecha Emisión:</b> {factura.fechaEmision.slice(0, 10)}</p>
-          <p><b>Monto a pagar:</b> ${montoFijo.toLocaleString("es-AR")}</p>
+          <h1 className="pago-title">Registrar Pago – Reserva #{reservaId}</h1>
 
-          <div className="field mt-3">
+          <p className="info-text"><b>N° Factura:</b> {factura.numeroFactura}</p>
+          <p className="info-text"><b>Fecha Emisión:</b> {factura.fechaEmision.slice(0, 10)}</p>
+          <p className="info-text"><b>Monto a pagar:</b> ${montoFijo.toLocaleString("es-AR")}</p>
+
+          <div className="form-group mt-3">
             <label>Medio de Pago</label>
             <Dropdown
               value={medioPagoId}
@@ -98,7 +98,7 @@ const CrearPago = () => {
               optionLabel="nombre"
               optionValue="id"
               placeholder="Selecciona medio"
-              className="w-full"
+              className="w-full container-input mt-1"
               onChange={(e) => setMedioPagoId(e.value)}
             />
           </div>
@@ -118,7 +118,8 @@ const CrearPago = () => {
               onClick={handlePagar}
             />
           </div>
-        </Card>
+
+        </div>
       </div>
     </div>
   );
