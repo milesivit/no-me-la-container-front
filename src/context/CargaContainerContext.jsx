@@ -26,18 +26,31 @@ export const CargaContainerProvider = ({ children }) => {
   // Crear
   const createCargaContainer = async (cargaContainerData) => {
     try {
-      const { data } = await cargaContainerService.create(
-        cargaContainerData
-      );
-      setCargasContainer((prev) => [...prev, data.data]);
+      const response = await cargaContainerService.create(cargaContainerData);
+  
+      // 👉 La respuesta es directamente la carga creada
+      const newCarga = response.data.data;
+  
+      if (!newCarga || !newCarga.id) {
+        throw new Error("Backend no devolvió la carga creada");
+      }
+  
+      setCargasContainer((prev) => [...prev, newCarga]);
+  
       notifySuccess("Carga-Container creada exitosamente");
+  
+      return newCarga;
+  
     } catch (error) {
       notifyError(
         error.response?.data?.message ||
-          "Error al crear carga-container"
+        "Error al crear carga-container"
       );
+      return null;
     }
   };
+  
+  
 
   // Editar
   const updateCargaContainer = async (id, cargaContainerData) => {

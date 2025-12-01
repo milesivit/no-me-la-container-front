@@ -25,6 +25,13 @@ import { PuertoProvider } from "./context/PuertoContext";
 import { ViajeEstadoProvider } from "./context/ViajeEstadoContext";
 import { ViajeProvider } from "./context/ViajeContext";
 import { ViajeEmpleadoProvider } from "./context/ViajeEmpleadoContext";
+import { CargaContainerProvider } from "./context/CargaContainerContext";
+import { CategoriaCargaProvider } from "./context/CategoriaCargaContext"; 
+import { ReservaProvider } from "./context/ReservaContext";
+import { ReservaServicioProvider } from "./context/ReservaServicioContext";
+import { FacturaProvider } from "./context/FacturaContext";
+import { PagoProvider } from "./context/PagoContext";
+import { MedioPagoProvider } from "./context/MedioPagoContext";
 
 // Layouts
 import LoginForm from "./layouts/auth/LoginForm";
@@ -47,6 +54,12 @@ import EmpleadoTablaForm from "./layouts/empleado/Empleado";
 import EmpleadosConViajes from "./layouts/empleado/EmpleadosConViajes";
 import CrearViajeEmpleado from "./layouts/empleado/CrearViajeEmpleado";
 import EmpleadoViajesModerador from "./layouts/viaje/EmpleadoViajesModerador";
+import CreateCargaContainer from "./layouts/cargaContainer/CreateCargaContainer";
+import AsignarViaje from "./layouts/viaje/AsignarViaje";
+import CrearReserva from "./layouts/reserva/CrearReserva";
+import AgregarServiciosReserva from "./layouts/reserva/AgregarServiciosReserva";
+import MisReservas from "./layouts/reserva/MisReservas";
+import CrearPago from "./layouts/pago/CrearPago";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -310,6 +323,90 @@ function App() {
               }
             />
 
+              <Route
+                path="/cargacontainer"
+                element={
+                  <PrivateRoute>
+                    <CategoriaCargaProvider>
+                      <CargaContainerProvider>
+                        <ContainerProvider>
+                          <CreateCargaContainer />
+                        </ContainerProvider>
+                      </CargaContainerProvider>
+                    </CategoriaCargaProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/asignar-viaje/:id"
+                element={
+                  <PrivateRoute>
+                      <ViajeProvider>
+                        <ContainerProvider>
+                          <CargaContainerProvider>
+                            <AsignarViaje />
+                          </CargaContainerProvider>
+                        </ContainerProvider>
+                      </ViajeProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/reserva/crear/:viajeContainerId"
+                element={
+                  <PrivateRoute>
+                      <ReservaProvider>
+                        <FacturaProvider>
+                          <CrearReserva />
+                        </FacturaProvider>
+                      </ReservaProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/reserva/servicios/:reservaId"
+                element={
+                  <PrivateRoute>
+                    <ReservaServicioProvider>
+                      <ServicioAgregadoProvider>
+                        <AgregarServiciosReserva />
+                      </ServicioAgregadoProvider>
+                    </ReservaServicioProvider>
+                  </PrivateRoute>
+                }
+              />
+              
+              <Route
+                path="/pago/crear/:reservaId"
+                element={
+                  <PrivateRoute>
+                    <ReservaProvider>
+                      <PagoProvider>
+                        <MedioPagoProvider>
+                          <CrearPago />
+                        </MedioPagoProvider>
+                      </PagoProvider>
+                    </ReservaProvider>
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/mis-reservas"
+                element={
+                  <PrivateRoute>
+                    <RequireRole role="cliente">
+                      <ReservaProvider>
+                        <MisReservas />
+                      </ReservaProvider>
+                    </RequireRole>
+                  </PrivateRoute>
+                }
+              />
+              
             </Routes>
           </main>
         </AuthProvider>
