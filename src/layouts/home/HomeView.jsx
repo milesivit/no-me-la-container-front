@@ -332,7 +332,7 @@ const HomeView = () => {
       subtitle: "Equipos sincronizados 24/7",
     },
     {
-      src: "https://images.pexels.com/photos/6169082/pexels-photo-6169082.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      src: "https://img.freepik.com/fotos-premium/operador-sala-control-rastreando-todos-barcos-anclados-lo-largo-linea-costera_1235831-143800.jpg",
       alt: "Centro de control logístico",
       title: "Centro de control",
       subtitle: "Monitoreo en tiempo real",
@@ -350,8 +350,8 @@ const HomeView = () => {
       subtitle: "Puertos conectados en todos los continentes",
     },
     {
-      src: "https://images.pexels.com/photos/3856445/pexels-photo-3856445.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      alt: "Carga coordinada en horario nocturno",
+      src: "https://images.pexels.com/photos/2326876/pexels-photo-2326876.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      alt: "Carga coordinada",
       title: "Operación 24/7",
       subtitle: "Seguimiento puerta a puerta",
     },
@@ -548,7 +548,7 @@ const HomeView = () => {
               </div>
             </Card>
           </div>
-
+      
           {/* TEUs abajo, ancho */}
           <Card className="home-chart-card-wide">
             <h3 className="home-chart-title">Evolución de volumen (TEUs)</h3>
