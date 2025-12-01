@@ -5,10 +5,11 @@ import { ReservaContext } from "../../context/ReservaContext";
 import { PagoContext } from "../../context/PagoContext";
 import { MedioPagoContext } from "../../context/MedioPagoContext";
 
-import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { Steps } from "primereact/steps";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 import "./CrearPago.css";
 
@@ -34,17 +35,7 @@ const CrearPago = () => {
     fetchFactura();
   }, [reservaId]);
 
-  const handlePagar = async () => {
-    if (!medioPagoId) {
-      toast.current.show({
-        severity: "warn",
-        summary: "Campos incompletos",
-        detail: "Selecciona medio de pago",
-        life: 2000,
-      });
-      return;
-    }
-
+  const ejecutarPago = async () => {
     try {
       await createPago({
         facturaId: factura.id,
@@ -73,13 +64,45 @@ const CrearPago = () => {
     }
   };
 
-  if (!factura) {
-    return <p>Cargando factura...</p>;
-  }
+  const handlePagar = () => {
+    if (!medioPagoId) {
+      toast.current.show({
+        severity: "warn",
+        summary: "Campos incompletos",
+        detail: "Selecciona medio de pago",
+        life: 2000,
+      });
+      return;
+    }
+
+    confirmDialog({
+      message: "¿Confirmas que deseas registrar el pago?",
+      header: "Confirmar Pago",
+      icon: "pi pi-check-circle",
+      acceptLabel: "Confirmar",
+      rejectLabel: "Cancelar",
+      accept: ejecutarPago
+    });
+  };
+
+  if (!factura) return <p>Cargando factura...</p>;
+
+  const items = [
+    { label: "Viaje" },
+    { label: "Servicios" },
+    { label: "Pago" },
+    { label: "Confirmación" }
+  ];
 
   return (
     <div className="crear-pago-page">
       <Toast ref={toast} />
+      <ConfirmDialog />
+
+      {/* STEPS */}
+      <div className="steps-container">
+        <Steps model={items} activeIndex={2} />
+      </div>
 
       <div className="crear-pago-container">
         <div className="crear-pago-card">
@@ -103,6 +126,18 @@ const CrearPago = () => {
             />
           </div>
 
+          {medioPagoId && (
+            <div className="medio-seleccionado-box">
+              <i className="pi pi-credit-card"></i>
+              <span><b>Medio seleccionado:</b> {mediosPago.find(m => m.id === medioPagoId)?.nombre}</span>
+            </div>
+          )}
+
+          <div className="pago-seguro-box">
+            <i className="pi pi-lock"></i>
+            Tu pago se procesa de forma encriptada y segura.
+          </div>
+
           <div className="form-buttons mt-4">
             <Button
               label="Volver"
@@ -118,9 +153,23 @@ const CrearPago = () => {
               onClick={handlePagar}
             />
           </div>
-
         </div>
       </div>
+
+      {/* CARD DE INFORMACIÓN — ABAJO */}
+      <div className="pago-info-banner">
+        <h3 className="banner-title">Información importante sobre el pago</h3>
+        <p className="banner-text">
+          En Nomela Container todos los pagos son procesados mediante sistemas seguros,
+          con cifrado de extremo a extremo para proteger tus datos durante la operación.
+        </p>
+        <p className="banner-text">
+          La acreditación del pago puede demorar entre <b>24 y 72 horas hábiles</b>,
+          dependiendo del medio seleccionado y la entidad emisora.
+          Si el estado no se actualiza dentro del plazo estimado, podés comunicarte con soporte.
+        </p>
+      </div>
+
     </div>
   );
 };

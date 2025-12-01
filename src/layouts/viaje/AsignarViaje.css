@@ -7,24 +7,23 @@
   --radius: 10px;
 }
 
-/* Página general */
+/* Página */
 .asignar-viaje-page {
   background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
   min-height: 100vh;
   margin-top: -40px;
   padding: 2rem 3rem;
-  overflow-y: auto;
 }
 
-/* Contenedor centrado SOLO HORIZONTAL */
+/* Contenedor centrado */
 .asignar-viaje-container {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 2rem 3rem;
+  padding: 2rem;
 }
 
-/* Card principal */
+/* Card */
 .asignar-viaje-card {
   background: var(--color-light);
   padding: 2rem;
@@ -42,7 +41,7 @@
   margin-bottom: 1.2rem;
 }
 
-/* Texto info en negro */
+/* Info extra */
 .info-text {
   color: var(--color-dark);
   margin-bottom: 0.25rem;
@@ -59,12 +58,6 @@
   font-weight: 600;
   font-size: 0.9rem;
   color: var(--color-dark);
-}
-
-.container-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.2);
 }
 
 /* Botones */
@@ -92,4 +85,84 @@
 
 .p-button-success:hover {
   background-color: var(--color-primary-hover) !important;
+}
+
+/* TIMELINE PREMIUM */
+.timeline-wrapper {
+  margin-top: 2rem;
+  background: #ffffff;
+  padding: 1.8rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--color-primary);       /* ✔ contorno celeste */
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+}
+
+.timeline-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+/* Contenedor principal */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* Línea vertical continua */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+/* Cada item */
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  position: relative;
+}
+
+/* Puntos del timeline */
+.circle {
+  width: 18px;
+  height: 18px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(0,159,212,0.4);
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+/* Caja de información */
+.timeline-card {
+  background: #f7fbff;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid #d8eef8;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+.timeline-card b {
+  font-size: 1rem;
+  color: var(--color-primary-hover);
+}
+
+.timeline-card p {
+  margin: 0.2rem 0 0 0;
+  color: #333;
+  font-size: 0.95rem;
 }

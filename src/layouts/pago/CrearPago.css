@@ -7,16 +7,57 @@
   --radius: 10px;
 }
 
-/* Página */
 .crear-pago-page {
   background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
   min-height: 100vh;
-  margin-top: -40px;
   padding: 2rem 3rem;
   overflow-y: auto;
+  margin-top: -1%;
 }
 
-/* Contenedor centrado arriba */
+/* Steps */
+.steps-container {
+  max-width: 60rem;
+  margin: 2rem auto 1.5rem auto;
+}
+
+.p-steps .p-steps-item .p-menuitem-link {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  border: 2px solid #d9eafb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: 0.2s ease;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+  background: #eaf7ff !important;
+  border-color: var(--color-primary) !important;
+}
+
+.p-steps-number {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  border-radius: 10px !important;
+  font-size: 1.1rem !important;
+  border: 2px solid var(--color-primary) !important;
+  color: #000 !important;
+  background: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.p-steps-title {
+  color: #000 !important;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Card principal */
 .crear-pago-container {
   display: flex;
   justify-content: center;
@@ -24,7 +65,6 @@
   padding: 2rem 3rem;
 }
 
-/* Card principal */
 .crear-pago-card {
   background: var(--color-light);
   padding: 2rem;
@@ -42,14 +82,12 @@
   margin-bottom: 1.2rem;
 }
 
-/* Info en negro */
 .info-text {
   color: var(--color-dark);
   margin-bottom: 0.35rem;
   font-size: 0.95rem;
 }
 
-/* Formulario */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -68,29 +106,57 @@
   box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.2);
 }
 
-/* Botones */
+/* INFO extra */
+.medio-seleccionado-box,
+.pago-seguro-box {
+  background: #f1faff;
+  padding: 0.9rem;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--color-primary);
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: #000;
+}
+
 .form-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .p-button-secondary {
   background-color: #6b7280 !important;
   color: #fff !important;
-  border: none;
-}
-
-.p-button-secondary:hover {
-  background-color: #4b5563 !important;
 }
 
 .p-button-success {
   background-color: var(--color-primary) !important;
-  border: none !important;
   color: #fff !important;
 }
 
 .p-button-success:hover {
   background-color: var(--color-primary-hover) !important;
+}
+
+/* Banner informativo — ABAJO */
+.pago-info-banner {
+  max-width: 60rem;
+  margin: 1.5rem auto 0 auto;
+  padding: 1.5rem;
+  background: #eaf8ff;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--color-primary);
+}
+
+.banner-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.banner-text {
+  margin: 0.3rem 0;
+  color: #000;
 }

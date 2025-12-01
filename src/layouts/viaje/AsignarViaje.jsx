@@ -4,7 +4,6 @@ import { ViajeContext } from "../../context/ViajeContext";
 import viajeContainerService from "../../services/viajeContainerService";
 
 import { Dropdown } from "primereact/dropdown";
-import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
@@ -25,6 +24,8 @@ const AsignarViaje = () => {
   useEffect(() => {
     fetchViajes();
   }, []);
+
+  const viajeSel = viajes.find((v) => v.id === viajeId);
 
   const handleAsignar = async () => {
     if (!viajeId) {
@@ -111,6 +112,52 @@ const AsignarViaje = () => {
             />
           </div>
 
+          {/* TIMELINE */}
+          {viajeSel && (
+            <div className="timeline-wrapper mt-5">
+              <h3 className="timeline-title">Ruta del Viaje Seleccionado</h3>
+
+              <div className="timeline">
+
+                <div className="timeline-item">
+                  <div className="circle"></div>
+                  <div className="timeline-card">
+                    <b>Origen</b>
+                    <p>{viajeSel.puertoOrigen?.nombre}</p>
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="circle"></div>
+                  <div className="timeline-card">
+                    <b>Salida</b>
+                    <p>{new Date(viajeSel.fechaSalida).toLocaleDateString()}</p>
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="circle"></div>
+                  <div className="timeline-card">
+                    <b>Promesa de Entrega</b>
+                    <p>
+                      {viajeSel.promesaDeEntrega
+                        ? new Date(viajeSel.promesaDeEntrega).toLocaleDateString()
+                        : "Sin fecha definida"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="circle"></div>
+                  <div className="timeline-card">
+                    <b>Destino</b>
+                    <p>{viajeSel.puertoDestino?.nombre}</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

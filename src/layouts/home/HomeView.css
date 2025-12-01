@@ -25,7 +25,7 @@ body {
   display: flex;
   flex-direction: column;
   /* antes: margin-top: -40px; => pisaba el banner bajo el navbar */
-  margin-top: 0;
+  margin-top: -0.5%;
 }
 
 /* ===========================
