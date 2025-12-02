@@ -1,16 +1,172 @@
-# React + Vite
+# NOMELA CONTAINER 🚢
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación **front-end** para la gestión de un servicio de **transporte
+marítimo de contenedores**, desarrollada en **React + Vite**.\
+Permite administrar barcos, viajes, contenedores, clientes, reservas,
+pagos, servicios adicionales y usuarios/empleados.
 
-Currently, two official plugins are available:
+------------------------------------------------------------------------
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Tecnologías principales
 
-## React Compiler
+-   **React**
+-   **Vite**
+-   **JavaScript (ES6+)**
+-   **React Router**
+-   **Context API**
+-   **PrimeReact**
+-   **Axios / fetch**
+-   **CSS modularizado**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+------------------------------------------------------------------------
 
-## Expanding the ESLint configuration
+## 📂 Estructura del proyecto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+    no-me-la-container-front/
+    ├── public/
+    ├── src/
+    │   ├── assets/
+    │   ├── components/
+    │   ├── context/
+    │   ├── img/
+    │   ├── layouts/
+    │   ├── auth/
+    │   ├── barco/
+    │   ├── cargaContainer/
+    │   ├── cliente/
+    │   ├── container/
+    │   ├── empleado/
+    │   ├── home/
+    │   ├── pago/
+    │   ├── reserva/
+    │   ├── servicios/
+    │   ├── viaje/
+    │   ├── services/
+    │   ├── utils/
+    │   ├── App.jsx
+    │   ├── App.css
+    │   ├── main.jsx
+    │   └── index.css
+    ├── index.html
+    ├── package.json
+    ├── vite.config.js
+    └── README.md
+
+------------------------------------------------------------------------
+
+## 🧩 Módulos funcionales
+
+### **Auth**
+
+Pantallas de login, logout, validación de usuario y `AuthContext`.
+
+### **Home**
+
+Dashboard principal.
+
+### **Barco**
+
+CRUD de barcos y vinculación con viajes.
+
+### **Viaje**
+
+Gestión de viajes marítimos: puertos, fechas, estado y barco asignado.
+
+### **Container**
+
+CRUD de contenedores y estados.
+
+### **CargaContainer**
+
+Administración de cargas asociadas a contenedores.
+
+### **Cliente**
+
+Gestión completa de clientes.
+
+### **Reserva**
+
+Flujo completo de creación de reservas, validaciones, servicios
+agregados, etc.
+
+### **Servicios**
+
+Servicios adicionales asociables a reservas.
+
+### **Pago**
+
+Módulo de facturación y pagos.
+
+### **Empleado**
+
+Gestión de personal del sistema.
+
+### **Layouts / Components**
+
+Layouts reutilizables y UI components.
+
+### **Context**
+
+Manejo global de estado para todas las entidades.
+
+### **Services**
+
+Capa de comunicación con la API REST (axios/fetch).
+
+### **Utils**
+
+Helpers, notificaciones, formateadores, etc.
+
+------------------------------------------------------------------------
+
+## 🚀 Cómo ejecutar
+
+``` bash
+git clone https://github.com/milesivit/no-me-la-container-front.git
+cd no-me-la-container-front
+npm install
+npm run dev
+```
+
+Generalmente en: **http://localhost:5173**
+
+------------------------------------------------------------------------
+
+## 🔌 Integración con el back-end
+
+-   Se comunica con **no-me-la-container-back** (Node/Express +
+    Sequelize)
+-   URL por defecto: `http://localhost:3000`
+
+------------------------------------------------------------------------
+
+## 🧪 Buenas prácticas incorporadas
+
+-   Separación clara de capas (vistas, context, services)
+-   Componentes reutilizables
+-   Notificaciones centralizadas
+-   Baja lógica del lado del backend
+-   Estado global consolidado
+
+------------------------------------------------------------------------
+
+## 🤝 Contribuciones
+
+1.  Fork
+
+2.  Rama nueva:
+
+    ``` bash
+    git checkout -b feature/nueva-feature
+    ```
+
+3.  Commit + push
+
+4.  Pull Request
+
+------------------------------------------------------------------------
+
+## 📄 Licencia
+
+Proyecto académico sin licencia explícita. Se recomienda agregar
+`LICENSE` (MIT sugerida).
