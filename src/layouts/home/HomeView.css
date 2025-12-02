@@ -25,7 +25,8 @@ body {
   display: flex;
   flex-direction: column;
   /* antes: margin-top: -40px; => pisaba el banner bajo el navbar */
-  margin-top: 0px;
+  margin-top: 0;
+
 }
 
 /* ===========================
@@ -127,12 +128,12 @@ body {
 }
 
 .home-hero-btn-secondary {
-  border-color: #e5e7eb !important;
+  border-color: #007fad !important;
   color: #e5e7eb !important;
 }
 
 .home-hero-btn-secondary:hover {
-  background: rgba(248, 250, 252, 0.08) !important;
+  background: #007fad !important;
 }
 
 /* Tarjeta de stats en hero */
@@ -178,15 +179,15 @@ body {
    =========================== */
 
 .home-section {
-  padding: 2.6rem 1.7rem 0 1.7rem; /* menos padding vertical y un poco más horizontal */
+  padding: 2.6rem 1.7rem 0 1.7rem;
 }
 
 .home-section-inner {
-  max-width: 1220px; /* un poquito más ancho hacia los costados */
-  margin: 0 auto 2.6rem auto; /* menos espacio entre secciones */
+  max-width: 1220px; 
+  margin: 0 auto 2.6rem auto;
   background: var(--color-light);
   border-radius: 24px;
-  padding: 2.1rem 2.4rem 2.3rem 2.4rem; /* bajamos un toque el padding */
+  padding: 2.1rem 2.4rem 2.3rem 2.4rem; 
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
 }
 
@@ -202,93 +203,125 @@ body {
   text-align: center;
   color: var(--color-muted);
   font-size: 0.96rem;
-  margin-bottom: 1.4rem; /* menos espacio */
+  margin-bottom: 1.4rem;
 }
 
 /* ===========================
    MISIÓN & VISIÓN
    =========================== */
-
-.home-mission-banner {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.1rem 1.3rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 159, 212, 0.07),
-    rgba(59, 130, 246, 0.02)
-  );
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  margin-bottom: 2rem;
-}
-
-.home-mission-banner-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(56, 189, 248, 0.9),
-    rgba(59, 130, 246, 0.1)
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0f172a;
-  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
-}
-
-.home-mission-banner-text h4 {
-  margin: 0;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.home-mission-banner-text p {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.9rem;
-}
-
-.home-mission-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.4rem;
-}
+   .home-mission-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 159, 212, 0.07),
+      rgba(59, 130, 246, 0.02)
+    );
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    margin-bottom: 2rem;
+  }
+  
+  .home-mission-banner-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(56, 189, 248, 0.9),
+      rgba(59, 130, 246, 0.1)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f172a;
+    box-shadow: 0 10px 25px rgba(56, 191, 248, 0.164);
+  }
+  
+  .home-mission-banner-text h4 {
+    margin: 0;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  
+  .home-mission-banner-text p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  
+  .home-mission-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+  }
+  
 
 .home-mission-card {
   border-radius: 20px !important;
-  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06) !important;
   border: 1px solid rgba(148, 163, 184, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* --- CENTRADO DEL CONTENIDO --- */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0rem !important;
 }
 
+/* 1. TARJETA MISIÓN*/
+.home-mission-card:nth-child(1) {
+    box-shadow: 0 14px 40px rgba(29, 79, 216, 0.1) !important;
+}
+
+/* 2. TARJETA VISIÓN*/
+.home-mission-card:nth-child(2) {
+
+    box-shadow: 0 14px 40px rgba(5, 150, 105, 0.1) !important;
+}
+
+/* Efecto Sombra al pasar el mouse */
+.home-mission-card:nth-child(1):hover {
+    box-shadow: 0 20px 50px rgba(29, 79, 216, 0.2) !important;
+}
+
+.home-mission-card:nth-child(2):hover {
+    box-shadow: 0 20px 50px rgba(5, 150, 104, 0.2) !important;
+}
+
+/* Texto dentro de la tarjeta */
 .home-mission-card p {
   color: #4b5563;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-top: 1.1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  max-width: 100%; 
 }
 
+/* Estilo de los chips */
 .home-mission-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.8rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 750;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
 }
 
 .home-mission-chip.mission {
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(37, 99, 235, 0.1);
   color: #1d4ed8;
 }
 
 .home-mission-chip.vision {
-  background: rgba(16, 185, 129, 0.08);
+  background: rgba(16, 185, 129, 0.1);
   color: #059669;
 }
 
@@ -296,40 +329,83 @@ body {
    ESTADÍSTICAS
    =========================== */
 
-.home-stats-grid-top {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.4rem;
-  margin-bottom: 1.6rem;
-}
-
-.home-chart-card,
-.home-chart-card-wide {
-  border-radius: 20px !important;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-}
-
-/* 🔧 pequeño ajuste para dar más aire al gráfico ancho */
-.home-chart-card-wide {
-  margin-top: 1.2rem;
-}
-
-.home-chart-title {
-  margin: 0 0 0.7rem 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.home-chart-container {
-  height: 240px; /* un poco menos para que no se vea tan "sobrado" */
-}
-
-.home-chart-container-wide {
-  height: 260px; /* idem, menos altura */
-}
-
+   .home-stats-grid-top {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.6rem;
+  }
+  
+  /* Tarjetas base */
+  .home-chart-card,
+  .home-chart-card-wide {
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; 
+    background: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .home-chart-card:hover,
+  .home-chart-card-wide:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+ 
+  .home-chart-card .p-card-content,
+  .home-chart-card-wide .p-card-content {
+      padding: 0 1.5rem 1.5rem 1.5rem !important;
+      height: 100%;
+  }
+  
+  /* Títulos */
+  .home-chart-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #374151;
+    margin: 1.5rem 0 1rem 0;
+    border-left: 4px solid var(--color-primary); 
+    padding-left: 10px;
+    line-height: 1.2;
+  }
+  
+  .home-chart-card-wide {
+    margin-top: 1rem;
+  }
+  
+  /* CONTENEDORES DE GRÁFICOS */
+  
+  .home-chart-container,
+  .home-chart-container-wide {
+    width: 100%;
+    position: relative;
+    display: block;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* --- AJUSTES INDIVIDUALES --- */
+  
+  /* Gráfico de BARRAS*/
+  .home-chart-card:nth-of-type(1) .home-chart-container {
+      height: 250px;
+      padding: 50px 10px;
+  }
+  
+  /* Gráfico de DONA/TORTA */
+  .home-chart-card:nth-of-type(2) .home-chart-container {
+      height: 280px;
+      padding: 5px;
+  }
+  
+  /* Gráfico de LÍNEA */
+  .home-chart-container-wide {
+    height: 250px; 
+    width: 100%;
+    padding: 50px 10px;
+    position: relative;
+  }
 /* ===========================
    INDICADORES PERFORMANCE
    =========================== */
@@ -341,9 +417,24 @@ body {
 }
 
 .home-kpi-card {
-  border-radius: 20px !important;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; 
+  background: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.home-kpi-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.home-kpi-card .home-chart-title {
+  margin-top: 0 !important; 
+  margin-bottom: 0.5rem !important;
+}
+
+.home-kpi-card .p-card-content {
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem !important;
 }
 
 .home-kpi-description {
