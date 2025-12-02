@@ -1,18 +1,50 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ReservaContext } from "../../context/ReservaContext";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
-import { useNavigate } from "react-router-dom";
 import exportFacturaToPDF from "../../utils/ExportFacturaToPdf";
+import WeatherModal from "../../components/WeatherModal";
+import { getWeatherByCoords } from "../../services/weatherService";
+
 import "./MisReservas.css";
 
 const MisReservas = () => {
   const { reservas, fetchReservasCliente, loading } = useContext(ReservaContext);
   const { user } = useContext(AuthContext);
   const toast = useRef(null);
-  const navigate = useNavigate();
+  const [showWeather, setShowWeather] = useState(false);
+  const [weatherOrigen, setWeatherOrigen] = useState(null);
+  const [weatherDestino, setWeatherDestino] = useState(null);
+
+  const handleShowWeather = async (viaje) => {
+    try {
+      const origen = viaje?.puertoOrigen?.ciudades;
+      const destino = viaje?.puertoDestino?.ciudades;
+  
+      setWeatherOrigen(null);
+      setWeatherDestino(null);
+      setShowWeather(true);
+  
+      // Llamar API OpenWeather
+      const climaOrigen = await getWeatherByCoords(origen.latitud, origen.longitud);
+      const climaDestino = await getWeatherByCoords(destino.latitud, destino.longitud);
+  
+      setWeatherOrigen({
+        nombre: origen.nombre,
+        data: climaOrigen,
+      });
+  
+      setWeatherDestino({
+        nombre: destino.nombre,
+        data: climaDestino,
+      });
+  
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   useEffect(() => {
     if (user?.clienteId) fetchReservasCliente(user.clienteId);
@@ -76,6 +108,15 @@ const MisReservas = () => {
                     <p><b>Entrega estimada:</b> {fechaEntrega}</p>
                   </div>
 
+                  <button 
+                    className="export-btn weather-btn"
+                    data-pr-tooltip="Ver clima"
+                    data-pr-position="top"
+                    onClick={() => handleShowWeather(viaje)}
+                  >
+                    <i className="pi pi-cloud" />
+                  </button>
+
                   <div className="reserva-export-buttons">
                     <button 
                       className="export-btn remito-btn"
@@ -99,6 +140,14 @@ const MisReservas = () => {
               );
             })}
           </div>
+        )}
+        {showWeather && (
+          <WeatherModal
+            visible={showWeather}
+            onHide={() => setShowWeather(false)}
+            origen={weatherOrigen}
+            destino={weatherDestino}
+          />
         )}
       </div>
     </div>

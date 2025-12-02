@@ -60,6 +60,7 @@ import CrearReserva from "./layouts/reserva/CrearReserva";
 import AgregarServiciosReserva from "./layouts/reserva/AgregarServiciosReserva";
 import MisReservas from "./layouts/reserva/MisReservas";
 import CrearPago from "./layouts/pago/CrearPago";
+import ReservasAdmin from "./layouts/reserva/ReservasAdmin";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
@@ -406,6 +407,20 @@ function App() {
                   </PrivateRoute>
                 }
               />
+
+              <Route
+                path="/reservas"
+                element={
+                  <PrivateRoute>
+                    <RequireRole role="admin">
+                      <ReservaProvider>
+                        <ReservasAdmin />
+                      </ReservaProvider>
+                    </RequireRole>
+                  </PrivateRoute>
+                }
+              />
+
               
             </Routes>
           </main>

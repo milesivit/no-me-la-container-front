@@ -63,6 +63,16 @@ const Navbar = () => {
               </Link>
             ),
           },
+          {
+            label: "Reservas",
+            icon: "pi pi-ticket",
+            template: (item, options) => (
+              <Link to="/reservas" className={`navbar-link ${options.className}`}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
+              </Link>
+            ),
+          },
         ];
 
       case "moderador":
