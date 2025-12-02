@@ -236,30 +236,8 @@ const HomeView = () => {
   ];
 
   // -----------------------------
-  // DATA: Mapa (lista lateral)
-  // -----------------------------
-
-  const ports = [
-    { name: "Buenos Aires", country: "Argentina", region: "Américas" },
-    { name: "Santos", country: "Brasil", region: "Américas" },
-    { name: "Montevideo", country: "Uruguay", region: "Américas" },
-    { name: "Valparaíso", country: "Chile", region: "Américas" },
-    { name: "New York / NJ", country: "Estados Unidos", region: "Américas" },
-    { name: "Los Angeles", country: "Estados Unidos", region: "Américas" },
-    { name: "Rotterdam", country: "Países Bajos", region: "Europa" },
-    { name: "Hamburgo", country: "Alemania", region: "Europa" },
-    { name: "Antwerp", country: "Bélgica", region: "Europa" },
-    { name: "Valencia", country: "España", region: "Europa" },
-    { name: "Algeciras", country: "España", region: "Europa" },
-    { name: "Shanghai", country: "China", region: "Asia" },
-    { name: "Singapore", country: "Singapur", region: "Asia" },
-    { name: "Dubai", country: "Emiratos Árabes Unidos", region: "Asia" },
-  ];
-
-  // -----------------------------
   // DATA: Mapa (Leaflet - 70 puertos)
   // -----------------------------
-
   const puertos = [
     // América
     { nombre: "Buenos Aires (AR)", lat: -34.6037, lng: -58.3816 },
@@ -282,6 +260,7 @@ const HomeView = () => {
     { nombre: "Rio de Janeiro (BR)", lat: -22.894, lng: -43.151 },
     { nombre: "Itajaí (BR)", lat: -26.9048, lng: -48.6546 },
     { nombre: "Bahía Blanca (AR)", lat: -38.7196, lng: -62.2724 },
+
     // Europa
     { nombre: "Rotterdam (NL)", lat: 51.9555, lng: 4.1297 },
     { nombre: "Hamburgo (DE)", lat: 53.54, lng: 9.99 },
@@ -298,6 +277,7 @@ const HomeView = () => {
     { nombre: "Gdansk (PL)", lat: 54.352, lng: 18.6466 },
     { nombre: "Oslo (NO)", lat: 59.9139, lng: 10.7522 },
     { nombre: "Bergen (NO)", lat: 60.39299, lng: 5.32415 },
+
     // Asia
     { nombre: "Singapore (SG)", lat: 1.2644, lng: 103.8222 },
     { nombre: "Shanghai (CN)", lat: 31.24, lng: 121.491 },
@@ -318,6 +298,7 @@ const HomeView = () => {
     { nombre: "Kaohsiung (TW)", lat: 22.6273, lng: 120.3014 },
     { nombre: "Colombo (LK)", lat: 6.9271, lng: 79.8612 },
     { nombre: "Karachi (PK)", lat: 24.8607, lng: 67.0011 },
+
     // África
     { nombre: "Durban (ZA)", lat: -29.8711, lng: 31.0206 },
     { nombre: "Lagos (NG)", lat: 6.4242, lng: 3.4064 },
@@ -329,6 +310,7 @@ const HomeView = () => {
     { nombre: "Tema (GH)", lat: 5.6676, lng: -0.0165 },
     { nombre: "Cape Town (ZA)", lat: -33.9249, lng: 18.4241 },
     { nombre: "Walvis Bay (NA)", lat: -22.9576, lng: 14.5053 },
+
     // Oceanía
     { nombre: "Sydney (AU)", lat: -33.8688, lng: 151.2093 },
     { nombre: "Melbourne (AU)", lat: -37.814, lng: 144.9633 },
@@ -350,7 +332,7 @@ const HomeView = () => {
       subtitle: "Equipos sincronizados 24/7",
     },
     {
-      src: "https://images.pexels.com/photos/6169082/pexels-photo-6169082.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      src: "https://img.freepik.com/fotos-premium/operador-sala-control-rastreando-todos-barcos-anclados-lo-largo-linea-costera_1235831-143800.jpg",
       alt: "Centro de control logístico",
       title: "Centro de control",
       subtitle: "Monitoreo en tiempo real",
@@ -368,8 +350,8 @@ const HomeView = () => {
       subtitle: "Puertos conectados en todos los continentes",
     },
     {
-      src: "https://images.pexels.com/photos/3856445/pexels-photo-3856445.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      alt: "Carga coordinada en horario nocturno",
+      src: "https://images.pexels.com/photos/2326876/pexels-photo-2326876.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      alt: "Carga coordinada",
       title: "Operación 24/7",
       subtitle: "Seguimiento puerta a puerta",
     },
@@ -566,7 +548,7 @@ const HomeView = () => {
               </div>
             </Card>
           </div>
-
+      
           {/* TEUs abajo, ancho */}
           <Card className="home-chart-card-wide">
             <h3 className="home-chart-title">Evolución de volumen (TEUs)</h3>
@@ -648,54 +630,26 @@ const HomeView = () => {
             rutas eficientes.
           </p>
 
-          <div className="home-map-grid">
-            <div className="home-map-card">
-              <MapContainer
-                center={[10, 10]}
-                zoom={2}
-                scrollWheelZoom={true}
-                className="home-map-leaflet"
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {puertos.map((p, idx) => (
-                  <Marker key={idx} position={[p.lat, p.lng]}>
-                    <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>
-                      {p.nombre}
-                    </Tooltip>
-                  </Marker>
-                ))}
-              </MapContainer>
-            </div>
+          <div className="home-map-card">
+            <MapContainer
+              center={[10, 5]}
+              zoom={2}
+              scrollWheelZoom={true}
+              className="home-map-leaflet"
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="&copy; OpenStreetMap contributors"
+              />
 
-            <div className="home-map-list-card">
-              <Fieldset legend="Puertos conectados" className="home-map-fieldset">
-                <ul className="home-map-list">
-                  {ports.map((port) => (
-                    <li
-                      key={port.name}
-                      className={
-                        "home-map-list-item" +
-                        (port.name === activePort ? " active" : "")
-                      }
-                      onMouseEnter={() => setActivePort(port.name)}
-                    >
-                      <div className="home-map-list-icon">
-                        <i className="pi pi-map-marker" />
-                      </div>
-                      <div className="home-map-list-text">
-                        <span className="home-map-list-name">{port.name}</span>
-                        <span className="home-map-list-meta">
-                          {port.country} · {port.region}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Fieldset>
-            </div>
+              {puertos.map((p, idx) => (
+                <Marker key={idx} position={[p.lat, p.lng]}>
+                  <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
+                    {p.nombre}
+                  </Tooltip>
+                </Marker>
+              ))}
+            </MapContainer>
           </div>
         </div>
       </section>
