@@ -5,12 +5,12 @@ marítimo de contenedores**, desarrollada en **React + Vite**.\
 Permite administrar barcos, viajes, contenedores, clientes, reservas,
 pagos, servicios adicionales y usuarios/empleados.
 
-# 🌤️ Clima en destinos de reserva
+## 🌤️ Clima en destinos de reserva
 
 La aplicación integra la **API de OpenWeather** para mostrar el clima actual de los puertos a los que viajan los contenedores.
 Los clientes pueden consultar el estado del clima en tiempo real directamente desde la sección de **Mis Reservas**.
 
-# 🤖 Chatbot para clientes
+## 🤖 Chatbot para clientes
 
 El sistema incluye un **chatbot integrado** que permite a los clientes **realizar consultas rápidas**.
 
