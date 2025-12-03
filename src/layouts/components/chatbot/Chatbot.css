@@ -1,0 +1,130 @@
+/* Botón flotante */
+.chatbot-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #009fd4 !important;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  z-index: 2000;
+}
+
+/* Ventana */
+.chatbot-window {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 320px;
+  height: 420px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  animation: pop 0.2s ease-out;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Header */
+.chatbot-header {
+  background: #009fd4;
+  color: #fff;
+  padding: 12px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.chatbot-close {
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 1.3rem;
+}
+
+/* Body */
+.chatbot-body {
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Mensajes */
+.msg-bubble {
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 70%;
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+  color: #000;
+}
+
+.msg-bubble.bot {
+  background: #eaf7ff;
+  align-self: flex-start;
+  border-left: 4px solid #009fd4;
+}
+
+.msg-bubble.user {
+  background: #c8f3d5;
+  align-self: flex-end;
+  border-right: 4px solid #009fd4;
+}
+
+/* Mensaje de validación */
+.msg-feedback {
+  background: #efefef;
+  align-self: center;
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #333;
+  text-align: center;
+  border: 1px solid #d0d0d0;
+}
+
+/* Opciones */
+.question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.question-btn {
+  background: #eef9ff !important;
+  border: 1px solid #bde7f8 !important;
+  color: #00719e !important;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.other-btn {
+  background: #e2e2e2 !important;
+  color: #444 !important;
+  border: none !important;
+  width: 100%;
+}
+
+/* Botones Sí / No */
+.feedback {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.feedback-btn {
+  width: 48%;
+}

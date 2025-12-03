@@ -64,7 +64,7 @@ import ReservasAdmin from "./layouts/reserva/ReservasAdmin";
 
 import Footer from "./layouts/components/Footer"; 
 import Navbar from "./layouts/components/Navbar";
-
+import Chatbot from "./layouts/components/chatbot/Chatbot";
 // Utils
 import PrivateRoute from "./utils/PrivateRoute";
 import PublicRoute from "./utils/PublicRoute";
@@ -426,6 +426,7 @@ function App() {
           </main>
         </AuthProvider>
       </Router>
+      <Chatbot />
       <Footer />
     </div>
   );

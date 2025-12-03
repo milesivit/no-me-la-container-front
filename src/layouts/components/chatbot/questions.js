@@ -1,0 +1,17 @@
+export const QUESTIONS_POOL = [
+  { question: "¿Dónde puedo ver mis containers asignados?", answer: "Puedes verlos desde el apartado 'Mis Reservas' una vez iniciada sesión." },
+  { question: "¿Cómo hago una reserva?", answer: "Debes seleccionar un viaje activo y luego completar los datos de la carga." },
+  { question: "¿Puedo modificar mi viaje?", answer: "Sí, mientras el barco aún no haya partido." },
+  { question: "¿Qué medios de pago aceptan?", answer: "Aceptamos tarjeta, transferencia y pagos electrónicos." },
+  { question: "¿Dónde puedo seguir el estado de mi envío?", answer: "Puedes hacer seguimiento en 'Mis Reservas' dentro de tu perfil." },
+  { question: "¿Qué hago si mi container llega tarde?", answer: "Nuestro equipo te notificará por correo y podrás ver el estado actualizado en tu panel." },
+  { question: "¿Puedo cancelar una reserva?", answer: "Sí, siempre que el viaje no haya sido asignado a un barco en salida." },
+  { question: "¿Qué tipo de cargas se pueden transportar?", answer: "Aceptamos cargas generales, peligrosas, refrigeradas, granel seco y sobredimensionadas." },
+  { question: "¿Dónde veo la factura?", answer: "Puedes descargarla desde 'Mis Reservas' en el botón correspondiente." },
+  { question: "¿La empresa ofrece seguros?", answer: "Sí, ofrecemos cobertura completa y parcial según el tipo de carga." },
+  { question: "¿Cómo actualizo mis datos personales?", answer: "Desde tu perfil en la sección 'Mi Cuenta'." },
+  { question: "¿Cómo contacto al soporte?", answer: "Puedes enviarnos un correo o usar el formulario de contacto dentro de tu cuenta." },
+  { question: "¿Qué pasa si tengo más de una carga?", answer: "Puedes registrar múltiples cargas para un mismo container o diferentes." },
+  { question: "¿Los puertos trabajan fines de semana?", answer: "Depende del puerto de origen. La información aparece en cada viaje." },
+  { question: "¿Puedo cambiar el destino?", answer: "Sí, siempre que falten más de 48 horas para la salida del barco." },
+];
