@@ -467,306 +467,317 @@ body {
 /* ===========================
    MAPA
    =========================== */
-
+/* 1. Contenedor Principal (Grilla) */
 .home-map-grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 2fr 1fr; /* El mapa ocupa el doble que la lista */
   gap: 1.5rem;
+  align-items: stretch; /* Ambas cajas tendrán la misma altura */
+  margin-bottom: 2rem;
 }
 
-.home-map-card {
-  padding: 1.1rem;
-  border-radius: 22px;
-  background: radial-gradient(circle at 20% 0, #e0f2fe, #f9fafb);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
-}
-
-.home-map-gradient {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  border-radius: 26px;
-  background: radial-gradient(circle at 15% 20%, #e0f2fe, #bae6fd 40%, #f1f5f9);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  overflow: hidden;
-}
-
-.home-map-dot {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  border: none;
-  background: #0ea5e9;
-  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.35);
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-
-.home-map-dot-active {
-  transform: translate(-50%, -50%) scale(1.2);
-  background: #0284c7;
-  box-shadow: 0 0 0 9px rgba(56, 189, 248, 0.5);
-}
-
+/* 2. Tarjetas (Base para Mapa y Lista) */
+.home-map-card,
 .home-map-list-card {
-  border-radius: 22px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
-  background: #f8fafc;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  overflow: hidden;
+  height: 500px; /* Altura fija para que ambos sean iguales */
+  display: flex;
+  flex-direction: column;
 }
 
-.home-map-fieldset {
-  border-radius: 22px !important;
-  border: none !important;
-  background: transparent !important;
+/* 3. Ajustes específicos del Mapa */
+.home-map-card {
+  padding: 0; /* Sin padding para que el mapa toque los bordes si quieres, o déjalo con 1rem */
+}
+
+.home-map-leaflet {
+  width: 100%;
+  height: 100% !important; /* Ocupa toda la tarjeta */
+  border-radius: 24px;
+  z-index: 1;
+}
+
+/* 4. Ajustes de la Lista (Derecha) */
+.home-map-list-header {
+  padding: 1rem 1rem 0.5rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 0.5rem;
+}
+
+.home-map-list-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #111827;
+  font-weight: 700;
 }
 
 .home-map-list {
   list-style: none;
-  padding: 0;
+  padding: 0 0.5rem; /* Un poco de aire a los costados */
   margin: 0;
-  max-height: 250px;
-  overflow-y: auto;
+  overflow-y: auto; /* Scroll si hay muchos puertos */
+  flex-grow: 1;     /* Ocupa el espacio restante */
 }
 
+/* Scrollbar bonita para la lista */
+.home-map-list::-webkit-scrollbar {
+  width: 6px;
+}
+.home-map-list::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* Items de la lista */
 .home-map-list-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  margin-bottom: 0.25rem;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  margin-bottom: 0.3rem;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
-.home-map-list-item.active,
 .home-map-list-item:hover {
-  background: #e0f2fe;
-  transform: translateX(2px);
+  background-color: #f0f9ff; /* Azul muy clarito al pasar el mouse */
+  border-color: rgba(0, 159, 212, 0.2);
 }
 
 .home-map-list-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: #0ea5e9;
-  color: #f9fafb;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 159, 212, 0.1);
+  color: var(--color-primary);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-}
-
-.home-map-list-name {
-  font-weight: 600;
-  color: #111827;
   font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
-.home-map-list-meta {
-  display: block;
-  font-size: 0.8rem;
-  color: #6b7280;
+.home-map-list-info h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 600;
 }
 
-/* 🔧 FIX LEAFLET: altura real del MapContainer */
-.home-map-leaflet {
-  width: 100%;
-  height: 340px;
-  border-radius: 26px;
+.home-map-list-info span {
+  font-size: 0.75rem;
+  color: #9ca3af;
 }
 
-/* backup, por si Leaflet fuerza otro tamaño interno */
-.home-map-card .leaflet-container {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 26px;
+/* Responsive: En celulares pasa a una sola columna */
+@media (max-width: 768px) {
+  .home-map-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .home-map-card, .home-map-list-card {
+    height: 400px; /* Altura fija en móvil */
+  }
 }
 
 /* ===========================
    GALERÍA
    =========================== */
-
-   .home-gallery-grid {
+  .home-gallery-grid {
     display: grid;
     grid-template-columns: 1.3fr 0.9fr;
-    gap: 1.5rem;
-    align-items: stretch;
-  }
-  
-  .home-gallery-card,
-  .home-gallery-info-card {
-    border-radius: 20px !important;
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    overflow: hidden;
-  }
-  
-  .home-galleria {
-    width: 100%;
-  }
-  
-
-  /* Estilos de la imagen grande */
-  .home-galleria-image {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    display: block;
-    position: relative;
-    z-index: 1;
-    border-radius: 20px;
-  }
-  
-  /* contenedor de las miniaturas */
-  .home-galleria .p-galleria-thumbnail-wrapper {
-    background: transparent !important;
-    padding: 0 !important;
-    position: relative; 
-    z-index: 2;         /* Para que quede por encima de la imagen*/
-    margin-top: -30px;  /*superposición */
-
-  }
-  
-  /* Fondo semitransparente para el área de miniaturas */
-  .home-galleria .p-galleria-thumbnail-container {
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 100%) !important;
-    padding: 10px 5px !important;
-    backdrop-filter: blur(5px);
-    border-radius: 20px;
-  }
-  
-  /* Estilos de las miniaturas */
-  .home-galleria-thumb {
-    width: 100%;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra 3D */
-  }
-  
-  /* Efecto al seleccionar o pasar el mouse */
-  .p-galleria-thumbnail-item-current .home-galleria-thumb,
-  .home-galleria-thumb:hover {
-    opacity: 1;
-    border-color: var(--color-primary);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.144); /* Sombra  */
-  }
-  
-  /* Info a la derecha */
-  .home-gallery-info-title {
-    margin-top: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #111827;
-  }
-  
-  .home-gallery-info-text {
-    font-size: 0.94rem;
-    color: #4b5563;
-    margin-top: 0.6rem;
+    gap: 1rem;
+    align-items: center; 
     margin-bottom: 1rem;
   }
-  
-  .home-gallery-info-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .home-gallery-info-list li {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-start;
-    font-size: 0.9rem;
-    color: #4b5563;
-    margin-bottom: 0.5rem;
-  }
-  
-  .home-gallery-info-list i {
-    color: var(--color-primary);
-    margin-top: 0.2rem;
-  }
-
- /* Estilos de las flechas */
-.home-galleria .p-galleria-thumbnail-prev,
-.home-galleria .p-galleria-thumbnail-next {
-    background-color: transparent !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;   
-    opacity: 0.7 !important;
-    
-    /* Configuración de la imagen */
-    background-image: url('../../img/next.png'); 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    
-    width: 2.5rem !important;
-    height: 100% !important;
-    margin: 0 10px;
-    cursor: pointer;
-    
-    transition: transform 0.2s ease, opacity 0.2s ease;
+/* --- CAJA DE LA IZQUIERDA --- */
+.home-gallery-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible;
 }
 
-.home-galleria .p-galleria-thumbnail-prev {
-    transform: rotate(180deg);
+/* --- CAJA DE LA DERECHA --- */
+.home-gallery-info-card {
+  border-radius: 20px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #ffffff;
+  padding: 2rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+ .home-gallery-card:hover,
+ .home-gallery-info-card:hover {
+   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1) !important;
+   transition: box-shadow 0.3s ease;
+ }
+ 
+ /* Galleria */
+ .home-galleria { width: 100%; }
+ 
+ .home-galleria-image {
+   width: 100%;
+   height: 400px;
+   object-fit: cover;
+   display: block;
+   position: relative;
+   z-index: 1;
+   border-radius: 20px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ }
+ 
+ .home-galleria .p-galleria-thumbnail-wrapper {
+   background: transparent !important; padding: 0 !important;
+   position: relative; z-index: 2; margin-top: -40px;
+ }
+ 
+ .home-galleria .p-galleria-thumbnail-container {
+   background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%) !important;
+   padding: 10px 5px !important; backdrop-filter: blur(5px); border-radius: 20px;
+ }
+ 
+ .home-galleria-thumb {
+   width: 100%; height: 70px; object-fit: cover;
+   border-radius: 8px; transition: all 0.3s ease;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ }
+ 
+ .p-galleria-thumbnail-item-current .home-galleria-thumb,
+ .home-galleria-thumb:hover {
+   opacity: 1; border-color: var(--color-primary);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.144);
+ }
+ 
+ /* Información de la galería */
+ .home-gallery-info-card {
+   padding: 2.5rem !important;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
 
-/*Efecto al pasar el mouse */
-.home-galleria .p-galleria-thumbnail-next:hover {
-    background-color: transparent !important;
-    border: none !important;
-    outline: none !important;
-    opacity: 1 !important;
-    transform: scale(1.2);
-}
-
-/* Hover específico para el botón rotado */
-.home-galleria .p-galleria-thumbnail-prev:hover {
-    background-color: transparent !important;
-    border: none !important;
-    outline: none !important;
-    opacity: 1 !important;
-    transform: rotate(180deg) scale(1.2);
-}
-
-.home-galleria .p-galleria-thumbnail-prev:focus,
-.home-galleria .p-galleria-thumbnail-next:focus {
-    outline: none !important;
-    box-shadow: none !important;
-    border: none !important;
-
-}
+ }
+ 
+ .home-gallery-info-title {
+   margin-top: 0;
+   font-size: 1.5rem;
+   font-weight: 800;
+   color: #111827;
+   margin-bottom: 0.5rem;
+   line-height: 1.2;
+   
+ }
+ 
+ .home-gallery-info-text {
+   font-size: 0.95rem;
+   color: #64748b;
+   margin-top: 0;
+   margin-bottom: 2rem;
+   line-height: 1.2;
+ }
+ 
+ /* Lista de información */
+ .home-gallery-info-list {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem; /* Espacio entre items */
+ }
+ 
+ .home-gallery-info-list li {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   font-size: 0.95rem;
+   color: #374151;
+   font-weight: 600;
+   
+   background-color: #f8fafc;
+   border: 1px solid #f1f5f9;
+   padding: 0.8rem 1rem;
+   border-radius: 12px;
+   transition: all 0.2s ease;
+ }
+ 
+ .home-gallery-info-list li:hover {
+   background-color: #f0f9ff;
+   border-color: rgba(0, 159, 212, 0.3);
+   transform: translateX(5px);
+ }
+ 
+ .home-gallery-info-list i {
+   color: var(--color-primary);
+   font-size: 1.1rem;
+   background: white;
+   padding: 6px;
+   border-radius: 50%;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+ }
+ 
+ .home-galleria .p-galleria-thumbnail-prev,
+ .home-galleria .p-galleria-thumbnail-next {
+     background-color: transparent !important; border: none !important; outline: none !important; box-shadow: none !important; opacity: 0.7 !important;
+     background-image: url('../../img/next.png'); background-position: center; background-repeat: no-repeat; background-size: contain;
+     width: 2rem !important; height: 100% !important; margin: 0 10px; cursor: pointer; transition: transform 0.2s ease;
+ }
+ .home-galleria .p-galleria-thumbnail-prev { transform: rotate(180deg); }
+ .home-galleria .p-galleria-thumbnail-next:hover { opacity: 1 !important; transform: scale(1.2); }
+ .home-galleria .p-galleria-thumbnail-prev:hover { opacity: 1 !important; transform: rotate(180deg) scale(1.2); }
+ .home-galleria .p-galleria-thumbnail-prev:focus, .home-galleria .p-galleria-thumbnail-next:focus { outline: none !important; border: none !important; }
+ 
+ /* Responsive */
+ @media (max-width: 1024px) {
+   .home-gallery-grid { grid-template-columns: 1fr; }
+   .home-galleria-image { height: 320px; }
+ }
+ 
 /* ===========================
    EQUIPO
    =========================== */
    .home-team-section .home-section-inner {
-    padding-bottom: 2.3rem;
+    padding-bottom: 3rem;
   }
   
   .home-team-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.1rem;
+    gap: 2rem;
+    margin-top: 2rem;
   }
   
+  /* Estilo base de la tarjeta */
   .home-team-card {
-    border-radius: 22px !important;
-    background: radial-gradient(circle at 10% 0, #e0f2fe, #f9fafb);
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06) !important;
-    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: #ffffff !important;
+    border: 1px solid #f3f4f6 !important;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
     text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  /* Efecto Hover: Se levanta toda la tarjeta */
+  .home-team-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 159, 212, 0.3) !important;
   }
   
   .home-team-card-header {
-    padding-top: 1.4rem;
+    padding-top: 2.5rem;
   }
   
   .home-team-avatar-wrapper {
@@ -776,29 +787,61 @@ body {
   
   /* Estilo base del Avatar */
   .home-team-avatar {
-    border: 3px solid #f9fafb;
+    border: 4px solid #ffffff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
+  /* --- COLORES PERSONALIZADOS (Glow suave) --- */
   
-  /*Santiago*/
+  /* 1. Santiago (Azul) */
   .home-team-card:nth-child(1) .home-team-avatar {
-      box-shadow: 0 10px 30px rgba(0, 159, 212, 0.5) !important;
+      box-shadow: 0 10px 40px rgba(0, 159, 212, 0.4) !important; 
   }
   
-  /*Milena*/
+  /* 2. Milena (Violeta/Magenta) */
   .home-team-card:nth-child(2) .home-team-avatar {
-      box-shadow: 0 10px 30px rgba(197, 34, 197, 0.5) !important;
+      box-shadow: 0 10px 40px rgba(197, 34, 197, 0.4) !important;
   }
   
-  /*Alejo*/
+  /* 3. Alejo (Naranja) */
   .home-team-card:nth-child(3) .home-team-avatar {
-      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.5) !important;
+      box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4) !important;
   }
   
-  /* Efecto al pasar el mouse por la tarjeta */
+  /* Efecto zoom en la foto al pasar el mouse */
   .home-team-card:hover .home-team-avatar {
-      transform: scale(1.05);
+      transform: scale(1.08);
+  }
+  
+  
+  /* --------------------------------------------- */
+  
+  .home-team-card-body {
+    padding: 1.5rem 2rem 2.5rem 2rem;
+  }
+  
+  .home-team-name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -0.02em;
+  }
+  
+  .home-team-role {
+    margin: 0.5rem 0 1rem 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .home-team-description {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #6b7280;
   }
   
   /* --------------------------------------------- */
@@ -886,7 +929,16 @@ body {
     margin-top: 0.4rem;
   }
 }
+/* Tarjeta contenedora */
 .home-map-card {
-  min-height: 360px;
-  position: relative;
+  padding: 1rem;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  width: 100% !important; 
+  box-sizing: border-box;
+  display: block;
 }
