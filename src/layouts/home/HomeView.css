@@ -467,16 +467,16 @@ body {
 /* ===========================
    MAPA
    =========================== */
-/* 1. Contenedor Principal (Grilla) */
+
 .home-map-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* El mapa ocupa el doble que la lista */
+  grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
-  align-items: stretch; /* Ambas cajas tendrán la misma altura */
+  align-items: stretch;
   margin-bottom: 2rem;
 }
 
-/* 2. Tarjetas (Base para Mapa y Lista) */
+
 .home-map-card,
 .home-map-list-card {
   background: #ffffff;
@@ -485,24 +485,24 @@ body {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   padding: 1rem;
   overflow: hidden;
-  height: 500px; /* Altura fija para que ambos sean iguales */
+  height: 500px;
   display: flex;
   flex-direction: column;
 }
 
-/* 3. Ajustes específicos del Mapa */
+
 .home-map-card {
-  padding: 0; /* Sin padding para que el mapa toque los bordes si quieres, o déjalo con 1rem */
+  padding: 0;
 }
 
 .home-map-leaflet {
   width: 100%;
-  height: 100% !important; /* Ocupa toda la tarjeta */
+  height: 100% !important;
   border-radius: 24px;
   z-index: 1;
 }
 
-/* 4. Ajustes de la Lista (Derecha) */
+
 .home-map-list-header {
   padding: 1rem 1rem 0.5rem 1rem;
   border-bottom: 1px solid #f3f4f6;
@@ -518,13 +518,13 @@ body {
 
 .home-map-list {
   list-style: none;
-  padding: 0 0.5rem; /* Un poco de aire a los costados */
+  padding: 0 0.5rem;
   margin: 0;
-  overflow-y: auto; /* Scroll si hay muchos puertos */
-  flex-grow: 1;     /* Ocupa el espacio restante */
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
-/* Scrollbar bonita para la lista */
+
 .home-map-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -547,7 +547,7 @@ body {
 }
 
 .home-map-list-item:hover {
-  background-color: #f0f9ff; /* Azul muy clarito al pasar el mouse */
+  background-color: #f0f9ff; 
   border-color: rgba(0, 159, 212, 0.2);
 }
 
@@ -576,14 +576,14 @@ body {
   color: #9ca3af;
 }
 
-/* Responsive: En celulares pasa a una sola columna */
+
 @media (max-width: 768px) {
   .home-map-grid {
     grid-template-columns: 1fr;
     height: auto;
   }
   .home-map-card, .home-map-list-card {
-    height: 400px; /* Altura fija en móvil */
+    height: 400px;
   }
 }
 
