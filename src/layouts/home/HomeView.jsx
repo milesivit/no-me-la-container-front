@@ -12,8 +12,8 @@ import { MeterGroup } from "primereact/metergroup";
 import { Galleria } from "primereact/galleria";
 import { Avatar } from "primereact/avatar";
 import { ScrollTop } from "primereact/scrolltop";
-
-import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
+// Asegúrate de que useMap esté importado aquí
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -35,12 +35,28 @@ const defaultIcon = new L.Icon({
 });
 L.Marker.prototype.options.icon = defaultIcon;
 
+// --- MAPA ZOOM ---
+function MapZoomHandler({ coords }) {
+  const map = useMap();
+  useEffect(() => {
+    if (coords) {
+      map.flyTo(coords, 6, { 
+        duration: 1.5,
+      });
+    }
+  }, [coords, map]);
+  return null;
+}
+
 const HomeView = () => {
   const { justLoggedIn, setJustLoggedIn } = useContext(AuthContext);
   const toast = useRef(null);
   const shownRef = useRef(false);
 
   const [activePort, setActivePort] = useState("Buenos Aires");
+  // --- NUEVO: ESTADO PARA EL PUERTO SELECCIONADO EN EL MAPA ---
+  const [selectedPort, setSelectedPort] = useState(null);
+  
   const [galleryIndex, setGalleryIndex] = useState(0);
 
   // Toast de login
@@ -630,32 +646,67 @@ const HomeView = () => {
             rutas eficientes.
           </p>
 
-          <div className="home-map-card">
-            <MapContainer
-              center={[10, 5]}
-              zoom={2}
-              scrollWheelZoom={true}
-              className="home-map-leaflet"
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
-              />
+          <div className="home-map-grid">
+            <div className="home-map-card">
+              <MapContainer
+                center={[10, 5]}
+                zoom={2}
+                scrollWheelZoom={true}
+                className="home-map-leaflet"
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution="&copy; OpenStreetMap contributors"
+                />
+                
+                {/* AQUI SE AGREGA EL COMPONENTE PARA HACER ZOOM */}
+                <MapZoomHandler coords={selectedPort} />
 
-              {puertos.map((p, idx) => (
-                <Marker key={idx} position={[p.lat, p.lng]}>
-                  <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
-                    {p.nombre}
-                  </Tooltip>
-                </Marker>
-              ))}
-            </MapContainer>
+                {puertos.map((p, idx) => (
+                  <Marker 
+                    key={idx} 
+                    position={[p.lat, p.lng]}
+                    eventHandlers={{
+                      click: () => setSelectedPort([p.lat, p.lng]),
+                    }}
+                  >
+                    <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
+                      {p.nombre}
+                    </Tooltip>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </div>
+
+            {/* LISTA A LA DERECHA */}
+            <div className="home-map-list-card">
+                <div className="home-map-list-header">
+                    <h3>Ubicaciones Activas ({puertos.length})</h3>
+                </div>
+                <ul className="home-map-list">
+                    {puertos.map((p, idx) => (
+                    <li 
+                        key={idx} 
+                        className="home-map-list-item"
+                        onClick={() => setSelectedPort([p.lat, p.lng])}
+                    >
+                        <div className="home-map-list-icon">
+                        <i className="pi pi-map-marker" />
+                        </div>
+                        <div className="home-map-list-info">
+                        <h4>{p.nombre}</h4>
+                        <span>Lat: {p.lat.toFixed(2)}, Lng: {p.lng.toFixed(2)}</span>
+                        </div>
+                    </li>
+                    ))}
+                </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* GALERÍA */}
-      <section className="home-section">
+{/* GALERÍA */}
+<section className="home-section">
         <div className="home-section-inner">
           <h2 className="home-section-title">Momentos de operación</h2>
           <p className="home-section-subtitle">
@@ -663,7 +714,9 @@ const HomeView = () => {
           </p>
 
           <div className="home-gallery-grid">
-            <Card className="home-gallery-card">
+            {/* LADO IZQUIERDO: FOTOS */}
+            {/* Nota: Aquí cambié <Card> por <div> para quitar bordes extraños de PrimeReact */}
+            <div className="home-gallery-card">
               <Galleria
                 value={galleryImages}
                 numVisible={4}
@@ -676,36 +729,38 @@ const HomeView = () => {
                 onItemChange={(e) => setGalleryIndex(e.index)}
                 className="home-galleria"
               />
-            </Card>
+            </div>
 
-            <Card className="home-gallery-info-card">
+            {/* LADO DERECHO: INFO TÉCNICA (Actualizado) */}
+            <div className="home-gallery-info-card">
               <h3 className="home-gallery-info-title">
-                Operación, tecnología y personas
+                Infraestructura y Tecnología
               </h3>
               <p className="home-gallery-info-text">
-                Cada imagen representa una parte clave de la cadena logística:
-                desde la planificación de rutas hasta el arribo a puerto. La
-                combinación de sistemas, equipos especializados y visibilidad en
-                tiempo real permite que cada contenedor llegue a destino sin
-                sorpresas.
+                Nuestra flota y centros de operaciones están equipados con los
+                últimos estándares de seguridad y monitoreo satelital en tiempo
+                real, garantizando la integridad de tu carga.
               </p>
+
               <ul className="home-gallery-info-list">
                 <li>
-                  <i className="pi pi-check" />
-                  <span>Centros de control monitoreando la flota 24/7.</span>
+                  <i className="pi pi-box" />
+                  <span>Contenedores Reefers & Dry High Cube</span>
                 </li>
                 <li>
-                  <i className="pi pi-check" />
-                  <span>
-                    Depósitos y hubs coordinados con procesos estandarizados.
-                  </span>
+                  <i className="pi pi-shield" />
+                  <span>Monitoreo de carga 24/7 y precintos digitales</span>
                 </li>
                 <li>
-                  <i className="pi pi-check" />
-                  <span>Integración con sistemas del cliente y del puerto.</span>
+                  <i className="pi pi-globe" />
+                  <span>Cobertura en +120 puertos internacionales</span>
+                </li>
+                <li>
+                  <i className="pi pi-check-circle" />
+                  <span>Certificación ISO 9001 en gestión de calidad</span>
                 </li>
               </ul>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
