@@ -24,9 +24,7 @@ const CreateViaje = () => {
   const toast = useRef(null);
   const navigate = useNavigate();
 
-  // -----------------------------
-  // 🔧 Helpers Fecha
-  // -----------------------------
+  // Helpers Fecha
   const normalizarFecha = (valor) => {
     if (!valor) return "";
     const [d, m, y] = valor.split("/");

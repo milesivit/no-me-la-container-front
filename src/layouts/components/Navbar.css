@@ -11,7 +11,7 @@
 
 /* Evita que el contenido quede debajo del navbar */
 body {
-  padding-top: 70px; /* Ajustá según tu navbar */
+  padding-top: 70px;
 }
 
 /* NAVBAR CONTENEDOR */
@@ -74,7 +74,7 @@ body {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  position: static !important; /* evita conflictos con sticky */
+  position: static !important;
 }
 
 .p-menubar-root-list {

@@ -116,7 +116,6 @@ const AgregarServiciosReserva = () => {
             Agregar Servicios a la Reserva #{reservaId}
           </h1>
 
-          {/* NUEVO SUBTÍTULO */}
           <h2 className="subtitulo-seccion">Beneficios Increíbles</h2>
 
           <Carousel
@@ -127,7 +126,6 @@ const AgregarServiciosReserva = () => {
             className="beneficios-carousel"
           />
 
-          {/* NUEVO SUBTÍTULO */}
           <h2 className="subtitulo-seccion mt-4">Lista de Servicios Agregados</h2>
 
           <div className="lista-servicios-pro">

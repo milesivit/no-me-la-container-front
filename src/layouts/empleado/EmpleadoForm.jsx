@@ -63,7 +63,6 @@ const EmpleadoForm = () => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    // Validar fecha
     let fechaFormateada = null;
 
     if (values.fecha_nacimiento) {

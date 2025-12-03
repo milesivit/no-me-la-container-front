@@ -705,8 +705,8 @@ const HomeView = () => {
         </div>
       </section>
 
-{/* GALERÍA */}
-<section className="home-section">
+      {/* GALERÍA */}
+      <section className="home-section">
         <div className="home-section-inner">
           <h2 className="home-section-title">Momentos de operación</h2>
           <p className="home-section-subtitle">
@@ -715,7 +715,6 @@ const HomeView = () => {
 
           <div className="home-gallery-grid">
             {/* LADO IZQUIERDO: FOTOS */}
-            {/* Nota: Aquí cambié <Card> por <div> para quitar bordes extraños de PrimeReact */}
             <div className="home-gallery-card">
               <Galleria
                 value={galleryImages}

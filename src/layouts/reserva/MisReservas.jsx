@@ -50,7 +50,7 @@ const MisReservas = () => {
     if (user?.clienteId) fetchReservasCliente(user.clienteId);
   }, [user]);
 
-  // 👉 USEEFFECT PARA VER LA RESERVA COMPLETA
+  // USEEFFECT PARA VER LA RESERVA COMPLETA
   useEffect(() => {
     if (reservas.length > 0) {
       console.log(

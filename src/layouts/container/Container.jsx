@@ -243,7 +243,7 @@ const ContainerForm = () => {
                 onChange={(e) =>
                   setFormValues({ ...formValues, container_estado_id: e.value })
                 }
-                className="container-input w-full" // unifica estilo como los demás inputs
+                className="container-input w-full"
               />
             </div>
           </div>

@@ -133,7 +133,6 @@ const CrearReserva = () => {
             </span>
           </div>
 
-          {/* BOTONES */}
           <div className="form-buttons mt-4">
             <Button
               label="Volver"
@@ -153,7 +152,7 @@ const CrearReserva = () => {
         </div>
       </div>
 
-      {/* DIALOG TÉRMINOS */}
+      {/* TÉRMINOS */}
       <Dialog
         header="Términos de Uso - Nomela Container"
         visible={showTerminos}
@@ -267,7 +266,7 @@ const CrearReserva = () => {
         </ScrollPanel>
       </Dialog>
 
-      {/* DIALOG CONDICIONES */}
+      {/* CONDICIONES */}
       <Dialog
         header="Condiciones del Servicio - Nomela Container"
         visible={showCondiciones}

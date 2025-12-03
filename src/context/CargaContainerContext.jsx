@@ -28,7 +28,7 @@ export const CargaContainerProvider = ({ children }) => {
     try {
       const response = await cargaContainerService.create(cargaContainerData);
   
-      // 👉 La respuesta es directamente la carga creada
+      // La respuesta es directamente la carga creada
       const newCarga = response.data.data;
   
       if (!newCarga || !newCarga.id) {

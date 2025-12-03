@@ -77,7 +77,6 @@
     gap: 1rem;
   }
   
-  /* Cada grupo de campo */
   .viaje-form-group {
     display: flex;
     flex-direction: column;
@@ -115,7 +114,6 @@
     background-color: #4b5563 !important;
   }
   
-  /* Ocultar la X de cerrar */
   .viaje-modal .p-dialog-header-close,
   .p-confirm-dialog .p-dialog-header-close {
     display: none;
@@ -159,7 +157,7 @@
     color: #2c746e;
   }
 
-  /* --- Dropdown uniforme (AGREGADO) --- */
+  /* --- Dropdown uniforme  --- */
 
   .custom-dropdown .p-dropdown-label {
     padding: 0.6rem 0.75rem !important;
@@ -181,7 +179,6 @@
     box-shadow: 0 0 0 2px rgba(0, 159, 212, 0.25) !important;
   }
 
-  /* Oculta el input de búsqueda feo */
   .custom-dropdown .p-dropdown-filter-container {
     padding: 0 !important;
     margin: 0 !important;

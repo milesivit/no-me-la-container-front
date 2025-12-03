@@ -67,7 +67,6 @@ const ClienteForm = () => {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    // ----------- VALIDACIÓN Y FORMATEO DE FECHA -----------
     let fechaFormateada = null;
 
     if (values.fecha_nacimiento) {

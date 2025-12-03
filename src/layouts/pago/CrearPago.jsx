@@ -156,7 +156,7 @@ const CrearPago = () => {
         </div>
       </div>
 
-      {/* CARD DE INFORMACIÓN — ABAJO */}
+      {/* CARD DE INFORMACIÓN */}
       <div className="pago-info-banner">
         <h3 className="banner-title">Información importante sobre el pago</h3>
         <p className="banner-text">
