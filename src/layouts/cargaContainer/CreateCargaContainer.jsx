@@ -7,6 +7,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { Steps } from "primereact/steps";
 
 import { CargaContainerContext } from "../../context/CargaContainerContext";
 import { ContainerContext } from "../../context/ContainerContext";
@@ -70,9 +71,22 @@ const CreateCargaContainer = () => {
     }
   };
 
+  // STEPS DEL PAGO - EXACTOS
+  const items = [
+    { label: "Viaje" },
+    { label: "Servicios" },
+    { label: "Pago" },
+    { label: "Confirmación" }
+  ];
+
   return (
     <div className="create-carga-page">
       <Toast ref={toast} />
+
+      {/* STEPS EXACTOS DEL PAGO */}
+      <div className="steps-container">
+        <Steps model={items} activeIndex={0} />
+      </div>
 
       <div className="create-carga-flex">
         

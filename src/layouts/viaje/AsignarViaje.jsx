@@ -6,6 +6,7 @@ import viajeContainerService from "../../services/viajeContainerService";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { Steps } from "primereact/steps";
 
 import "./AsignarViaje.css";
 
@@ -67,9 +68,22 @@ const AsignarViaje = () => {
     }
   };
 
+  // STEPS DEL FLUJO
+  const items = [
+    { label: "Viaje" },
+    { label: "Servicios" },
+    { label: "Pago" },
+    { label: "Confirmación" }
+  ];
+
   return (
     <div className="asignar-viaje-page">
       <Toast ref={toast} />
+
+      {/* STEPS */}
+      <div className="steps-container">
+        <Steps model={items} activeIndex={0} />
+      </div>
 
       <div className="asignar-viaje-container">
         <div className="asignar-viaje-card">
@@ -112,7 +126,6 @@ const AsignarViaje = () => {
             />
           </div>
 
-          {/* TIMELINE */}
           {viajeSel && (
             <div className="timeline-wrapper mt-5">
               <h3 className="timeline-title">Ruta del Viaje Seleccionado</h3>

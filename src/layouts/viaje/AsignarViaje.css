@@ -15,6 +15,48 @@
   padding: 2rem 3rem;
 }
 
+/* STEPS */
+.steps-container {
+  max-width: 60rem;
+  margin: 2rem auto 1.5rem auto;
+}
+
+.p-steps .p-steps-item .p-menuitem-link {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  border: 2px solid #d9eafb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: 0.2s ease;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+  background: #eaf7ff !important;
+  border-color: var(--color-primary) !important;
+}
+
+.p-steps-number {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  border-radius: 10px !important;
+  font-size: 1.1rem !important;
+  border: 2px solid var(--color-primary) !important;
+  color: #000 !important;
+  background: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.p-steps-title {
+  color: #000 !important;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
 /* Contenedor centrado */
 .asignar-viaje-container {
   display: flex;
@@ -93,7 +135,7 @@
   background: #ffffff;
   padding: 1.8rem;
   border-radius: var(--radius);
-  border: 2px solid var(--color-primary);       /* ✔ contorno celeste */
+  border: 2px solid var(--color-primary);
   box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -105,7 +147,6 @@
   text-align: left;
 }
 
-/* Contenedor principal */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -114,7 +155,6 @@
   padding-left: 2rem;
 }
 
-/* Línea vertical continua */
 .timeline::before {
   content: "";
   position: absolute;
@@ -126,7 +166,6 @@
   border-radius: 2px;
 }
 
-/* Cada item */
 .timeline-item {
   display: flex;
   align-items: flex-start;
@@ -134,7 +173,6 @@
   position: relative;
 }
 
-/* Puntos del timeline */
 .circle {
   width: 18px;
   height: 18px;
@@ -146,7 +184,6 @@
   flex-shrink: 0;
 }
 
-/* Caja de información */
 .timeline-card {
   background: #f7fbff;
   padding: 0.9rem 1.1rem;

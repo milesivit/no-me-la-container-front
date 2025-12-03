@@ -67,6 +67,7 @@ const MisReservas = () => {
         <Toast ref={toast} />
         <Tooltip placeholder="Descargar Remito" target=".remito-btn" />
         <Tooltip placeholder="Descargar Factura" target=".factura-btn" />
+        <Tooltip placeholder="Ver Clime" target=".weather-btn" />
 
         <h1 className="misreservas-title">Mis Reservas</h1>
 
