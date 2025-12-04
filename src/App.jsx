@@ -430,5 +430,6 @@ function App() {
       <Footer />
     </div>
   );
+  // Ultimo commit. Se cierra el telon. Gracias.
 }
 export default App;

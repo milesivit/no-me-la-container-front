@@ -22,41 +22,36 @@ const MisReservas = () => {
     try {
       const origen = viaje?.puertoOrigen?.ciudades;
       const destino = viaje?.puertoDestino?.ciudades;
-  
+
       setWeatherOrigen(null);
       setWeatherDestino(null);
       setShowWeather(true);
-  
-      // Llamar API OpenWeather
+
       const climaOrigen = await getWeatherByCoords(origen.latitud, origen.longitud);
       const climaDestino = await getWeatherByCoords(destino.latitud, destino.longitud);
-  
+
       setWeatherOrigen({
         nombre: origen.nombre,
         data: climaOrigen,
       });
-  
+
       setWeatherDestino({
         nombre: destino.nombre,
         data: climaDestino,
       });
-  
+
     } catch (error) {
       console.error(error);
     }
-  };  
+  };
 
   useEffect(() => {
     if (user?.clienteId) fetchReservasCliente(user.clienteId);
   }, [user]);
 
-  // USEEFFECT PARA VER LA RESERVA COMPLETA
   useEffect(() => {
     if (reservas.length > 0) {
-      console.log(
-        "%c🔍 RESERVA COMPLETA:",
-        "color: #009fd4; font-weight: bold;"
-      );
+      console.log("%c🔍 RESERVA COMPLETA:", "color: #009fd4; font-weight: bold;");
       console.log(JSON.stringify(reservas[0], null, 2));
     }
   }, [reservas]);
@@ -65,9 +60,8 @@ const MisReservas = () => {
     <div className="misreservas-page">
       <div className="misreservas-container">
         <Toast ref={toast} />
-        <Tooltip placeholder="Descargar Remito" target=".remito-btn" />
+        <Tooltip placeholder="Ver Clima" target=".weather-btn" />
         <Tooltip placeholder="Descargar Factura" target=".factura-btn" />
-        <Tooltip placeholder="Ver Clime" target=".weather-btn" />
 
         <h1 className="misreservas-title">Mis Reservas</h1>
 
@@ -109,25 +103,18 @@ const MisReservas = () => {
                     <p><b>Entrega estimada:</b> {fechaEntrega}</p>
                   </div>
 
-                  <button 
-                    className="export-btn weather-btn"
-                    data-pr-tooltip="Ver clima"
-                    data-pr-position="top"
-                    onClick={() => handleShowWeather(viaje)}
-                  >
-                    <i className="pi pi-cloud" />
-                  </button>
-
+                  {/* ✔ Botones alineados: clima + factura */}
                   <div className="reserva-export-buttons">
-                    <button 
-                      className="export-btn remito-btn"
-                      data-pr-tooltip="Descargar Remito"
+                    <button
+                      className="export-btn weather-btn"
+                      data-pr-tooltip="Ver clima"
                       data-pr-position="top"
+                      onClick={() => handleShowWeather(viaje)}
                     >
-                      <i className="pi pi-file" />
+                      <i className="pi pi-cloud" />
                     </button>
 
-                    <button 
+                    <button
                       className="export-btn factura-btn"
                       data-pr-tooltip="Descargar Factura"
                       data-pr-position="top"
@@ -142,6 +129,7 @@ const MisReservas = () => {
             })}
           </div>
         )}
+
         {showWeather && (
           <WeatherModal
             visible={showWeather}

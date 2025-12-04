@@ -9,6 +9,7 @@
     --transition: 0.18s ease;
 }
 
+/* Página general */
 .misreservas-page {
     background: linear-gradient(135deg, var(--color-gray), #e4e8ee);
     min-height: 100vh;
@@ -33,6 +34,7 @@
     width: 100%;
 }
 
+/* Cards */
 .misreservas-card-container {
     display: flex;
     flex-wrap: wrap;
@@ -57,6 +59,7 @@
     box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
 }
 
+/* Header */
 .reserva-card-header {
     display: flex;
     align-items: center;
@@ -81,6 +84,7 @@
     font-weight: bold;
 }
 
+/* Información */
 .reserva-info p {
     margin: .3rem 0;
     font-size: .9rem;
@@ -109,6 +113,7 @@
     color: var(--color-primary);
 }
 
+/* Botones de exportación (solo clima + factura) */
 .reserva-export-buttons {
     margin-top: 1rem;
     display: flex;
@@ -124,23 +129,26 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: 0.18s ease;
+    transition: var(--transition);
     font-size: 1.2rem;
 }
 
+/* Iconos blancos */
 .export-btn i {
     color: #fff;
     font-size: 1.1rem;
 }
 
-.remito-btn {
+/* BOTÓN CLIMA */
+.weather-btn {
     background: var(--color-primary);
 }
 
-.remito-btn:hover {
+.weather-btn:hover {
     background: var(--color-primary-hover);
 }
 
+/* BOTÓN FACTURA */
 .factura-btn {
     background: #ff9800;
 }
@@ -149,6 +157,7 @@
     background: #e68900;
 }
 
+/* PrimeReact Button Overrides */
 .p-button-success {
     background-color: var(--color-primary) !important;
     border: none;
